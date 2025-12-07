@@ -1,0 +1,32 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+.Python
+env/
+venv/
+ENV/
+build/
+dist/
+.eggs/
+*.egg-info/
+
+# SQLite DB
+records.db
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor folders
+.vscode/
+.idea/
+
+# Temporary uploads
+*.cfg
+*.tmp
+
+# Logs
+*.log
