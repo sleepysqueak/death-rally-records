@@ -13,8 +13,18 @@ app = Flask(__name__)
 
 UPLOAD_FORM = """
 <!doctype html>
-<title>Upload Death Rally dr.cfg</title>
-<h1>Upload dr.cfg</h1>
+<title>Death Rally Records</title>
+<h1>Death Rally Records</h1>
+<p>Use the form below to upload a <code>dr.cfg</code> file, or use the links to explore the API and UI.</p>
+<ul>
+  <li><a href="/leaderboards/view">Leaderboards (HTML view)</a></li>
+  <li><a href="/leaderboards">Leaderboards (JSON)</a></li>
+  <li><a href="/browse">Browse Top Times (interactive UI)</a></li>
+  <li><a href="/api/meta">API: /api/meta (JSON)</a></li>
+  <li><a href="/api/top_times">API: /api/top_times (JSON)</a> - accepts query params: <code>car</code>, <code>track</code>, <code>driver</code>, <code>limit</code></li>
+</ul>
+
+<h2>Upload dr.cfg</h2>
 <form action="/upload" method=post enctype=multipart/form-data>
   <input type=file name=file>
   <input type=submit value=Upload>
