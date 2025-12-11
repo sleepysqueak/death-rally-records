@@ -13,9 +13,6 @@ dist/
 .eggs/
 *.egg-info/
 
-# SQLite DB
-records.db
-
 # OS files
 .DS_Store
 Thumbs.db
@@ -25,7 +22,6 @@ Thumbs.db
 .idea/
 
 # Temporary uploads
-*.cfg
 *.tmp
 
 # Logs
