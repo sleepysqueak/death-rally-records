@@ -13,22 +13,50 @@ app = Flask(__name__)
 
 UPLOAD_FORM = """
 <!doctype html>
-<title>Death Rally Records</title>
-<h1>Death Rally Records</h1>
-<p>Use the form below to upload a <code>dr.cfg</code> file, or use the links to explore the API and UI.</p>
-<ul>
-  <li><a href="/leaderboards/view">Leaderboards (HTML view)</a></li>
-  <li><a href="/leaderboards">Leaderboards (JSON)</a></li>
-  <li><a href="/browse">Browse Top Times (interactive UI)</a></li>
-  <li><a href="/api/meta">API: /api/meta (JSON)</a></li>
-  <li><a href="/api/top_times">API: /api/top_times (JSON)</a> - accepts query params: <code>car</code>, <code>track</code>, <code>driver</code>, <code>limit</code></li>
-</ul>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Death Rally Records</title>
+  <style>
+    :root{
+      --bg:#0b1220; --panel:#0f1624; --muted:#9fb0c8; --text:#e6eef8; --accent:#79b8ff; --border:#22262d;
+    }
+    html,body{height:100%;}
+    body { background: var(--bg); color: var(--text); font-family: Arial, Helvetica, sans-serif; margin:0; padding:24px; }
+    a { color: var(--accent); }
+    a:hover { color: #a7d2ff; }
+    .container { max-width:900px; margin:0 auto; }
+    h1, h2 { color: var(--text); }
+    ul { color: var(--muted); }
+    form { background: var(--panel); padding:16px; border:1px solid var(--border); border-radius:6px; }
+    input[type=file] { background: transparent; color: var(--text); }
+    input, select, button { background: #111621; color: var(--text); border:1px solid var(--border); padding:8px 10px; margin-right:8px; border-radius:4px; }
+    button { background: linear-gradient(#202734,#151826); cursor:pointer; }
+    table { border-collapse: collapse; margin-top:12px; width:100%; }
+    th, td { border:1px solid var(--border); padding:8px; }
+    th { background:#0e1624; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Death Rally Records</h1>
+    <p>Use the form below to upload a <code>dr.cfg</code> file, or use the links to explore the API and UI.</p>
+    <ul>
+      <li><a href="/leaderboards/view">Leaderboards (HTML view)</a></li>
+      <li><a href="/leaderboards">Leaderboards (JSON)</a></li>
+      <li><a href="/browse">Browse Top Times (interactive UI)</a></li>
+      <li><a href="/api/meta">API: /api/meta (JSON)</a></li>
+      <li><a href="/api/top_times">API: /api/top_times (JSON)</a> - accepts query params: <code>car</code>, <code>track</code>, <code>driver</code>, <code>limit</code></li>
+    </ul>
 
-<h2>Upload dr.cfg</h2>
-<form action="/upload" method=post enctype=multipart/form-data>
-  <input type=file name=file>
-  <input type=submit value=Upload>
-</form>
+    <h2>Upload dr.cfg</h2>
+    <form action="/upload" method=post enctype=multipart/form-data>
+      <input type=file name=file>
+      <input type=submit value=Upload>
+    </form>
+  </div>
+</body>
+</html>
 """
 
 
@@ -209,9 +237,24 @@ def leaderboards_view():
     """Simple HTML view of the leaderboards."""
     data = get_leaderboards()
 
-    html = ['<html><head><title>Death Rally Leaderboards</title></head><body>']
+    html = [
+        '<html><head><title>Death Rally Leaderboards</title>',
+        '<meta charset="utf-8">',
+        '<style>',
+        ':root{ --bg:#0b1220; --panel:#0f1624; --muted:#9fb0c8; --text:#e6eef8; --accent:#79b8ff; --border:#22262d; }',
+        'html,body{height:100%;}',
+        'body { background:var(--bg); color:var(--text); font-family:Arial,Helvetica,sans-serif; margin:0; padding:20px; }',
+        'h1{color:var(--text);}',
+        'table{border-collapse:collapse; width:100%; margin-top:12px}',
+        'th,td{border:1px solid var(--border); padding:8px;}',
+        'th{background:#0e1624; color:var(--muted);}',
+        'tr:nth-child(even){background:#0f1624}',
+        'a{color:var(--accent)}',
+        '</style>',
+        '</head><body>'
+    ]
     html.append('<h1>Lap Leaders</h1>')
-    html.append('<table border="1"><tr><th>Car</th><th>Track</th><th>Driver</th><th>Time (s)</th><th>Uploaded</th></tr>')
+    html.append('<table><tr><th>Car</th><th>Track</th><th>Driver</th><th>Time (s)</th><th>Uploaded</th></tr>')
     for r in data['lap_leaders']:
         time_display = f"{r['time']:.2f}" if r.get('time') is not None else ''
         uploaded_display = r.get('uploaded_at') or ''
@@ -219,7 +262,7 @@ def leaderboards_view():
     html.append('</table>')
 
     html.append('<h1>Finish Leaders</h1>')
-    html.append('<table border="1"><tr><th>Rec No</th><th>Name</th><th>Best Races</th><th>Uploaded</th></tr>')
+    html.append('<table><tr><th>Rec No</th><th>Name</th><th>Best Races</th><th>Uploaded</th></tr>')
     for f in data['finish_leaders']:
         uploaded_display = f.get('uploaded_at') or ''
         html.append(f"<tr><td>{f['rec_no']}</td><td>{f['name']}</td><td>{f['best_races']}</td><td>{uploaded_display}</td></tr>")
@@ -374,10 +417,14 @@ def browse_view():
       <meta charset="utf-8">
       <title>Browse Top Times</title>
       <style>
-        body { font-family: Arial, sans-serif; padding: 20px; }
-        select, input { margin-right: 8px; }
-        table { border-collapse: collapse; margin-top: 12px; }
-        th, td { border: 1px solid #ccc; padding: 6px 8px; }
+        :root{ --bg:#0b1220; --panel:#0f1624; --muted:#9fb0c8; --text:#e6eef8; --accent:#79b8ff; --border:#22262d }
+        body { background:var(--bg); color:var(--text); font-family: Arial, Helvetica, sans-serif; padding: 20px; }
+        select, input { margin-right: 8px; background:#111621; color:var(--text); border:1px solid var(--border); padding:6px 8px; }
+        button { background: linear-gradient(#202734,#151826); color:var(--text); border:1px solid var(--border); padding:8px 10px; border-radius:4px; cursor:pointer; }
+        table { border-collapse: collapse; margin-top: 12px; width:100%; }
+        th, td { border: 1px solid var(--border); padding: 6px 8px; }
+        th { background:#0e1624; color:var(--muted); }
+        tr:nth-child(even){ background:#0f1624 }
       </style>
     </head>
     <body>
