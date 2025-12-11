@@ -88,7 +88,6 @@ def init_db(db_path: str = DB_FILENAME) -> None:
     CREATE TABLE IF NOT EXISTS lap_records (
         id INTEGER PRIMARY KEY,
         upload_id INTEGER,
-        rec_no INTEGER,
         car_name TEXT,
         track_name TEXT,
         idx INTEGER,
@@ -101,7 +100,6 @@ def init_db(db_path: str = DB_FILENAME) -> None:
     CREATE TABLE IF NOT EXISTS finish_records (
         id INTEGER PRIMARY KEY,
         upload_id INTEGER,
-        rec_no INTEGER,
         name TEXT,
         races INTEGER,
         difficulty TEXT,
@@ -146,15 +144,24 @@ def save_records(db_path: str, filename: str, lap_records: list, finish_records:
             # duplicate found, skip insertion
             continue
         cur.execute(
-            'INSERT INTO lap_records (upload_id, rec_no, car_name, track_name, idx, time, driver_name) VALUES (?, ?, ?, ?, ?, ?, ?)', 
-            (upload_id, r.rec_no, r.car_name, r.track_name, r.idx, r.time, r.driver_name)
+            'INSERT INTO lap_records (upload_id, car_name, track_name, idx, time, driver_name) VALUES (?, ?, ?, ?, ?, ?)', 
+            (upload_id, r.car_name, r.track_name, r.idx, r.time, r.driver_name)
         )
 
-    # Insert finish records as before
-    finish_rows = []
+    # Insert finish records, but avoid duplicates defined as same name+races+difficulty
     for fr in finish_records:
-        finish_rows.append((upload_id, fr.rec_no, fr.name, fr.races, fr.difficulty))
-    cur.executemany('INSERT INTO finish_records (upload_id, rec_no, name, races, difficulty) VALUES (?, ?, ?, ?, ?)', finish_rows)
+        # consider a duplicate to be same name + races + difficulty (across any upload)
+        cur.execute(
+            'SELECT 1 FROM finish_records WHERE name IS ? AND races IS ? AND difficulty IS ?',
+            (fr.name, fr.races, fr.difficulty)
+        )
+        if cur.fetchone():
+            # duplicate found, skip
+            continue
+        cur.execute(
+            'INSERT INTO finish_records (upload_id, name, races, difficulty) VALUES (?, ?, ?, ?)',
+            (upload_id, fr.name, fr.races, fr.difficulty)
+        )
 
     conn.commit()
     conn.close()
@@ -209,15 +216,15 @@ def get_leaderboards(db_path: str = DB_FILENAME):
     ''')
     lap_leaders = [dict(r) for r in cur.fetchall()]
 
-    # best finish (fewest races) per rec_no, include upload time for the record that has the best_races
+    # best finish (fewest races) per name, include upload time for the record that has the best_races
     cur.execute('''
-    SELECT l.rec_no, l.name, l.races as best_races, u.uploaded_at
+    SELECT l.name, l.races as best_races, u.uploaded_at
     FROM finish_records l
     JOIN uploads u ON l.upload_id = u.id
     WHERE l.races IS NOT NULL AND l.races = (
-        SELECT MIN(races) FROM finish_records WHERE rec_no = l.rec_no AND races IS NOT NULL
+        SELECT MIN(races) FROM finish_records WHERE name = l.name AND races IS NOT NULL
     )
-    ORDER BY l.rec_no
+    ORDER BY l.name
     ''')
     finish_leaders = [dict(r) for r in cur.fetchall()]
 
@@ -262,10 +269,10 @@ def leaderboards_view():
     html.append('</table>')
 
     html.append('<h1>Finish Leaders</h1>')
-    html.append('<table><tr><th>Rec No</th><th>Name</th><th>Best Races</th><th>Uploaded</th></tr>')
+    html.append('<table><tr><th>Name</th><th>Best Races</th><th>Uploaded</th></tr>')
     for f in data['finish_leaders']:
         uploaded_display = f.get('uploaded_at') or ''
-        html.append(f"<tr><td>{f['rec_no']}</td><td>{f['name']}</td><td>{f['best_races']}</td><td>{uploaded_display}</td></tr>")
+        html.append(f"<tr><td>{f['name']}</td><td>{f['best_races']}</td><td>{uploaded_display}</td></tr>")
     html.append('</table>')
 
     html.append('</body></html>')
