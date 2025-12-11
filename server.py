@@ -385,7 +385,7 @@ def browse_view():
       <div>
         <label>Car: <select id="car"><option value="">(any)</option></select></label>
         <label>Track: <select id="track"><option value="">(any)</option></select></label>
-        <label>Driver: <input id="driver" placeholder="partial name"></label>
+        <label>Driver: <input list="drivers" id="driver" placeholder="partial name"><datalist id="drivers"></datalist></label>
         <label>Limit: <input id="limit" type="number" min="1" value="10" style="width:60px"></label>
         <button id="filter">Filter</button>
       </div>
@@ -399,8 +399,11 @@ def browse_view():
       meta.cars.forEach(c => { const opt = document.createElement('option'); opt.value = c; opt.text = c; carSel.add(opt); });
       const trackSel = document.getElementById('track');
       meta.tracks.forEach(t => { const opt = document.createElement('option'); opt.value = t; opt.text = t; trackSel.add(opt); });
-      const driverInp = document.getElementById('driver');
-      // optionally add driver datalist
+      const datalist = document.getElementById('drivers');
+      // clear existing options
+      while (datalist.firstChild) datalist.removeChild(datalist.firstChild);
+      // populate datalist with driver names for autocompletion
+      meta.drivers.forEach(d => { if(d && d.trim() !== ''){ const opt = document.createElement('option'); opt.value = d; datalist.appendChild(opt); }});
     }
 
     async function doFilter(){
