@@ -255,8 +255,15 @@ def leaderboards_view():
     html.append('<table><tr><th>Car</th><th>Track</th><th>Driver</th><th>Time (s)</th><th>Uploaded</th></tr>')
     for r in data['lap_leaders']:
         time_display = f"{r['time']:.2f}" if r.get('time') is not None else ''
-        uploaded_display = r.get('uploaded_at') or ''
-        html.append(f"<tr><td>{r['car_name']}</td><td>{r['track_name']}</td><td>{r['driver_name']}</td><td>{time_display}</td><td>{uploaded_display}</td></tr>")
+        uploaded_at = r.get('uploaded_at')
+        if uploaded_at:
+            # clean the ISO timestamp for hover (replace T with space, strip trailing Z)
+            hover = uploaded_at.replace('T', ' ').rstrip('Z')
+            display_date = hover.split(' ')[0]
+            uploaded_td = f"<td title=\"{hover}\">{display_date}</td>"
+        else:
+            uploaded_td = '<td></td>'
+        html.append(f"<tr><td>{r['car_name']}</td><td>{r['track_name']}</td><td>{r['driver_name']}</td><td>{time_display}</td>{uploaded_td}</tr>")
     html.append('</table>')
 
     # Render top finishers grouped by difficulty in requested order
@@ -267,8 +274,14 @@ def leaderboards_view():
         html.append(f"<h2>Difficulty: {label}</h2>")
         html.append('<table><tr><th>#</th><th>Name</th><th>Races</th><th>Uploaded</th></tr>')
         for i, f in enumerate(rows, start=1):
-            uploaded_display = f.get('uploaded_at') or ''
-            html.append(f"<tr><td>{i}</td><td>{f['name']}</td><td>{f['races']}</td><td>{uploaded_display}</td></tr>")
+            uploaded_at = f.get('uploaded_at')
+            if uploaded_at:
+                hover = uploaded_at.replace('T', ' ').rstrip('Z')
+                display_date = hover.split(' ')[0]
+                uploaded_td = f"<td title=\"{hover}\">{display_date}</td>"
+            else:
+                uploaded_td = '<td></td>'
+            html.append(f"<tr><td>{i}</td><td>{f['name']}</td><td>{f['races']}</td>{uploaded_td}</tr>")
         html.append('</table>')
 
     html.append('</body></html>')
@@ -469,8 +482,14 @@ def browse_view():
       let html = '<table><tr><th>#</th><th>Car</th><th>Track</th><th>Driver</th><th>Time (s)</th><th>Uploaded</th></tr>';
       rows.forEach((r,i) => {
         const time = r.time !== null ? r.time.toFixed(2) : '';
-        const uploaded = r.uploaded_at ? new Date(r.uploaded_at).toLocaleString() : '';
-        html += `<tr><td>${i+1}</td><td>${r.car_name}</td><td>${r.track_name}</td><td>${r.driver_name}</td><td>${time}</td><td>${uploaded}</td></tr>`;
+        let uploaded_td = '<td></td>';
+        if(r.uploaded_at){
+          const iso = new Date(r.uploaded_at).toISOString();
+          const hover = iso.replace('T',' ').replace(/Z$/,'');
+          const display = iso.split('T')[0];
+          uploaded_td = `<td title="${hover}">${display}</td>`;
+        }
+        html += `<tr><td>${i+1}</td><td>${r.car_name}</td><td>${r.track_name}</td><td>${r.driver_name}</td><td>${time}</td>${uploaded_td}</tr>`;
       });
       html += '</table>';
       container.innerHTML = html;
