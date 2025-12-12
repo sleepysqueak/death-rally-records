@@ -9,33 +9,16 @@ from datetime import datetime
 # Import the existing parser
 from records import read_records
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 
-UPLOAD_FORM = """
+UPLOAD_FORM = (
+"""
 <!doctype html>
 <html>
 <head>
   <meta charset="utf-8">
   <title>Death Rally Records</title>
-  <style>
-    :root{
-      --bg:#0b1220; --panel:#0f1624; --muted:#9fb0c8; --text:#e6eef8; --accent:#79b8ff; --border:#22262d;
-    }
-    html,body{height:100%;}
-    body { background: var(--bg); color: var(--text); font-family: Arial, Helvetica, sans-serif; margin:0; padding:24px; }
-    a { color: var(--accent); }
-    a:hover { color: #a7d2ff; }
-    .container { max-width:900px; margin:0 auto; }
-    h1, h2 { color: var(--text); }
-    ul { color: var(--muted); }
-    form { background: var(--panel); padding:16px; border:1px solid var(--border); border-radius:6px; }
-    input[type=file] { background: transparent; color: var(--text); }
-    input, select, button { background: #111621; color: var(--text); border:1px solid var(--border); padding:8px 10px; margin-right:8px; border-radius:4px; }
-    button { background: linear-gradient(#202734,#151826); cursor:pointer; }
-    table { border-collapse: collapse; margin-top:12px; width:100%; }
-    th, td { border:1px solid var(--border); padding:8px; }
-    th { background:#0e1624; color: var(--muted); }
-  </style>
+  <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
   <div class="container">
@@ -57,7 +40,7 @@ UPLOAD_FORM = """
   </div>
 </body>
 </html>
-"""
+""")
 
 
 @app.route('/', methods=['GET'])
@@ -261,15 +244,11 @@ def leaderboards_view():
     """Simple HTML view of the leaderboards."""
     data = get_leaderboards()
 
+    # Link to the static stylesheet
     html = [
         '<html><head><title>Death Rally Leaderboards</title>',
         '<meta charset="utf-8">',
-        '<style>',
-        ':root{ --bg:#0b1220; --panel:#0f1624; --muted:#9fb0c8; --text:#e6eef8; --accent:#79b8ff; --border:#22262d; }',
-        'html,body{height:100%;}',
-        'body { background:var(--bg); color:var(--text); font-family:Arial,Helvetica,sans-serif; margin:0; padding:20px; }',
-        'h1{color:var(--text);}','table{border-collapse:collapse; width:100%; margin-top:12px}','th,td{border:1px solid var(--border); padding:8px;}','th{background:#0e1624; color:var(--muted);}','tr:nth-child(even){background:#0f1624}','a{color:var(--accent)}',
-        '</style>',
+        '<link rel="stylesheet" href="/static/styles.css">',
         '</head><body>'
     ]
     html.append('<h1>Lap Leaders</h1>')
@@ -434,22 +413,14 @@ def api_meta():
 @app.route('/browse', methods=['GET'])
 def browse_view():
     """HTML UI to browse top times with filters."""
-    html = """
+    html = (
+    """
     <!doctype html>
     <html>
     <head>
       <meta charset="utf-8">
       <title>Browse Top Times</title>
-      <style>
-        :root{ --bg:#0b1220; --panel:#0f1624; --muted:#9fb0c8; --text:#e6eef8; --accent:#79b8ff; --border:#22262d }
-        body { background:var(--bg); color:var(--text); font-family: Arial, Helvetica, sans-serif; padding: 20px; }
-        select, input { margin-right: 8px; background:#111621; color:var(--text); border:1px solid var(--border); padding:6px 8px; }
-        button { background: linear-gradient(#202734,#151826); color:var(--text); border:1px solid var(--border); padding:8px 10px; border-radius:4px; cursor:pointer; }
-        table { border-collapse: collapse; margin-top: 12px; width:100%; }
-        th, td { border: 1px solid var(--border); padding: 6px 8px; }
-        th { background:#0e1624; color:var(--muted); }
-        tr:nth-child(even){ background:#0f1624 }
-      </style>
+      <link rel="stylesheet" href="/static/styles.css">
     </head>
     <body>
       <h1>Browse Top Times</h1>
@@ -511,6 +482,7 @@ def browse_view():
     </body>
     </html>
     """
+    )
     return html
 
 
