@@ -216,18 +216,6 @@ def get_leaderboards(db_path: str = DB_FILENAME):
     ''')
     lap_leaders = [dict(r) for r in cur.fetchall()]
 
-    # best finish (fewest races) per name, include upload time for the record that has the best_races
-    cur.execute('''
-    SELECT l.name, l.races as best_races, u.uploaded_at
-    FROM finish_records l
-    JOIN uploads u ON l.upload_id = u.id
-    WHERE l.races IS NOT NULL AND l.races = (
-        SELECT MIN(races) FROM finish_records WHERE name = l.name AND races IS NOT NULL
-    )
-    ORDER BY l.name
-    ''')
-    finish_leaders = [dict(r) for r in cur.fetchall()]
-
     # --- Top 10 finishers (lowest races) per difficulty in a specific order ---
     ordered_levels = [
         'Speed makes me dizzy',
@@ -256,7 +244,6 @@ def get_leaderboards(db_path: str = DB_FILENAME):
     conn.close()
     return {
         'lap_leaders': lap_leaders,
-        'finish_leaders': finish_leaders,
         'finish_by_difficulty': finish_by_difficulty,
         'finish_difficulty_order': finish_difficulty_order
     }
