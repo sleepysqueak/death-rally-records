@@ -228,8 +228,38 @@ def get_leaderboards(db_path: str = DB_FILENAME):
     ''')
     finish_leaders = [dict(r) for r in cur.fetchall()]
 
+    # --- Top 10 finishers (lowest races) per difficulty in a specific order ---
+    ordered_levels = [
+        'Speed makes me dizzy',
+        'I live to ride',
+        'Petrol in my veins'
+    ]
+
+    finish_by_difficulty = {}
+    finish_difficulty_order = []
+
+    # Fetch for the known levels in the requested order
+    for lvl in ordered_levels:
+        cur.execute('''
+            SELECT f.name, f.races, f.difficulty, u.uploaded_at
+            FROM finish_records f
+            JOIN uploads u ON f.upload_id = u.id
+            WHERE f.races IS NOT NULL AND f.difficulty = ?
+            ORDER BY f.races ASC, f.name ASC
+            LIMIT 10
+        ''', (lvl,))
+        rows = [dict(r) for r in cur.fetchall()]
+        if rows:
+            finish_by_difficulty[lvl] = rows
+            finish_difficulty_order.append(lvl)
+
     conn.close()
-    return {'lap_leaders': lap_leaders, 'finish_leaders': finish_leaders}
+    return {
+        'lap_leaders': lap_leaders,
+        'finish_leaders': finish_leaders,
+        'finish_by_difficulty': finish_by_difficulty,
+        'finish_difficulty_order': finish_difficulty_order
+    }
 
 
 @app.route('/leaderboards', methods=['GET'])
@@ -251,12 +281,7 @@ def leaderboards_view():
         ':root{ --bg:#0b1220; --panel:#0f1624; --muted:#9fb0c8; --text:#e6eef8; --accent:#79b8ff; --border:#22262d; }',
         'html,body{height:100%;}',
         'body { background:var(--bg); color:var(--text); font-family:Arial,Helvetica,sans-serif; margin:0; padding:20px; }',
-        'h1{color:var(--text);}',
-        'table{border-collapse:collapse; width:100%; margin-top:12px}',
-        'th,td{border:1px solid var(--border); padding:8px;}',
-        'th{background:#0e1624; color:var(--muted);}',
-        'tr:nth-child(even){background:#0f1624}',
-        'a{color:var(--accent)}',
+        'h1{color:var(--text);}','table{border-collapse:collapse; width:100%; margin-top:12px}','th,td{border:1px solid var(--border); padding:8px;}','th{background:#0e1624; color:var(--muted);}','tr:nth-child(even){background:#0f1624}','a{color:var(--accent)}',
         '</style>',
         '</head><body>'
     ]
@@ -268,12 +293,17 @@ def leaderboards_view():
         html.append(f"<tr><td>{r['car_name']}</td><td>{r['track_name']}</td><td>{r['driver_name']}</td><td>{time_display}</td><td>{uploaded_display}</td></tr>")
     html.append('</table>')
 
-    html.append('<h1>Finish Leaders</h1>')
-    html.append('<table><tr><th>Name</th><th>Best Races</th><th>Uploaded</th></tr>')
-    for f in data['finish_leaders']:
-        uploaded_display = f.get('uploaded_at') or ''
-        html.append(f"<tr><td>{f['name']}</td><td>{f['best_races']}</td><td>{uploaded_display}</td></tr>")
-    html.append('</table>')
+    # Render top finishers grouped by difficulty in requested order
+    html.append('<h1>Finish Leaders (top 10 per difficulty)</h1>')
+    for diff in data.get('finish_difficulty_order', []):
+        rows = data['finish_by_difficulty'].get(diff, [])
+        label = diff if diff and diff != 'Unknown' else 'Unknown'
+        html.append(f"<h2>Difficulty: {label}</h2>")
+        html.append('<table><tr><th>#</th><th>Name</th><th>Races</th><th>Uploaded</th></tr>')
+        for i, f in enumerate(rows, start=1):
+            uploaded_display = f.get('uploaded_at') or ''
+            html.append(f"<tr><td>{i}</td><td>{f['name']}</td><td>{f['races']}</td><td>{uploaded_display}</td></tr>")
+        html.append('</table>')
 
     html.append('</body></html>')
     return '\n'.join(html)
