@@ -99,7 +99,7 @@ def track_index_from_name(name: str):
     if not name:
         return None
     try:
-        return TRACK_NAMES.index(name) + 1
+        return TRACK_NAMES.index(name)
     except ValueError:
         return None
 
