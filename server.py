@@ -266,21 +266,10 @@ def get_leaderboards(db_path: str = DB_FILENAME):
     except Exception:
         pass
 
-    # --- Top 10 finishers (lowest races) per difficulty in a specific order ---
-    ordered_levels = [
-        'Speed makes me dizzy',
-        'I live to ride',
-        'Petrol in my veins'
-    ]
-
     finish_by_difficulty = {}
-    finish_difficulty_order = []
 
     # Fetch for the known levels in the requested order
-    for lvl in ordered_levels:
-        lvl_idx = difficulty_index_from_name(lvl)
-        if lvl_idx is None:
-            continue
+    for lvl_idx in range(3):
         cur.execute('''
             SELECT f.name, f.races, f.difficulty_idx, u.uploaded_at
             FROM finish_records f
@@ -294,14 +283,12 @@ def get_leaderboards(db_path: str = DB_FILENAME):
             # map numeric difficulty index back to human-readable name for the returned rows
             for rr in rows:
                 rr['difficulty'] = difficulty_name_from_index(rr.get('difficulty_idx'))
-            finish_by_difficulty[lvl] = rows
-            finish_difficulty_order.append(lvl)
+        finish_by_difficulty[lvl_idx] = rows
 
     conn.close()
     return {
         'lap_leaders': lap_leaders,
         'finish_by_difficulty': finish_by_difficulty,
-        'finish_difficulty_order': finish_difficulty_order
     }
 
 
@@ -343,9 +330,9 @@ def leaderboards_view():
 
     # Render top finishers grouped by difficulty in requested order
     html.append('<h1>Finish Leaders (top 10 per difficulty)</h1>')
-    for diff in data.get('finish_difficulty_order', []):
+    for diff in range(3):
         rows = data['finish_by_difficulty'].get(diff, [])
-        label = diff if diff and diff != 'Unknown' else 'Unknown'
+        label = difficulty_name_from_index(diff) if difficulty_name_from_index(diff) else 'Unknown'
         html.append(f"<h2>Difficulty: {label}</h2>")
         html.append('<table><tr><th>#</th><th>Name</th><th>Races</th><th>Uploaded</th></tr>')
         for i, f in enumerate(rows, start=1):
