@@ -325,6 +325,8 @@ def leaderboards_view():
         '</head><body>'
     ]
     html.append('<h1>Lap Leaders</h1>')
+    # link back to main page
+    html.append('<p><a href="/">Home</a></p>')
     html.append('<table><tr><th>Car</th><th>Track</th><th>Driver</th><th>Time (s)</th><th>Uploaded</th></tr>')
     for r in data['lap_leaders']:
         time_display = f"{r['time']:.2f}" if r.get('time') is not None else ''
@@ -554,6 +556,7 @@ def browse_view():
     </head>
     <body>
       <h1>Browse Top Times</h1>
+      <p><a href="/">Home</a></p>
       <div>
         <label>Car: <select id="car"><option value="">(any)</option></select></label>
         <label>Track: <select id="track"><option value="">(any)</option></select></label>
