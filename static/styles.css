@@ -19,3 +19,18 @@ tr:nth-child(even){ background:#0f1624; }
 select, input { margin-right: 8px; background:#111621; color:var(--text); border:1px solid var(--border); padding:6px 8px; }
 /* small adjustments used in various pages */
 body.small-padding { padding:20px; }
+
+/* Styles for compact multi-select dropdown widgets */
+.multisel { font-family: inherit; }
+.multisel .ms-toggle { background: linear-gradient(#202734,#151826); color: var(--text); border:1px solid var(--border); padding:6px 10px; border-radius:4px; cursor:pointer; position: relative; z-index: 1100; }
+.multisel .ms-toggle .ms-count { color: var(--muted); font-weight:600; margin-left:6px; }
+.multisel .ms-dropdown { background: var(--panel); border:1px solid var(--border); color: var(--text); position: absolute; top: 100%; left: 0; z-index: 1000; padding: 6px; width: 220px; max-height: 240px; overflow: auto; pointer-events: auto; }
+.multisel .ms-dropdown .ms-search { background: #0e1624; color: var(--text); border:1px solid var(--border); padding:6px 8px; margin-bottom:6px; display:block; width:100%; box-sizing:border-box; }
+.multisel .ms-dropdown .ms-options { color: var(--text); padding-bottom: 6px; }
+.multisel .ms-dropdown .ms-options label { display:block; padding:4px 6px; color: var(--text); }
+.multisel .ms-dropdown .ms-options label:hover { background:#0b1320; }
+.multisel .ms-dropdown input[type=checkbox] { accent-color: var(--accent); }
+.multisel#driver_multisel .ms-dropdown { width: 280px; }
+
+/* ensure dropdowns sit above other content */
+.ms-dropdown { box-shadow: 0 4px 16px rgba(0,0,0,0.6); }

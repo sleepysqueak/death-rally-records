@@ -544,46 +544,173 @@ def browse_view():
       <p><a href="/">Home</a></p>
       <div>
         <label>Racers per Car/Track: <input id="limit" type="number" min="1" value="1" style="width:60px"></label>
-        <label>Car: <select id="car" multiple size="6"></select></label>
-        <label>Track: <select id="track" multiple size="6"></select></label>
-        <label>Driver: <select id="driver" multiple size="6"></select></label>
+      </div>
+      <div style="display:flex;gap:12px;align-items:flex-start;margin-top:8px;">
+        <!-- Compact multi-select dropdown for Car -->
+        <div class="multisel" id="car_multisel" style="position:relative;">
+          <button type="button" class="ms-toggle" onclick="toggleDropdown('car_multisel')">Cars: <span class="ms-count">Any</span></button>
+          <div class="ms-dropdown" style="display:none;position:absolute;z-index:50;background:white;border:1px solid #ccc;padding:6px;max-height:240px;overflow:auto;width:220px;">
+            <input class="ms-search" placeholder="Search cars..." style="width:100%;box-sizing:border-box;margin-bottom:6px;padding:4px;" />
+            <div class="ms-options"></div>
+          </div>
+        </div>
+
+        <!-- Compact multi-select dropdown for Track -->
+        <div class="multisel" id="track_multisel" style="position:relative;">
+          <button type="button" class="ms-toggle" onclick="toggleDropdown('track_multisel')">Tracks: <span class="ms-count">Any</span></button>
+          <div class="ms-dropdown" style="display:none;position:absolute;z-index:50;background:white;border:1px solid #ccc;padding:6px;max-height:240px;overflow:auto;width:220px;">
+            <input class="ms-search" placeholder="Search tracks..." style="width:100%;box-sizing:border-box;margin-bottom:6px;padding:4px;" />
+            <div class="ms-options"></div>
+          </div>
+        </div>
+
+        <!-- Compact multi-select dropdown for Driver (searchable) -->
+        <div class="multisel" id="driver_multisel" style="position:relative;">
+          <button type="button" class="ms-toggle" onclick="toggleDropdown('driver_multisel')">Drivers: <span class="ms-count">Any</span></button>
+          <div class="ms-dropdown" style="display:none;position:absolute;z-index:50;background:white;border:1px solid #ccc;padding:6px;max-height:240px;overflow:auto;width:280px;">
+            <input class="ms-search" placeholder="Search drivers..." style="width:100%;box-sizing:border-box;margin-bottom:6px;padding:4px;" />
+            <div class="ms-options"></div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:8px;">
         <button id="filter">Filter</button>
       </div>
       <div id="results"></div>
 
     <script>
+    // toggle helper (explicit global function to ensure clicks always work)
+    function toggleDropdown(rootId){
+      try{
+        const root = document.getElementById(rootId);
+        if(!root) return;
+        const dropdown = root.querySelector('.ms-dropdown');
+        if(!dropdown) return;
+        const visible = dropdown.style.display !== 'none';
+        // close other dropdowns
+        document.querySelectorAll('.ms-dropdown').forEach(d=>{ d.style.display = 'none'; });
+        dropdown.style.display = visible ? 'none' : 'block';
+        // focus search input if opening
+        if(!visible){
+          const s = root.querySelector('.ms-search'); if(s) s.focus();
+        }
+      }catch(e){ console && console.error && console.error(e); }
+    }
+
+    // Helper to create a compact multi-select dropdown with search and '(any)'.
+    function buildMultiSel(containerId, items){
+      const root = document.getElementById(containerId);
+      const toggle = root.querySelector('.ms-toggle');
+      const dropdown = root.querySelector('.ms-dropdown');
+      const search = root.querySelector('.ms-search');
+      const opts = root.querySelector('.ms-options');
+
+      function renderOptions(filter){
+        opts.innerHTML = '';
+        // '(any)' option first
+        const anyDiv = document.createElement('div');
+        anyDiv.innerHTML = `<label style="display:block;margin:2px 0"><input type="checkbox" data-value=""> (any)</label>`;
+        opts.appendChild(anyDiv);
+        items.forEach(v => {
+          if(!v) return;
+          if(filter && v.toLowerCase().indexOf(filter) === -1) return;
+          const d = document.createElement('div');
+          d.innerHTML = `<label style="display:block;margin:2px 0"><input type="checkbox" data-value="${v}"> ${v}</label>`;
+          opts.appendChild(d);
+        });
+      }
+
+      renderOptions('');
+
+      // search filtering
+      search.addEventListener('input', ()=>{ const f = search.value.trim().toLowerCase(); renderOptions(f);
+        // restore selection state after re-render
+        restoreSelection();
+      });
+
+      // helper to get checkboxes
+      function allCheckboxes(){ return Array.from(opts.querySelectorAll('input[type=checkbox]')); }
+
+      // keep track of selections in a Set
+      const selected = new Set();
+
+      function updateCount(){
+        const cnt = selected.size;
+        const span = toggle.querySelector('.ms-count');
+        span.textContent = cnt === 0 ? 'Any' : (cnt === 1 ? `${cnt} selected` : `${cnt} selected`);
+      }
+
+      function restoreSelection(){
+        const boxes = Array.from(opts.querySelectorAll('input[type=checkbox]'));
+        boxes.forEach(cb=>{ cb.checked = selected.has(cb.dataset.value); });
+      }
+
+      // click handler for options
+      opts.addEventListener('change', (e)=>{
+        const cb = e.target;
+        if(!cb || cb.type !== 'checkbox') return;
+        const val = cb.dataset.value; // empty string for Any
+        if(val === ''){
+          // Any selected -> clear all others and selected set
+          if(cb.checked){
+            selected.clear();
+            // uncheck others
+            allCheckboxes().forEach(c=>{ if(c.dataset.value) c.checked = false; });
+          }
+        } else {
+          // when any other selected, uncheck Any
+          const anyCb = opts.querySelector('input[type=checkbox][data-value=""]');
+          if(cb.checked){
+            selected.add(val);
+            if(anyCb) anyCb.checked = false;
+          } else {
+            selected.delete(val);
+            // if none remain selected, set Any checked
+            if(selected.size === 0 && anyCb) anyCb.checked = true;
+          }
+        }
+        // sync selected set with checkboxes (ensure selected entries are maintained across searches)
+        Array.from(opts.querySelectorAll('input[type=checkbox]')).forEach(c=>{ if(c.dataset.value && c.checked) selected.add(c.dataset.value); });
+        // if any checkbox (empty) is checked, clear selected
+        const anyChecked = !!opts.querySelector('input[type=checkbox][data-value=""]:checked');
+        if(anyChecked) selected.clear();
+        updateCount();
+      });
+
+      // expose helper methods on the root element
+      root.getSelectedValues = function(){ return Array.from(selected); };
+      root.clear = function(){ selected.clear(); updateCount(); restoreSelection(); };
+
+      // initialize: nothing selected -> Any checked
+      const anyCbInit = opts.querySelector('input[type=checkbox][data-value=""]');
+      if(anyCbInit) anyCbInit.checked = true;
+      updateCount();
+    }
+
     async function loadMeta(){
       const res = await fetch('/api/meta');
       const meta = await res.json();
-      const carSel = document.getElementById('car');
-      // clear and populate
-      carSel.innerHTML = '';
-      meta.cars.forEach(c => { const opt = document.createElement('option'); opt.value = c; opt.text = c; carSel.add(opt); });
-      const trackSel = document.getElementById('track');
-      trackSel.innerHTML = '';
-      meta.tracks.forEach(t => { const opt = document.createElement('option'); opt.value = t; opt.text = t; trackSel.add(opt); });
-      const driverSel = document.getElementById('driver');
-      driverSel.innerHTML = '';
-      meta.drivers.forEach(d => { if(d && d.trim() !== ''){ const opt = document.createElement('option'); opt.value = d; opt.text = d; driverSel.add(opt); }});
+      buildMultiSel('car_multisel', meta.cars || []);
+      buildMultiSel('track_multisel', meta.tracks || []);
+      buildMultiSel('driver_multisel', (meta.drivers||[]).filter(d=>d && d.trim() !== ''));
     }
 
-    function _getSelectedValues(sel){
-      return Array.from(sel.selectedOptions).map(o => o.value).filter(v => v && v.trim() !== '');
+    function _getSelectedValuesFromMulti(id){
+      const el = document.getElementById(id);
+      if(!el || typeof el.getSelectedValues !== 'function') return [];
+      return el.getSelectedValues();
     }
 
     async function doFilter(){
-      const carSel = document.getElementById('car');
-      const trackSel = document.getElementById('track');
-      const driverSel = document.getElementById('driver');
-      const carVals = _getSelectedValues(carSel);
-      const trackVals = _getSelectedValues(trackSel);
-      const driverVals = _getSelectedValues(driverSel);
+      const carVals = _getSelectedValuesFromMulti('car_multisel');
+      const trackVals = _getSelectedValuesFromMulti('track_multisel');
+      const driverVals = _getSelectedValuesFromMulti('driver_multisel');
       const limit = document.getElementById('limit').value || 1;
       const params = new URLSearchParams();
       carVals.forEach(v => params.append('car', v));
       trackVals.forEach(v => params.append('track', v));
       driverVals.forEach(v => params.append('driver', v));
-      params.append('limit', limit);
+      if(limit) params.append('limit', limit);
       const res = await fetch('/api/top_times?' + params.toString());
       const data = await res.json();
       renderResults(data.results);
