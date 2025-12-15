@@ -8,6 +8,7 @@ from datetime import datetime
 
 # Import the existing parser
 from records import read_records
+from rebuild_db import create_schema
 
 app = Flask(__name__, static_folder='static')
 
@@ -132,52 +133,12 @@ DB_FILENAME = os.path.join(os.path.dirname(__file__), 'records.db')
 
 
 def init_db(db_path: str = DB_FILENAME) -> None:
-    """Create database and tables if they don't exist."""
+    """Create database and tables if they don't exist using shared schema function."""
     conn = sqlite3.connect(db_path)
-    cur = conn.cursor()
-    cur.execute("""
-    CREATE TABLE IF NOT EXISTS uploads (
-        id INTEGER PRIMARY KEY,
-        filename TEXT,
-        uploaded_at TEXT
-    )
-    """)
-    cur.execute("""
-    CREATE TABLE IF NOT EXISTS lap_records (
-        id INTEGER PRIMARY KEY,
-        upload_id INTEGER,
-        car_type INTEGER,
-        track_idx INTEGER,
-        time REAL,
-        driver_name TEXT,
-        FOREIGN KEY(upload_id) REFERENCES uploads(id)
-    )
-    """)
-    cur.execute("""
-    CREATE TABLE IF NOT EXISTS finish_records (
-        id INTEGER PRIMARY KEY,
-        upload_id INTEGER,
-        name TEXT,
-        races INTEGER,
-        difficulty_idx INTEGER,
-        FOREIGN KEY(upload_id) REFERENCES uploads(id)
-    )
-    """)
-
-    # Indexes to speed up common queries (leaderboards, top_times, meta)
-    # Composite index for car_type+track_idx lookups
-    cur.execute('CREATE INDEX IF NOT EXISTS idx_lap_car_track_idx ON lap_records(car_type, track_idx)')
-    # Indexes for time-based ordering and filtering
-    cur.execute('CREATE INDEX IF NOT EXISTS idx_lap_car_time ON lap_records(car_type, time)')
-    cur.execute('CREATE INDEX IF NOT EXISTS idx_lap_track_time ON lap_records(track_idx, time)')
-    # Driver name lookup (used with LIKE)
-    cur.execute('CREATE INDEX IF NOT EXISTS idx_lap_driver_name ON lap_records(driver_name)')
-    # Upload related lookups
-    cur.execute('CREATE INDEX IF NOT EXISTS idx_lap_upload_id ON lap_records(upload_id)')
-    cur.execute('CREATE INDEX IF NOT EXISTS idx_finish_upload_id ON finish_records(upload_id)')
-
-    conn.commit()
-    conn.close()
+    try:
+        create_schema(conn)
+    finally:
+        conn.close()
 
 
 def save_records(db_path: str, filename: str, lap_records: list, finish_records: list) -> int:
