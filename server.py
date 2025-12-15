@@ -597,6 +597,9 @@ def browse_view():
       }catch(e){ console && console.error && console.error(e); }
     }
 
+    // Maximum number of selected option names to display on the toggle button
+    const MS_DISPLAY_MAX = 2;
+
     // Helper to create a compact multi-select dropdown with search and '(any)'.
     function buildMultiSel(containerId, items){
       const root = document.getElementById(containerId);
@@ -637,7 +640,18 @@ def browse_view():
       function updateCount(){
         const cnt = selected.size;
         const span = toggle.querySelector('.ms-count');
-        span.textContent = cnt === 0 ? 'Any' : (cnt === 1 ? `${cnt} selected` : `${cnt} selected`);
+        if(cnt === 0){
+          span.textContent = 'Any';
+          return;
+        }
+        // If we have a small number of selections, show their names (comma-separated)
+        if(cnt <= MS_DISPLAY_MAX){
+          const names = Array.from(selected);
+          span.textContent = names.join(', ');
+          return;
+        }
+        // Fallback to a generic count label for larger selections
+        span.textContent = cnt === 1 ? '1 selected' : `${cnt} selected`;
       }
 
       function restoreSelection(){
