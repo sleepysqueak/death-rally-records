@@ -549,7 +549,7 @@ def browse_view():
         <!-- Compact multi-select dropdown for Car -->
         <div class="multisel" id="car_multisel" style="position:relative;">
           <button type="button" class="ms-toggle" onclick="toggleDropdown('car_multisel')">Cars: <span class="ms-count">Any</span></button>
-          <div class="ms-dropdown" style="display:none;position:absolute;z-index:50;padding:6px;max-height:240px;overflow:auto;width:220px;">
+          <div class="ms-dropdown" style="display:none;position:absolute;z-index:50;padding:6px;max-height:240px;overflow-y:auto;overflow-x:hidden;width:220px;">
             <input class="ms-search" placeholder="Search cars..." style="width:100%;box-sizing:border-box;margin-bottom:6px;padding:4px;" />
             <div class="ms-options"></div>
           </div>
@@ -558,7 +558,7 @@ def browse_view():
         <!-- Compact multi-select dropdown for Track -->
         <div class="multisel" id="track_multisel" style="position:relative;">
           <button type="button" class="ms-toggle" onclick="toggleDropdown('track_multisel')">Tracks: <span class="ms-count">Any</span></button>
-          <div class="ms-dropdown" style="display:none;position:absolute;z-index:50;padding:6px;max-height:240px;overflow:auto;width:220px;">
+          <div class="ms-dropdown" style="display:none;position:absolute;z-index:50;padding:6px;max-height:240px;overflow-y:auto;overflow-x:hidden;width:220px;">
             <input class="ms-search" placeholder="Search tracks..." style="width:100%;box-sizing:border-box;margin-bottom:6px;padding:4px;" />
             <div class="ms-options"></div>
           </div>
@@ -567,7 +567,7 @@ def browse_view():
         <!-- Compact multi-select dropdown for Driver (searchable) -->
         <div class="multisel" id="driver_multisel" style="position:relative;">
           <button type="button" class="ms-toggle" onclick="toggleDropdown('driver_multisel')">Drivers: <span class="ms-count">Any</span></button>
-          <div class="ms-dropdown" style="display:none;position:absolute;z-index:50;padding:6px;max-height:240px;overflow:auto;width:280px;">
+          <div class="ms-dropdown" style="display:none;position:absolute;z-index:50;padding:6px;max-height:240px;overflow-y:auto;overflow-x:hidden;width:280px;">
             <input class="ms-search" placeholder="Search drivers..." style="width:100%;box-sizing:border-box;margin-bottom:6px;padding:4px;" />
             <div class="ms-options"></div>
           </div>
