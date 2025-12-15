@@ -56,6 +56,13 @@ TRACK_NAMES = [
     "Hell Mountain", "Desert Run", "Palm Side", "Eidolon", "Toxic Dump", "Borneo"
 ]
 
+# Difficulty names — stored in DB as numeric indexes (0..n-1)
+DIFFICULTY_NAMES = [
+    'Speed makes me dizzy',
+    'I live to ride',
+    'Petrol in my veins'
+]
+
 
 def car_name_from_index(i: int) -> str:
     try:
@@ -69,6 +76,13 @@ def track_name_from_index(idx: int) -> str:
         return TRACK_NAMES[int(idx)]
     except Exception:
         return f'track{idx}'
+
+
+def difficulty_name_from_index(idx: int) -> str:
+    try:
+        return DIFFICULTY_NAMES[int(idx)]
+    except Exception:
+        return f'difficulty{idx}'
 
 
 def car_index_from_name(name: str):
@@ -89,6 +103,15 @@ def track_index_from_name(name: str):
         return None
 
 
+def difficulty_index_from_name(name: str):
+    if not name:
+        return None
+    try:
+        return DIFFICULTY_NAMES.index(name)
+    except ValueError:
+        return None
+
+
 def dataclass_list_to_jsonable(lst: Any):
     # convert list of dataclasses to list of dicts
     out = []
@@ -98,6 +121,9 @@ def dataclass_list_to_jsonable(lst: Any):
         if 'car_type' in d and 'track_idx' in d:
             d['car_name'] = car_name_from_index(d.get('car_type'))
             d['track_name'] = track_name_from_index(d.get('track_idx'))
+        # If finish records use numeric difficulty index, expose human-readable difficulty
+        if 'difficulty_idx' in d:
+            d['difficulty'] = difficulty_name_from_index(d.get('difficulty_idx'))
         out.append(d)
     return out
 
@@ -133,7 +159,7 @@ def init_db(db_path: str = DB_FILENAME) -> None:
         upload_id INTEGER,
         name TEXT,
         races INTEGER,
-        difficulty TEXT,
+        difficulty_idx INTEGER,
         FOREIGN KEY(upload_id) REFERENCES uploads(id)
     )
     """)
@@ -190,17 +216,23 @@ def save_records(db_path: str, filename: str, lap_records: list, finish_records:
 
     # Insert finish records, but avoid duplicates defined as same name+races+difficulty
     for fr in finish_records:
-        # consider a duplicate to be same name + races + difficulty (across any upload)
+        # determine numeric difficulty index (backwards-compatible with textual difficulty)
+        if hasattr(fr, 'difficulty_idx'):
+            diff_idx = getattr(fr, 'difficulty_idx')
+        else:
+            diff_idx = difficulty_index_from_name(getattr(fr, 'difficulty', None))
+
+        # consider a duplicate to be same name + races + difficulty_idx (across any upload)
         cur.execute(
-            'SELECT 1 FROM finish_records WHERE name IS ? AND races IS ? AND difficulty IS ?',
-            (fr.name, fr.races, fr.difficulty)
+            'SELECT 1 FROM finish_records WHERE name IS ? AND races IS ? AND difficulty_idx IS ?',
+            (fr.name, fr.races, diff_idx)
         )
         if cur.fetchone():
             # duplicate found, skip
             continue
         cur.execute(
-            'INSERT INTO finish_records (upload_id, name, races, difficulty) VALUES (?, ?, ?, ?)',
-            (upload_id, fr.name, fr.races, fr.difficulty)
+            'INSERT INTO finish_records (upload_id, name, races, difficulty_idx) VALUES (?, ?, ?, ?)',
+            (upload_id, fr.name, fr.races, diff_idx)
         )
 
     conn.commit()
@@ -285,16 +317,22 @@ def get_leaderboards(db_path: str = DB_FILENAME):
 
     # Fetch for the known levels in the requested order
     for lvl in ordered_levels:
+        lvl_idx = difficulty_index_from_name(lvl)
+        if lvl_idx is None:
+            continue
         cur.execute('''
-            SELECT f.name, f.races, f.difficulty, u.uploaded_at
+            SELECT f.name, f.races, f.difficulty_idx, u.uploaded_at
             FROM finish_records f
             JOIN uploads u ON f.upload_id = u.id
-            WHERE f.races IS NOT NULL AND f.difficulty = ?
+            WHERE f.races IS NOT NULL AND f.difficulty_idx = ?
             ORDER BY f.races ASC, f.name ASC
             LIMIT 10
-        ''', (lvl,))
+        ''', (lvl_idx,))
         rows = [dict(r) for r in cur.fetchall()]
         if rows:
+            # map numeric difficulty index back to human-readable name for the returned rows
+            for rr in rows:
+                rr['difficulty'] = difficulty_name_from_index(rr.get('difficulty_idx'))
             finish_by_difficulty[lvl] = rows
             finish_difficulty_order.append(lvl)
 
@@ -530,11 +568,15 @@ def api_meta():
     cur.execute('SELECT DISTINCT track_idx FROM lap_records ORDER BY track_idx')
     track_idxs = [r[0] for r in cur.fetchall()]
     tracks = [track_name_from_index(i) for i in track_idxs]
+    # difficulties
+    cur.execute('SELECT DISTINCT difficulty_idx FROM finish_records ORDER BY difficulty_idx')
+    diff_idxs = [r[0] for r in cur.fetchall()]
+    difficulties = [difficulty_name_from_index(i) for i in diff_idxs]
     # limit drivers list to distinct non-empty names
     cur.execute("SELECT DISTINCT driver_name FROM lap_records WHERE driver_name IS NOT NULL AND driver_name <> '' ORDER BY driver_name")
     drivers = [r[0] for r in cur.fetchall()]
     conn.close()
-    return jsonify({'cars': cars, 'tracks': tracks, 'drivers': drivers})
+    return jsonify({'cars': cars, 'tracks': tracks, 'drivers': drivers, 'difficulties': difficulties})
 
 
 @app.route('/browse', methods=['GET'])

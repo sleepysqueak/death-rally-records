@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS finish_records (
     upload_id INTEGER,
     name TEXT,
     races INTEGER,
-    difficulty TEXT,
+    difficulty_idx INTEGER,
     FOREIGN KEY(upload_id) REFERENCES uploads(id)
 )
 """)
