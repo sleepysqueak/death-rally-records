@@ -298,7 +298,7 @@ def get_leaderboards(db_path: str = DB_FILENAME):
             JOIN uploads u ON f.upload_id = u.id
             WHERE f.races IS NOT NULL AND f.difficulty_idx = ?
             ORDER BY f.races ASC, f.name ASC
-            LIMIT 10
+            LIMIT 100
         ''', (lvl_idx,))
         rows = [dict(r) for r in cur.fetchall()]
         if rows:
@@ -351,7 +351,7 @@ def leaderboards_view():
     html.append('</table>')
 
     # Render top finishers grouped by difficulty in requested order
-    html.append('<h1>Finish Leaders (top 10 per difficulty)</h1>')
+    html.append('<h1>Finish Leaders (top 100 per difficulty)</h1>')
     for diff in range(3):
         rows = data['finish_by_difficulty'].get(diff, [])
         label = difficulty_name_from_index(diff) if difficulty_name_from_index(diff) else 'Unknown'
