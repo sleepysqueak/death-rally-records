@@ -761,6 +761,15 @@ def browse_view():
         document.querySelectorAll('.ms-dropdown').forEach(d => { d.style.display = 'none'; });
       }catch(err){ console && console.error && console.error(err); }
     });
+
+    // Close dropdowns when Escape is pressed
+    document.addEventListener('keydown', function(e){
+      try{
+        if(e.key === 'Escape' || e.key === 'Esc'){
+          document.querySelectorAll('.ms-dropdown').forEach(d => { d.style.display = 'none'; });
+        }
+      }catch(err){ console && console.error && console.error(err); }
+    });
     </script>
     </body>
     </html>
