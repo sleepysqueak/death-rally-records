@@ -751,6 +751,16 @@ def browse_view():
 
     document.getElementById('filter').addEventListener('click', doFilter);
     window.addEventListener('load', async () => { await loadMeta(); await doFilter(); });
+
+    // Close all multi-select dropdowns when clicking outside of any .multisel
+    document.addEventListener('click', function(e){
+      try{
+        // If the click occurred inside a multisel, do nothing
+        if (e.target && e.target.closest && e.target.closest('.multisel')) return;
+        // Otherwise hide any open dropdowns
+        document.querySelectorAll('.ms-dropdown').forEach(d => { d.style.display = 'none'; });
+      }catch(err){ console && console.error && console.error(err); }
+    });
     </script>
     </body>
     </html>
