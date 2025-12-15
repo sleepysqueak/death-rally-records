@@ -33,11 +33,13 @@ UPLOAD_FORM = (
       <li><a href="/api/top_times">API: /api/top_times (JSON)</a> - accepts query params: <code>car</code>, <code>track</code>, <code>driver</code>, <code>limit</code></li>
     </ul>
 
-    <h2>Upload dr.cfg</h2>
+    <h2>Upload dr.cfg (you may select multiple files)</h2>
     <form action="/upload" method=post enctype=multipart/form-data>
-      <input type=file name=file>
+      <input type=file name=file multiple>
       <input type=submit value=Upload>
     </form>
+
+    {message_block}
   </div>
 </body>
 </html>
@@ -46,7 +48,8 @@ UPLOAD_FORM = (
 
 @app.route('/', methods=['GET'])
 def index():
-    return render_template_string(UPLOAD_FORM)
+    # render with empty message by default
+    return render_template_string(UPLOAD_FORM.format(message_block=''))
 
 
 # human-readable mappings for car types and tracks (used to convert indexes from records.LapRecord)
@@ -141,8 +144,8 @@ def init_db(db_path: str = DB_FILENAME) -> None:
         conn.close()
 
 
-def save_records(db_path: str, filename: str, lap_records: list, finish_records: list) -> int:
-    """Save parsed records into the database. Returns upload_id."""
+def save_records(db_path: str, filename: str, lap_records: list, finish_records: list) -> tuple:
+    """Save parsed records into the database. Returns (upload_id, lap_inserted, finish_inserted)."""
     init_db(db_path)
     conn = sqlite3.connect(db_path)
     cur = conn.cursor()
@@ -150,6 +153,9 @@ def save_records(db_path: str, filename: str, lap_records: list, finish_records:
     uploaded_at = datetime.utcnow().isoformat() + 'Z'
     cur.execute('INSERT INTO uploads (filename, uploaded_at) VALUES (?, ?)', (filename, uploaded_at))
     upload_id = cur.lastrowid
+
+    lap_inserted = 0
+    finish_inserted = 0
 
     # Insert lap records, but avoid duplicates defined as same car_type+track_idx+driver_name+time
     for r in lap_records:
@@ -174,6 +180,7 @@ def save_records(db_path: str, filename: str, lap_records: list, finish_records:
             'INSERT INTO lap_records (upload_id, car_type, track_idx, time, driver_name) VALUES (?, ?, ?, ?, ?)', 
             (upload_id, car_type, track_idx, getattr(r, 'time', None), getattr(r, 'driver_name', None))
         )
+        lap_inserted += 1
 
     # Insert finish records, but avoid duplicates defined as same name+races+difficulty
     for fr in finish_records:
@@ -195,38 +202,56 @@ def save_records(db_path: str, filename: str, lap_records: list, finish_records:
             'INSERT INTO finish_records (upload_id, name, races, difficulty_idx) VALUES (?, ?, ?, ?)',
             (upload_id, fr.name, fr.races, diff_idx)
         )
+        finish_inserted += 1
 
     conn.commit()
     conn.close()
-    return upload_id
+    return (upload_id, lap_inserted, finish_inserted)
 
 
 @app.route('/upload', methods=['POST'])
 def upload():
-    if 'file' not in request.files:
+    # accept multiple files
+    files = request.files.getlist('file')
+    if not files or len(files) == 0:
         return jsonify({'error': 'no file part'}), 400
-    file = request.files['file']
-    if file.filename == '':
-        return jsonify({'error': 'empty filename'}), 400
 
-    # save to a temporary file and pass path to read_records
-    tmp = tempfile.NamedTemporaryFile(delete=False, suffix='.cfg')
-    try:
-        file.save(tmp.name)
-        tmp.close()
-        lap_records, finish_records = read_records(tmp.name)
-        upload_id = save_records(DB_FILENAME, file.filename, lap_records, finish_records)
-    finally:
+    summary_rows = []
+    total_laps = 0
+    total_finishes = 0
+
+    for file in files:
+        if not file or file.filename == '':
+            continue
+        tmp = tempfile.NamedTemporaryFile(delete=False, suffix='.cfg')
         try:
-            os.unlink(tmp.name)
-        except Exception:
-            pass
+            file.save(tmp.name)
+            tmp.close()
+            lap_records, finish_records = read_records(tmp.name)
+            upload_id, laps_inserted, finishes_inserted = save_records(DB_FILENAME, file.filename, lap_records, finish_records)
+            total_laps += laps_inserted
+            total_finishes += finishes_inserted
+            summary_rows.append((file.filename, laps_inserted, finishes_inserted, upload_id))
+        finally:
+            try:
+                os.unlink(tmp.name)
+            except Exception:
+                pass
 
-    return jsonify({
-        'lap_records': dataclass_list_to_jsonable(lap_records),
-        'finish_records': dataclass_list_to_jsonable(finish_records),
-        'upload_id': upload_id
-    })
+    if len(summary_rows) == 0:
+        return jsonify({'error': 'no valid files uploaded'}), 400
+
+    # build feedback HTML and stay on the upload page
+    parts = []
+    parts.append(f"<p>Processed {len(summary_rows)} file(s). Inserted <strong>{total_laps}</strong> new lap record(s) and <strong>{total_finishes}</strong> new finish record(s).</p>")
+    parts.append('<ul>')
+    for fn, lins, fins, uid in summary_rows:
+        parts.append(f"<li>{fn}: {lins} lap(s), {fins} finish(es) (upload id {uid})</li>")
+    parts.append('</ul>')
+    parts.append('<p><a href="/">Back to upload form</a></p>')
+    message_html = '\n'.join(parts)
+
+    return render_template_string(UPLOAD_FORM.format(message_block=message_html))
 
 
 # --- Leaderboards endpoints ---
