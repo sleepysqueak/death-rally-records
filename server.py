@@ -665,11 +665,21 @@ def browse_view():
         if(!cb || cb.type !== 'checkbox') return;
         const val = cb.dataset.value; // empty string for Any
         if(val === ''){
-          // Any selected -> clear all others and selected set
+          // '(any)' checkbox clicked
           if(cb.checked){
+            // User checked '(any)' -> clear all other selections and ensure '(any)' stays checked
             selected.clear();
-            // uncheck others
             allCheckboxes().forEach(c=>{ if(c.dataset.value) c.checked = false; });
+            cb.checked = true; // ensure it remains checked
+          } else {
+            // User attempted to uncheck '(any)'. If no other option is selected, prevent unchecking to avoid empty state.
+            const someOtherChecked = Array.from(opts.querySelectorAll('input[type=checkbox]')).some(c => c.dataset.value && c.checked);
+            if(!someOtherChecked){
+              // Re-check '(any)' and do nothing else
+              cb.checked = true;
+              return;
+            }
+            // If there are other selections (rare), allow unchecking; selected will be updated below
           }
         } else {
           // when any other selected, uncheck Any
@@ -705,7 +715,9 @@ def browse_view():
       const res = await fetch('/api/meta');
       const meta = await res.json();
       buildMultiSel('car_multisel', meta.cars || []);
-      buildMultiSel('track_multisel', meta.tracks || []);
+      // sort tracks by name (case-insensitive) for the UI
+      const tracksSorted = (meta.tracks || []).slice().sort((a,b)=> (a||'').toLowerCase().localeCompare((b||'').toLowerCase()));
+      buildMultiSel('track_multisel', tracksSorted);
       buildMultiSel('driver_multisel', (meta.drivers||[]).filter(d=>d && d.trim() !== ''));
     }
 
