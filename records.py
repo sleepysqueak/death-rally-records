@@ -8,7 +8,6 @@ from typing import List, Optional, Tuple
 
 @dataclass
 class LapRecord:
-    rec_no: int
     car_type: int        # 0..5 index for car type
     track_idx: int       # 1..18 index for track
     time: Optional[float]
@@ -17,7 +16,6 @@ class LapRecord:
 
 @dataclass
 class FinishRecord:
-    rec_no: int
     name: str
     races: Optional[int]
     difficulty: Optional[str]
@@ -60,10 +58,10 @@ def read_records(file_path, lap_start=0x56, races_start=0xA76) -> Tuple[List[Lap
 
                 # compute car type and index within that type
                 car_type = rec_no // 18  # 0..5
-                car_idx = (rec_no % 18) + 1  # 1..18
+                car_idx = (rec_no % 18)  # 0..17
 
                 # Store numeric indexes instead of textual names
-                lap_records.append(LapRecord(rec_no, car_type, car_idx, time_val, name))
+                lap_records.append(LapRecord(car_type, car_idx, time_val, name))
 
                 rec_no += 1
 
@@ -90,7 +88,7 @@ def read_records(file_path, lap_start=0x56, races_start=0xA76) -> Tuple[List[Lap
                 except Exception:
                     difficulty = None
 
-                finish_records.append(FinishRecord(rec_no, name, races, difficulty))
+                finish_records.append(FinishRecord(name, races, difficulty))
 
                 rec_no += 1
 
@@ -107,13 +105,13 @@ def print_records(lap_records: List[LapRecord], finish_records: List[FinishRecor
     print('Lap records:')
     for r in lap_records:
         if r.time is not None:
-            print(f'rec={r.rec_no} car_type={r.car_type} track_idx={r.track_idx} time={r.time:.2f}s name="{r.driver_name}"')
+            print(f'car_type={r.car_type} track_idx={r.track_idx} time={r.time:.2f}s name="{r.driver_name}"')
         else:
-            print(f'rec={r.rec_no} car_type={r.car_type} track_idx={r.track_idx} name="{r.driver_name}"')
+            print(f'car_type={r.car_type} track_idx={r.track_idx} name="{r.driver_name}"')
 
     print('\nFinish records (names + races + difficulty):')
     for fr in finish_records:
-        line = f'rec={fr.rec_no} name="{fr.name}"'
+        line = f'name="{fr.name}"'
         if fr.races is not None:
             line += f' races={fr.races}'
         if fr.difficulty is not None:

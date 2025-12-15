@@ -66,8 +66,7 @@ def car_name_from_index(i: int) -> str:
 
 def track_name_from_index(idx: int) -> str:
     try:
-        # track_idx in records is 1-based
-        return TRACK_NAMES[int(idx) - 1]
+        return TRACK_NAMES[int(idx)]
     except Exception:
         return f'track{idx}'
 
@@ -253,7 +252,7 @@ def get_leaderboards(db_path: str = DB_FILENAME):
     WHERE l.time IS NOT NULL AND l.time = (
         SELECT MIN(time) FROM lap_records WHERE car_type = l.car_type AND track_idx = l.track_idx AND time IS NOT NULL
     )
-    ORDER BY l.car_type, l.track_idx
+    ORDER BY l.car_type
     ''')
     lap_leaders = []
     for r in cur.fetchall():
@@ -261,6 +260,18 @@ def get_leaderboards(db_path: str = DB_FILENAME):
         d['car_name'] = car_name_from_index(d.get('car_type'))
         d['track_name'] = track_name_from_index(d.get('track_idx'))
         lap_leaders.append(d)
+
+    # Sort lap leaders by numeric car index then human-readable track name (to order by car, then track name)
+    try:
+        def _lb_sort_key(item):
+            c = item.get('car_type')
+            if c is None:
+                c = 9999
+            tn = item.get('track_name') or ''
+            return (c, tn.lower())
+        lap_leaders.sort(key=_lb_sort_key)
+    except Exception:
+        pass
 
     # --- Top 10 finishers (lowest races) per difficulty in a specific order ---
     ordered_levels = [
@@ -476,14 +487,31 @@ def api_top_times():
     mapped = []
     for r in rows:
         d = dict(r)
-        d['car_name'] = car_name_from_index(d.get('car_type')) if 'car_type' in d else None
-        d['track_name'] = track_name_from_index(d.get('track_idx')) if 'track_idx' in d else None
+        # preserve numeric car_type/track_idx when present; try to derive car_type from name when missing
+        if 'car_type' not in d or d.get('car_type') is None:
+            # try to derive from car_name for backward compatibility
+            if d.get('car_name'):
+                d['car_type'] = car_index_from_name(d.get('car_name'))
+        if 'track_idx' not in d or d.get('track_idx') is None:
+            # no reliable fallback for track_idx in all cases; leave as-is
+            d['track_idx'] = d.get('track_idx')
+        # ensure human-readable names are present
+        d['car_name'] = car_name_from_index(d.get('car_type')) if d.get('car_type') is not None else d.get('car_name')
+        d['track_name'] = track_name_from_index(d.get('track_idx')) if d.get('track_idx') is not None else d.get('track_name')
         mapped.append(d)
 
-    # ensure results are ordered by car and track (by name)
+    # ensure results are ordered by car index (numeric) and then track name
     try:
         if isinstance(mapped, list) and len(mapped) > 0:
-            mapped.sort(key=lambda r: (r.get('car_name') or '', r.get('track_name') or ''))
+            def sort_key(item):
+                car_idx = item.get('car_type')
+                # fallback: try to derive numeric index from car_name, else large number to push unknowns to end
+                if car_idx is None:
+                    derived = car_index_from_name(item.get('car_name'))
+                    car_idx = derived if derived is not None else 9999
+                track_name = item.get('track_name') or ''
+                return (car_idx, track_name)
+            mapped.sort(key=sort_key)
     except Exception:
         pass
 
@@ -565,8 +593,8 @@ def browse_view():
     function renderResults(rows){
       const container = document.getElementById('results');
       if(!rows || rows.length === 0){ container.innerHTML = '<p>No results</p>'; return; }
-      let html = '<table><tr><th>#</th><th>Car</th><th>Track</th><th>Driver</th><th>Time (s)</th><th>Uploaded</th></tr>';
-      rows.forEach((r,i) => {
+      let html = '<table><tr><th>Car</th><th>Track</th><th>Driver</th><th>Time (s)</th><th>Uploaded</th></tr>';
+      rows.forEach((r) => {
         const time = r.time !== null ? r.time.toFixed(2) : '';
         let uploaded_td = '<td></td>';
         if(r.uploaded_at){
@@ -575,7 +603,7 @@ def browse_view():
           const display = iso.split('T')[0];
           uploaded_td = `<td title="${hover}">${display}</td>`;
         }
-        html += `<tr><td>${i+1}</td><td>${r.car_name}</td><td>${r.track_name}</td><td>${r.driver_name}</td><td>${time}</td>${uploaded_td}</tr>`;
+        html += `<tr><td>${r.car_name}</td><td>${r.track_name}</td><td>${r.driver_name}</td><td>${time}</td>${uploaded_td}</tr>`;
       });
       html += '</table>';
       container.innerHTML = html;
