@@ -353,40 +353,50 @@ def leaderboards_view():
 # API: get top times with optional filters
 @app.route('/api/top_times', methods=['GET'])
 def api_top_times():
-    """Return top lap times filtered by car, track, driver. Query params: car, track, driver, limit.
-
-    If neither car nor track is specified, return the best time for each car/track combination
-    (respecting an optional driver filter). If car or track is specified, return the top N rows
-    ordered by time (limit controlled by the `limit` parameter, default 10).
-    """
-    car = request.args.get('car')
-    track = request.args.get('track')
-    driver = request.args.get('driver')
+    """Return top lap times filtered by car, track, driver. Accepts multiple `car`, `track`, `driver` params."""
+    # accept multiple values for car/track/driver
+    car_vals = request.args.getlist('car')  # list of car names
+    track_vals = request.args.getlist('track')  # list of track names
+    driver_vals = request.args.getlist('driver')  # list of driver names (exact match)
 
     # convert car/track names to numeric indexes if provided
-    car_idx_val = car_index_from_name(car) if car else None
-    track_idx_val = track_index_from_name(track) if track else None
+    car_idx_vals = [car_index_from_name(c) for c in car_vals if c]
+    # filter out None conversions
+    car_idx_vals = [c for c in car_idx_vals if c is not None]
+    track_idx_vals = [track_index_from_name(t) for t in track_vals if t]
+    track_idx_vals = [t for t in track_idx_vals if t is not None]
 
-    # treat limit param: if omitted, only apply default when doing top-N queries (car or track present)
+    # treat limit param
     limit_str = request.args.get('limit')
     limit = None
     if limit_str is not None:
         try:
             limit = int(limit_str)
-        except ValueError:
+        except Exception:
             limit = 10
 
     conn = sqlite3.connect(DB_FILENAME)
     conn.row_factory = sqlite3.Row
     cur = conn.cursor()
 
-    if not car and not track:
+    rows = []
+
+    # helper to build driver filter clause and params
+    def _driver_clause(field_name='driver_name', params_list=None):
+        if not driver_vals:
+            return ('', [])
+        if len(driver_vals) == 1:
+            return (f' AND {field_name} = ?', [driver_vals[0]])
+        placeholders = ','.join(['?'] * len(driver_vals))
+        return (f' AND {field_name} IN ({placeholders})', list(driver_vals))
+
+    if not car_vals and not track_vals:
         # Return best time per car+track combination. Respect optional driver filter.
         params = []
         inner_where = 'WHERE time IS NOT NULL'
-        if driver:
-            inner_where += ' AND driver_name LIKE ?'
-            params.append(f"%{driver}%")
+        drv_clause, drv_params = _driver_clause('driver_name')
+        inner_where += drv_clause
+        params.extend(drv_params)
 
         # subquery: best time per car_type and track_idx
         subq = f"SELECT car_type, track_idx, MIN(time) as min_time FROM lap_records {inner_where} GROUP BY car_type, track_idx"
@@ -399,91 +409,80 @@ def api_top_times():
         ORDER BY l.car_type, l.track_idx
         """
 
-        # Do not apply a LIMIT here — return the best entry for every car/track combination
         cur.execute(sql, params)
         rows = [dict(r) for r in cur.fetchall()]
     else:
-        # If both car and track specified: return top-N for that pair
-        if car and track:
-            # if conversion failed, no results
-            if car_idx_val is None or track_idx_val is None:
-                rows = []
-            else:
-                sql = 'SELECT l.car_type, l.track_idx, l.driver_name, l.time, u.uploaded_at FROM lap_records l JOIN uploads u ON l.upload_id = u.id WHERE l.time IS NOT NULL AND l.car_type = ? AND l.track_idx = ?'
-                params = [car_idx_val, track_idx_val]
-                if driver:
-                    sql += ' AND l.driver_name LIKE ?'
-                    params.append(f"%{driver}%")
-                sql += ' ORDER BY l.time ASC LIMIT ?'
-                if limit is None:
-                    limit = 10
-                params.append(limit)
-                cur.execute(sql, params)
-                rows = [dict(r) for r in cur.fetchall()]
+        # When filters are present, return top-N per requested combination(s)
+        if limit is None:
+            limit = 10
+
+        drv_clause_common, drv_params_common = _driver_clause('l.driver_name')
+
+        # If both car and track lists specified: run queries for each pair
+        if car_idx_vals and track_idx_vals:
+            for c in car_idx_vals:
+                for t in track_idx_vals:
+                    sql = 'SELECT l.car_type, l.track_idx, l.driver_name, l.time, u.uploaded_at FROM lap_records l JOIN uploads u ON l.upload_id = u.id WHERE l.time IS NOT NULL AND l.car_type = ? AND l.track_idx = ?'
+                    params = [c, t]
+                    if drv_clause_common:
+                        sql += drv_clause_common
+                        params.extend(drv_params_common)
+                    sql += ' ORDER BY l.time ASC LIMIT ?'
+                    params.append(limit)
+                    cur.execute(sql, params)
+                    rows.extend([dict(r) for r in cur.fetchall()])
+        elif car_idx_vals and not track_idx_vals:
+            # for each specified car, return top-N per track
+            for c in car_idx_vals:
+                q = 'SELECT DISTINCT track_idx FROM lap_records WHERE car_type = ?'
+                qparams = [c]
+                if drv_clause_common:
+                    q += drv_clause_common.replace('l.driver_name', 'driver_name')
+                    qparams.extend(drv_params_common)
+                cur.execute(q, qparams)
+                tracks = [r[0] for r in cur.fetchall()]
+                for t in tracks:
+                    sql = 'SELECT l.car_type, l.track_idx, l.driver_name, l.time, u.uploaded_at FROM lap_records l JOIN uploads u ON l.upload_id = u.id WHERE l.time IS NOT NULL AND l.car_type = ? AND l.track_idx = ?'
+                    params = [c, t]
+                    if drv_clause_common:
+                        sql += drv_clause_common
+                        params.extend(drv_params_common)
+                    sql += ' ORDER BY l.time ASC LIMIT ?'
+                    params.append(limit)
+                    cur.execute(sql, params)
+                    rows.extend([dict(r) for r in cur.fetchall()])
+        elif track_idx_vals and not car_idx_vals:
+            # for each specified track, return top-N per car
+            for t in track_idx_vals:
+                q = 'SELECT DISTINCT car_type FROM lap_records WHERE track_idx = ?'
+                qparams = [t]
+                if drv_clause_common:
+                    q += drv_clause_common.replace('l.driver_name', 'driver_name')
+                    qparams.extend(drv_params_common)
+                cur.execute(q, qparams)
+                cars = [r[0] for r in cur.fetchall()]
+                for c in cars:
+                    sql = 'SELECT l.car_type, l.track_idx, l.driver_name, l.time, u.uploaded_at FROM lap_records l JOIN uploads u ON l.upload_id = u.id WHERE l.time IS NOT NULL AND l.car_type = ? AND l.track_idx = ?'
+                    params = [c, t]
+                    if drv_clause_common:
+                        sql += drv_clause_common
+                        params.extend(drv_params_common)
+                    sql += ' ORDER BY l.time ASC LIMIT ?'
+                    params.append(limit)
+                    cur.execute(sql, params)
+                    rows.extend([dict(r) for r in cur.fetchall()])
         else:
-            # If only car specified: for each track return top-N rows for that car
-            # If only track specified: for each car return top-N rows for that track
-            if limit is None:
-                limit = 10
             rows = []
-            if car and not track:
-                if car_idx_val is None:
-                    rows = []
-                else:
-                    q = 'SELECT DISTINCT track_idx FROM lap_records WHERE car_type = ?'
-                    params = [car_idx_val]
-                    if driver:
-                        q += ' AND driver_name LIKE ?'
-                        params.append(f"%{driver}%")
-                    cur.execute(q, params)
-                    tracks = [r[0] for r in cur.fetchall()]
-                    for t in tracks:
-                        q2 = 'SELECT l.car_type, l.track_idx, l.driver_name, l.time, u.uploaded_at FROM lap_records l JOIN uploads u ON l.upload_id = u.id WHERE l.time IS NOT NULL AND l.car_type = ? AND l.track_idx = ?'
-                        p2 = [car_idx_val, t]
-                        if driver:
-                            q2 += ' AND l.driver_name LIKE ?'
-                            p2.append(f"%{driver}%")
-                        q2 += ' ORDER BY l.time ASC LIMIT ?'
-                        p2.append(limit)
-                        cur.execute(q2, p2)
-                        rows.extend([dict(r) for r in cur.fetchall()])
-            elif track and not car:
-                if track_idx_val is None:
-                    rows = []
-                else:
-                    q = 'SELECT DISTINCT car_type FROM lap_records WHERE track_idx = ?'
-                    params = [track_idx_val]
-                    if driver:
-                        q += ' AND driver_name LIKE ?'
-                        params.append(f"%{driver}%")
-                    cur.execute(q, params)
-                    cars = [r[0] for r in cur.fetchall()]
-                    for c in cars:
-                        q2 = 'SELECT l.car_type, l.track_idx, l.driver_name, l.time, u.uploaded_at FROM lap_records l JOIN uploads u ON l.upload_id = u.id WHERE l.time IS NOT NULL AND l.car_type = ? AND l.track_idx = ?'
-                        p2 = [c, track_idx_val]
-                        if driver:
-                            q2 += ' AND l.driver_name LIKE ?'
-                            p2.append(f"%{driver}%")
-                        q2 += ' ORDER BY l.time ASC LIMIT ?'
-                        p2.append(limit)
-                        cur.execute(q2, p2)
-                        rows.extend([dict(r) for r in cur.fetchall()])
-            else:
-                rows = []
 
     # map numeric columns back to names for API output
     mapped = []
     for r in rows:
         d = dict(r)
-        # preserve numeric car_type/track_idx when present; try to derive car_type from name when missing
         if 'car_type' not in d or d.get('car_type') is None:
-            # try to derive from car_name for backward compatibility
             if d.get('car_name'):
                 d['car_type'] = car_index_from_name(d.get('car_name'))
         if 'track_idx' not in d or d.get('track_idx') is None:
-            # no reliable fallback for track_idx in all cases; leave as-is
             d['track_idx'] = d.get('track_idx')
-        # ensure human-readable names are present
         d['car_name'] = car_name_from_index(d.get('car_type')) if d.get('car_type') is not None else d.get('car_name')
         d['track_name'] = track_name_from_index(d.get('track_idx')) if d.get('track_idx') is not None else d.get('track_name')
         mapped.append(d)
@@ -493,7 +492,6 @@ def api_top_times():
         if isinstance(mapped, list) and len(mapped) > 0:
             def sort_key(item):
                 car_idx = item.get('car_type')
-                # fallback: try to derive numeric index from car_name, else large number to push unknowns to end
                 if car_idx is None:
                     derived = car_index_from_name(item.get('car_name'))
                     car_idx = derived if derived is not None else 9999
@@ -531,7 +529,7 @@ def api_meta():
 
 @app.route('/browse', methods=['GET'])
 def browse_view():
-    """HTML UI to browse top times with filters."""
+    """HTML UI to browse top times with multi-select filters."""
     html = (
     """
     <!doctype html>
@@ -545,10 +543,10 @@ def browse_view():
       <h1>Browse Top Times</h1>
       <p><a href="/">Home</a></p>
       <div>
-        <label>Car: <select id="car"><option value="">(any)</option></select></label>
-        <label>Track: <select id="track"><option value="">(any)</option></select></label>
-        <label>Driver: <input list="drivers" id="driver" placeholder="partial name"><datalist id="drivers"></datalist></label>
-        <label>Limit: <input id="limit" type="number" min="1" value="10" style="width:60px"></label>
+        <label>Racers per Car/Track: <input id="limit" type="number" min="1" value="1" style="width:60px"></label>
+        <label>Car: <select id="car" multiple size="6"></select></label>
+        <label>Track: <select id="track" multiple size="6"></select></label>
+        <label>Driver: <select id="driver" multiple size="6"></select></label>
         <button id="filter">Filter</button>
       </div>
       <div id="results"></div>
@@ -558,25 +556,33 @@ def browse_view():
       const res = await fetch('/api/meta');
       const meta = await res.json();
       const carSel = document.getElementById('car');
+      // clear and populate
+      carSel.innerHTML = '';
       meta.cars.forEach(c => { const opt = document.createElement('option'); opt.value = c; opt.text = c; carSel.add(opt); });
       const trackSel = document.getElementById('track');
+      trackSel.innerHTML = '';
       meta.tracks.forEach(t => { const opt = document.createElement('option'); opt.value = t; opt.text = t; trackSel.add(opt); });
-      const datalist = document.getElementById('drivers');
-      // clear existing options
-      while (datalist.firstChild) datalist.removeChild(datalist.firstChild);
-      // populate datalist with driver names for autocompletion
-      meta.drivers.forEach(d => { if(d && d.trim() !== ''){ const opt = document.createElement('option'); opt.value = d; datalist.appendChild(opt); }});
+      const driverSel = document.getElementById('driver');
+      driverSel.innerHTML = '';
+      meta.drivers.forEach(d => { if(d && d.trim() !== ''){ const opt = document.createElement('option'); opt.value = d; opt.text = d; driverSel.add(opt); }});
+    }
+
+    function _getSelectedValues(sel){
+      return Array.from(sel.selectedOptions).map(o => o.value).filter(v => v && v.trim() !== '');
     }
 
     async function doFilter(){
-      const car = document.getElementById('car').value;
-      const track = document.getElementById('track').value;
-      const driver = document.getElementById('driver').value;
-      const limit = document.getElementById('limit').value || 10;
+      const carSel = document.getElementById('car');
+      const trackSel = document.getElementById('track');
+      const driverSel = document.getElementById('driver');
+      const carVals = _getSelectedValues(carSel);
+      const trackVals = _getSelectedValues(trackSel);
+      const driverVals = _getSelectedValues(driverSel);
+      const limit = document.getElementById('limit').value || 1;
       const params = new URLSearchParams();
-      if(car) params.append('car', car);
-      if(track) params.append('track', track);
-      if(driver) params.append('driver', driver);
+      carVals.forEach(v => params.append('car', v));
+      trackVals.forEach(v => params.append('track', v));
+      driverVals.forEach(v => params.append('driver', v));
       params.append('limit', limit);
       const res = await fetch('/api/top_times?' + params.toString());
       const data = await res.json();
