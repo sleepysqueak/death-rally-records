@@ -9,9 +9,8 @@ from typing import List, Optional, Tuple
 @dataclass
 class LapRecord:
     rec_no: int
-    car_name: str
-    track_name: str
-    idx: int
+    car_type: int        # 0..5 index for car type
+    track_idx: int       # 1..18 index for track
     time: Optional[float]
     driver_name: str
 
@@ -41,14 +40,6 @@ def read_records(file_path, lap_start=0x56, races_start=0xA76) -> Tuple[List[Lap
             # --- Lap records ---
             f.seek(lap_start)
             rec_no = 0
-            # names for the 6 car types
-            car_names = ["Vagabond", "Dervish", "Sentinel", "Shrieker", "Wraith", "Deliverator"]
-            # names for the 18 tracks
-            track_names = [
-                "Suburbia", "Downtown", "Utopia", "Rock Zone", "Snake Alley", "Oasis",
-                "Velodrome", "Holocaust", "Bogota", "West End", "Newark", "Complex",
-                "Hell Mountain", "Desert Run", "Palm Side", "Eidolon", "Toxic Dump", "Borneo"
-            ]
             total_lap = 6 * 18  # 6 car types, 18 records each
             while rec_no < total_lap:
                 chunk = f.read(24)
@@ -67,13 +58,12 @@ def read_records(file_path, lap_start=0x56, races_start=0xA76) -> Tuple[List[Lap
                 name_bytes = chunk[0:10]
                 name = name_bytes.split(b'\x00', 1)[0].decode('ascii', errors='replace').strip()
 
-                # compute car type and index within that type and map to names
+                # compute car type and index within that type
                 car_type = rec_no // 18  # 0..5
                 car_idx = (rec_no % 18) + 1  # 1..18
-                car_name = car_names[car_type] if 0 <= car_type < len(car_names) else f'car{car_type}'
-                track_name = track_names[car_idx - 1] if 1 <= car_idx <= len(track_names) else f'track{car_idx}'
 
-                lap_records.append(LapRecord(rec_no, car_name, track_name, car_idx, time_val, name))
+                # Store numeric indexes instead of textual names
+                lap_records.append(LapRecord(rec_no, car_type, car_idx, time_val, name))
 
                 rec_no += 1
 
@@ -117,9 +107,9 @@ def print_records(lap_records: List[LapRecord], finish_records: List[FinishRecor
     print('Lap records:')
     for r in lap_records:
         if r.time is not None:
-            print(f'rec={r.rec_no} car="{r.car_name}" track="{r.track_name}" idx={r.idx} time={r.time:.2f}s name="{r.driver_name}"')
+            print(f'rec={r.rec_no} car_type={r.car_type} track_idx={r.track_idx} time={r.time:.2f}s name="{r.driver_name}"')
         else:
-            print(f'rec={r.rec_no} car="{r.car_name}" track="{r.track_name}" idx={r.idx} name="{r.driver_name}"')
+            print(f'rec={r.rec_no} car_type={r.car_type} track_idx={r.track_idx} name="{r.driver_name}"')
 
     print('\nFinish records (names + races + difficulty):')
     for fr in finish_records:

@@ -48,9 +48,59 @@ def index():
     return render_template_string(UPLOAD_FORM)
 
 
+# human-readable mappings for car types and tracks (used to convert indexes from records.LapRecord)
+CAR_NAMES = ["Vagabond", "Dervish", "Sentinel", "Shrieker", "Wraith", "Deliverator"]
+TRACK_NAMES = [
+    "Suburbia", "Downtown", "Utopia", "Rock Zone", "Snake Alley", "Oasis",
+    "Velodrome", "Holocaust", "Bogota", "West End", "Newark", "Complex",
+    "Hell Mountain", "Desert Run", "Palm Side", "Eidolon", "Toxic Dump", "Borneo"
+]
+
+
+def car_name_from_index(i: int) -> str:
+    try:
+        return CAR_NAMES[int(i)]
+    except Exception:
+        return f'car{i}'
+
+
+def track_name_from_index(idx: int) -> str:
+    try:
+        # track_idx in records is 1-based
+        return TRACK_NAMES[int(idx) - 1]
+    except Exception:
+        return f'track{idx}'
+
+
+def car_index_from_name(name: str):
+    if not name:
+        return None
+    try:
+        return CAR_NAMES.index(name)
+    except ValueError:
+        return None
+
+
+def track_index_from_name(name: str):
+    if not name:
+        return None
+    try:
+        return TRACK_NAMES.index(name) + 1
+    except ValueError:
+        return None
+
+
 def dataclass_list_to_jsonable(lst: Any):
     # convert list of dataclasses to list of dicts
-    return [asdict(x) for x in lst]
+    out = []
+    for x in lst:
+        d = asdict(x)
+        # If parser uses numeric indexes, convert to human-readable fields expected by the API
+        if 'car_type' in d and 'track_idx' in d:
+            d['car_name'] = car_name_from_index(d.get('car_type'))
+            d['track_name'] = track_name_from_index(d.get('track_idx'))
+        out.append(d)
+    return out
 
 
 DB_FILENAME = os.path.join(os.path.dirname(__file__), 'records.db')
@@ -71,9 +121,8 @@ def init_db(db_path: str = DB_FILENAME) -> None:
     CREATE TABLE IF NOT EXISTS lap_records (
         id INTEGER PRIMARY KEY,
         upload_id INTEGER,
-        car_name TEXT,
-        track_name TEXT,
-        idx INTEGER,
+        car_type INTEGER,
+        track_idx INTEGER,
         time REAL,
         driver_name TEXT,
         FOREIGN KEY(upload_id) REFERENCES uploads(id)
@@ -91,12 +140,12 @@ def init_db(db_path: str = DB_FILENAME) -> None:
     """)
 
     # Indexes to speed up common queries (leaderboards, top_times, meta)
-    # Composite index for car+track+idx lookups
-    cur.execute('CREATE INDEX IF NOT EXISTS idx_lap_car_track_idx ON lap_records(car_name, track_name, idx)')
+    # Composite index for car_type+track_idx lookups
+    cur.execute('CREATE INDEX IF NOT EXISTS idx_lap_car_track_idx ON lap_records(car_type, track_idx)')
     # Indexes for time-based ordering and filtering
-    cur.execute('CREATE INDEX IF NOT EXISTS idx_lap_car_time ON lap_records(car_name, time)')
-    cur.execute('CREATE INDEX IF NOT EXISTS idx_lap_track_time ON lap_records(track_name, time)')
-    # Driver name lookup (used with LIKE) — helps with prefix searches; full substring LIKE may still be slow
+    cur.execute('CREATE INDEX IF NOT EXISTS idx_lap_car_time ON lap_records(car_type, time)')
+    cur.execute('CREATE INDEX IF NOT EXISTS idx_lap_track_time ON lap_records(track_idx, time)')
+    # Driver name lookup (used with LIKE)
     cur.execute('CREATE INDEX IF NOT EXISTS idx_lap_driver_name ON lap_records(driver_name)')
     # Upload related lookups
     cur.execute('CREATE INDEX IF NOT EXISTS idx_lap_upload_id ON lap_records(upload_id)')
@@ -116,19 +165,28 @@ def save_records(db_path: str, filename: str, lap_records: list, finish_records:
     cur.execute('INSERT INTO uploads (filename, uploaded_at) VALUES (?, ?)', (filename, uploaded_at))
     upload_id = cur.lastrowid
 
-    # Insert lap records, but avoid duplicates defined as same car_name+track_name+driver_name+time
+    # Insert lap records, but avoid duplicates defined as same car_type+track_idx+driver_name+time
     for r in lap_records:
+        # r may be a dataclass with numeric indexes (car_type, track_idx) or legacy fields
+        if hasattr(r, 'car_type') and hasattr(r, 'track_idx'):
+            car_type = r.car_type
+            track_idx = r.track_idx
+        else:
+            # fallback: try to derive numeric indexes from names
+            car_type = car_index_from_name(getattr(r, 'car_name', None))
+            track_idx = getattr(r, 'idx', None) or track_index_from_name(getattr(r, 'track_name', None))
+
         # Use IS for driver_name/time comparison to correctly handle NULLs
         cur.execute(
-            'SELECT 1 FROM lap_records WHERE car_name = ? AND track_name = ? AND driver_name IS ? AND time IS ?',
-            (r.car_name, r.track_name, r.driver_name, r.time)
+            'SELECT 1 FROM lap_records WHERE car_type = ? AND track_idx = ? AND driver_name IS ? AND time IS ?',
+            (car_type, track_idx, getattr(r, 'driver_name', None), getattr(r, 'time', None))
         )
         if cur.fetchone():
             # duplicate found, skip insertion
             continue
         cur.execute(
-            'INSERT INTO lap_records (upload_id, car_name, track_name, idx, time, driver_name) VALUES (?, ?, ?, ?, ?, ?)', 
-            (upload_id, r.car_name, r.track_name, r.idx, r.time, r.driver_name)
+            'INSERT INTO lap_records (upload_id, car_type, track_idx, time, driver_name) VALUES (?, ?, ?, ?, ?)', 
+            (upload_id, car_type, track_idx, getattr(r, 'time', None), getattr(r, 'driver_name', None))
         )
 
     # Insert finish records, but avoid duplicates defined as same name+races+difficulty
@@ -187,17 +245,22 @@ def get_leaderboards(db_path: str = DB_FILENAME):
     conn.row_factory = sqlite3.Row
     cur = conn.cursor()
 
-    # best lap time per car and track (use idx to identify track order)
+    # best lap time per car and track (use track_idx to identify track order)
     cur.execute('''
-    SELECT l.car_name, l.idx, l.track_name, l.driver_name, l.time, u.uploaded_at
+    SELECT l.car_type, l.track_idx, l.driver_name, l.time, u.uploaded_at
     FROM lap_records l
     JOIN uploads u ON l.upload_id = u.id
     WHERE l.time IS NOT NULL AND l.time = (
-        SELECT MIN(time) FROM lap_records WHERE car_name = l.car_name AND idx = l.idx AND time IS NOT NULL
+        SELECT MIN(time) FROM lap_records WHERE car_type = l.car_type AND track_idx = l.track_idx AND time IS NOT NULL
     )
-    ORDER BY l.car_name, l.track_name
+    ORDER BY l.car_type, l.track_idx
     ''')
-    lap_leaders = [dict(r) for r in cur.fetchall()]
+    lap_leaders = []
+    for r in cur.fetchall():
+        d = dict(r)
+        d['car_name'] = car_name_from_index(d.get('car_type'))
+        d['track_name'] = track_name_from_index(d.get('track_idx'))
+        lap_leaders.append(d)
 
     # --- Top 10 finishers (lowest races) per difficulty in a specific order ---
     ordered_levels = [
@@ -301,6 +364,10 @@ def api_top_times():
     track = request.args.get('track')
     driver = request.args.get('driver')
 
+    # convert car/track names to numeric indexes if provided
+    car_idx_val = car_index_from_name(car) if car else None
+    track_idx_val = track_index_from_name(track) if track else None
+
     # treat limit param: if omitted, only apply default when doing top-N queries (car or track present)
     limit_str = request.args.get('limit')
     limit = None
@@ -322,15 +389,15 @@ def api_top_times():
             inner_where += ' AND driver_name LIKE ?'
             params.append(f"%{driver}%")
 
-        # subquery: best time per car and idx
-        subq = f"SELECT car_name, idx, MIN(time) as min_time FROM lap_records {inner_where} GROUP BY car_name, idx"
+        # subquery: best time per car_type and track_idx
+        subq = f"SELECT car_type, track_idx, MIN(time) as min_time FROM lap_records {inner_where} GROUP BY car_type, track_idx"
 
         sql = f"""
-        SELECT l.car_name, l.track_name, l.driver_name, l.time, u.uploaded_at
+        SELECT l.car_type, l.track_idx, l.driver_name, l.time, u.uploaded_at
         FROM lap_records l
         JOIN uploads u ON l.upload_id = u.id
-        JOIN ({subq}) m ON l.car_name = m.car_name AND l.idx = m.idx AND l.time = m.min_time
-        ORDER BY l.car_name, l.track_name
+        JOIN ({subq}) m ON l.car_type = m.car_type AND l.track_idx = m.track_idx AND l.time = m.min_time
+        ORDER BY l.car_type, l.track_idx
         """
 
         # Do not apply a LIMIT here — return the best entry for every car/track combination
@@ -339,17 +406,21 @@ def api_top_times():
     else:
         # If both car and track specified: return top-N for that pair
         if car and track:
-            sql = 'SELECT l.car_name, l.track_name, l.driver_name, l.time, u.uploaded_at FROM lap_records l JOIN uploads u ON l.upload_id = u.id WHERE l.time IS NOT NULL AND l.car_name = ? AND l.track_name = ?'
-            params = [car, track]
-            if driver:
-                sql += ' AND l.driver_name LIKE ?'
-                params.append(f"%{driver}%")
-            sql += ' ORDER BY l.time ASC LIMIT ?'
-            if limit is None:
-                limit = 10
-            params.append(limit)
-            cur.execute(sql, params)
-            rows = [dict(r) for r in cur.fetchall()]
+            # if conversion failed, no results
+            if car_idx_val is None or track_idx_val is None:
+                rows = []
+            else:
+                sql = 'SELECT l.car_type, l.track_idx, l.driver_name, l.time, u.uploaded_at FROM lap_records l JOIN uploads u ON l.upload_id = u.id WHERE l.time IS NOT NULL AND l.car_type = ? AND l.track_idx = ?'
+                params = [car_idx_val, track_idx_val]
+                if driver:
+                    sql += ' AND l.driver_name LIKE ?'
+                    params.append(f"%{driver}%")
+                sql += ' ORDER BY l.time ASC LIMIT ?'
+                if limit is None:
+                    limit = 10
+                params.append(limit)
+                cur.execute(sql, params)
+                rows = [dict(r) for r in cur.fetchall()]
         else:
             # If only car specified: for each track return top-N rows for that car
             # If only track specified: for each car return top-N rows for that track
@@ -357,54 +428,67 @@ def api_top_times():
                 limit = 10
             rows = []
             if car and not track:
-                # get distinct tracks for this car (respect driver filter)
-                q = 'SELECT DISTINCT track_name FROM lap_records WHERE car_name = ?'
-                params = [car]
-                if driver:
-                    q += ' AND driver_name LIKE ?'
-                    params.append(f"%{driver}%")
-                cur.execute(q, params)
-                tracks = [r[0] for r in cur.fetchall()]
-                for t in tracks:
-                    q2 = 'SELECT l.car_name, l.track_name, l.driver_name, l.time, u.uploaded_at FROM lap_records l JOIN uploads u ON l.upload_id = u.id WHERE l.time IS NOT NULL AND l.car_name = ? AND l.track_name = ?'
-                    p2 = [car, t]
+                if car_idx_val is None:
+                    rows = []
+                else:
+                    q = 'SELECT DISTINCT track_idx FROM lap_records WHERE car_type = ?'
+                    params = [car_idx_val]
                     if driver:
-                        q2 += ' AND l.driver_name LIKE ?'
-                        p2.append(f"%{driver}%")
-                    q2 += ' ORDER BY l.time ASC LIMIT ?'
-                    p2.append(limit)
-                    cur.execute(q2, p2)
-                    rows.extend([dict(r) for r in cur.fetchall()])
+                        q += ' AND driver_name LIKE ?'
+                        params.append(f"%{driver}%")
+                    cur.execute(q, params)
+                    tracks = [r[0] for r in cur.fetchall()]
+                    for t in tracks:
+                        q2 = 'SELECT l.car_type, l.track_idx, l.driver_name, l.time, u.uploaded_at FROM lap_records l JOIN uploads u ON l.upload_id = u.id WHERE l.time IS NOT NULL AND l.car_type = ? AND l.track_idx = ?'
+                        p2 = [car_idx_val, t]
+                        if driver:
+                            q2 += ' AND l.driver_name LIKE ?'
+                            p2.append(f"%{driver}%")
+                        q2 += ' ORDER BY l.time ASC LIMIT ?'
+                        p2.append(limit)
+                        cur.execute(q2, p2)
+                        rows.extend([dict(r) for r in cur.fetchall()])
             elif track and not car:
-                q = 'SELECT DISTINCT car_name FROM lap_records WHERE track_name = ?'
-                params = [track]
-                if driver:
-                    q += ' AND driver_name LIKE ?'
-                    params.append(f"%{driver}%")
-                cur.execute(q, params)
-                cars = [r[0] for r in cur.fetchall()]
-                for c in cars:
-                    q2 = 'SELECT l.car_name, l.track_name, l.driver_name, l.time, u.uploaded_at FROM lap_records l JOIN uploads u ON l.upload_id = u.id WHERE l.time IS NOT NULL AND l.car_name = ? AND l.track_name = ?'
-                    p2 = [c, track]
+                if track_idx_val is None:
+                    rows = []
+                else:
+                    q = 'SELECT DISTINCT car_type FROM lap_records WHERE track_idx = ?'
+                    params = [track_idx_val]
                     if driver:
-                        q2 += ' AND l.driver_name LIKE ?'
-                        p2.append(f"%{driver}%")
-                    q2 += ' ORDER BY l.time ASC LIMIT ?'
-                    p2.append(limit)
-                    cur.execute(q2, p2)
-                    rows.extend([dict(r) for r in cur.fetchall()])
+                        q += ' AND driver_name LIKE ?'
+                        params.append(f"%{driver}%")
+                    cur.execute(q, params)
+                    cars = [r[0] for r in cur.fetchall()]
+                    for c in cars:
+                        q2 = 'SELECT l.car_type, l.track_idx, l.driver_name, l.time, u.uploaded_at FROM lap_records l JOIN uploads u ON l.upload_id = u.id WHERE l.time IS NOT NULL AND l.car_type = ? AND l.track_idx = ?'
+                        p2 = [c, track_idx_val]
+                        if driver:
+                            q2 += ' AND l.driver_name LIKE ?'
+                            p2.append(f"%{driver}%")
+                        q2 += ' ORDER BY l.time ASC LIMIT ?'
+                        p2.append(limit)
+                        cur.execute(q2, p2)
+                        rows.extend([dict(r) for r in cur.fetchall()])
             else:
                 rows = []
 
-    # ensure results are ordered by car and track
+    # map numeric columns back to names for API output
+    mapped = []
+    for r in rows:
+        d = dict(r)
+        d['car_name'] = car_name_from_index(d.get('car_type')) if 'car_type' in d else None
+        d['track_name'] = track_name_from_index(d.get('track_idx')) if 'track_idx' in d else None
+        mapped.append(d)
+
+    # ensure results are ordered by car and track (by name)
     try:
-        if isinstance(rows, list) and len(rows) > 0:
-            rows.sort(key=lambda r: (r.get('car_name') or '', r.get('track_name') or ''))
+        if isinstance(mapped, list) and len(mapped) > 0:
+            mapped.sort(key=lambda r: (r.get('car_name') or '', r.get('track_name') or ''))
     except Exception:
         pass
 
     conn.close()
-    return jsonify({'results': rows})
+    return jsonify({'results': mapped})
 
 
 @app.route('/api/meta', methods=['GET'])
@@ -412,10 +496,12 @@ def api_meta():
     """Return distinct car names, track names and driver names for UI selectors."""
     conn = sqlite3.connect(DB_FILENAME)
     cur = conn.cursor()
-    cur.execute('SELECT DISTINCT car_name FROM lap_records ORDER BY car_name')
-    cars = [r[0] for r in cur.fetchall()]
-    cur.execute('SELECT DISTINCT track_name FROM lap_records ORDER BY track_name')
-    tracks = [r[0] for r in cur.fetchall()]
+    cur.execute('SELECT DISTINCT car_type FROM lap_records ORDER BY car_type')
+    car_idxs = [r[0] for r in cur.fetchall()]
+    cars = [car_name_from_index(i) for i in car_idxs]
+    cur.execute('SELECT DISTINCT track_idx FROM lap_records ORDER BY track_idx')
+    track_idxs = [r[0] for r in cur.fetchall()]
+    tracks = [track_name_from_index(i) for i in track_idxs]
     # limit drivers list to distinct non-empty names
     cur.execute("SELECT DISTINCT driver_name FROM lap_records WHERE driver_name IS NOT NULL AND driver_name <> '' ORDER BY driver_name")
     drivers = [r[0] for r in cur.fetchall()]
