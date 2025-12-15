@@ -185,11 +185,8 @@ def save_records(db_path: str, filename: str, lap_records: list, finish_records:
     # Insert finish records, but avoid duplicates defined as same name+races+difficulty
     for fr in finish_records:
         # determine numeric difficulty index (backwards-compatible with textual difficulty)
-        if hasattr(fr, 'difficulty_idx'):
-            diff_idx = getattr(fr, 'difficulty_idx')
-        else:
-            diff_idx = difficulty_index_from_name(getattr(fr, 'difficulty', None))
-
+        diff_idx = getattr(fr, 'difficulty')
+        
         # consider a duplicate to be same name + races + difficulty_idx (across any upload)
         cur.execute(
             'SELECT 1 FROM finish_records WHERE name IS ? AND races IS ? AND difficulty_idx IS ?',

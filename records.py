@@ -18,7 +18,7 @@ class LapRecord:
 class FinishRecord:
     name: str
     races: Optional[int]
-    difficulty: Optional[str]
+    difficulty: Optional[int]
 
 
 def read_records(file_path, lap_start=0x56, races_start=0xA76) -> Tuple[List[LapRecord], List[FinishRecord]]:
@@ -69,7 +69,6 @@ def read_records(file_path, lap_start=0x56, races_start=0xA76) -> Tuple[List[Lap
             f.seek(races_start)
             rec_no = 0
             total_finish = 10
-            difficulty_map = {0: 'Speed makes me dizzy', 1: 'I live to ride', 2: 'Petrol in my veins'}
             while rec_no < total_finish:
                 chunk = f.read(20)
                 if not chunk or len(chunk) < 20:
@@ -83,8 +82,7 @@ def read_records(file_path, lap_start=0x56, races_start=0xA76) -> Tuple[List[Lap
                     races = None
 
                 try:
-                    diff_byte = struct.unpack_from('<B', chunk, 16)[0]
-                    difficulty = difficulty_map.get(diff_byte, f'unknown(0x{diff_byte:02X})')
+                    difficulty = struct.unpack_from('<B', chunk, 16)[0]
                 except Exception:
                     difficulty = None
 
