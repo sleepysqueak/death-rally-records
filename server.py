@@ -2,12 +2,12 @@ from flask import Flask, request, jsonify, render_template_string
 import tempfile
 import os
 from dataclasses import asdict
-from typing import Any
+from typing import Any, List, Tuple, Union
 import sqlite3
 from datetime import datetime
 
 # Import the existing parser
-from records import read_records
+from records import read_records, LapRecord, FinishRecord
 from rebuild_db import create_schema
 
 app = Flask(__name__, static_folder='static')
@@ -45,12 +45,10 @@ UPLOAD_FORM = (
 </html>
 """)
 
-
 @app.route('/', methods=['GET'])
 def index():
     # render with empty message by default
     return render_template_string(UPLOAD_FORM.format(message_block=''))
-
 
 # human-readable mappings for car types and tracks (used to convert indexes from records.LapRecord)
 CAR_NAMES = ["Vagabond", "Dervish", "Sentinel", "Shrieker", "Wraith", "Deliverator"]
@@ -67,13 +65,11 @@ DIFFICULTY_NAMES = [
     'Petrol in my veins'
 ]
 
-
 def car_name_from_index(i: int) -> str:
     try:
         return CAR_NAMES[int(i)]
     except Exception:
         return f'car{i}'
-
 
 def track_name_from_index(idx: int) -> str:
     try:
@@ -81,13 +77,11 @@ def track_name_from_index(idx: int) -> str:
     except Exception:
         return f'track{idx}'
 
-
 def difficulty_name_from_index(idx: int) -> str:
     try:
         return DIFFICULTY_NAMES[int(idx)]
     except Exception:
         return f'difficulty{idx}'
-
 
 def car_index_from_name(name: str):
     if not name:
@@ -97,7 +91,6 @@ def car_index_from_name(name: str):
     except ValueError:
         return None
 
-
 def track_index_from_name(name: str):
     if not name:
         return None
@@ -105,7 +98,6 @@ def track_index_from_name(name: str):
         return TRACK_NAMES.index(name)
     except ValueError:
         return None
-
 
 def difficulty_index_from_name(name: str):
     if not name:
@@ -115,8 +107,7 @@ def difficulty_index_from_name(name: str):
     except ValueError:
         return None
 
-
-def dataclass_list_to_jsonable(lst: Any):
+def dataclass_list_to_jsonable(lst: List[Union[LapRecord, FinishRecord]]) -> List[dict]:
     # convert list of dataclasses to list of dicts
     out = []
     for x in lst:
@@ -131,9 +122,7 @@ def dataclass_list_to_jsonable(lst: Any):
         out.append(d)
     return out
 
-
 DB_FILENAME = os.path.join(os.path.dirname(__file__), 'records.db')
-
 
 def init_db(db_path: str = DB_FILENAME) -> None:
     """Create database and tables if they don't exist using shared schema function."""
@@ -143,8 +132,7 @@ def init_db(db_path: str = DB_FILENAME) -> None:
     finally:
         conn.close()
 
-
-def save_records(db_path: str, filename: str, lap_records: list, finish_records: list) -> tuple:
+def save_records(db_path: str, filename: str, lap_records: List[LapRecord], finish_records: List[FinishRecord]) -> Tuple[int, int, int]:
     """Save parsed records into the database. Returns (upload_id, lap_inserted, finish_inserted)."""
     init_db(db_path)
     conn = sqlite3.connect(db_path)
@@ -205,7 +193,6 @@ def save_records(db_path: str, filename: str, lap_records: list, finish_records:
     conn.close()
     return (upload_id, lap_inserted, finish_inserted)
 
-
 @app.route('/upload', methods=['POST'])
 def upload():
     # accept multiple files
@@ -249,7 +236,6 @@ def upload():
     message_html = '\n'.join(parts)
 
     return render_template_string(UPLOAD_FORM.format(message_block=message_html))
-
 
 # --- Leaderboards endpoints ---
 
@@ -313,13 +299,11 @@ def get_leaderboards(db_path: str = DB_FILENAME):
         'finish_by_difficulty': finish_by_difficulty,
     }
 
-
 @app.route('/leaderboards', methods=['GET'])
 def leaderboards_json():
     """Return leaderboards as JSON."""
     data = get_leaderboards()
     return jsonify(data)
-
 
 @app.route('/leaderboards/view', methods=['GET'])
 def leaderboards_view():
@@ -370,7 +354,6 @@ def leaderboards_view():
 
     html.append('</body></html>')
     return '\n'.join(html)
-
 
 # API: get top times with optional filters
 @app.route('/api/top_times', methods=['GET'])
@@ -526,7 +509,6 @@ def api_top_times():
     conn.close()
     return jsonify({'results': mapped})
 
-
 @app.route('/api/meta', methods=['GET'])
 def api_meta():
     """Return distinct car names, track names and driver names for UI selectors."""
@@ -547,7 +529,6 @@ def api_meta():
     drivers = [r[0] for r in cur.fetchall()]
     conn.close()
     return jsonify({'cars': cars, 'tracks': tracks, 'drivers': drivers, 'difficulties': difficulties})
-
 
 @app.route('/browse', methods=['GET'])
 def browse_view():
@@ -810,7 +791,6 @@ def browse_view():
     """
     )
     return html
-
 
 if __name__ == '__main__':
     # bind to localhost only for safety
