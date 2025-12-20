@@ -1,0 +1,40 @@
+{
+  "lap_records": [
+    {
+      "car_name": "Vagabond",
+      "track_name": "Suburbia",
+      "time": 34.58,
+      "driver_name": "Alice"
+    },
+    {
+      "car_type": 2,
+      "track_idx": 5,
+      "time": 42.12,
+      "driver": "Bob"
+    },
+    {
+      "car": "Wraith",
+      "track": "Desert Run",
+      "time": 39.5,
+      "name": "Carol"
+    }
+  ],
+
+  "finish_records": [
+    {
+      "name": "Alice",
+      "races": 5,
+      "difficulty": "I live to ride"
+    },
+    {
+      "name": "Dave",
+      "races": 3,
+      "difficulty_idx": 2
+    },
+    {
+      "driver": "Eve",
+      "races": 1,
+      "level": "Speed makes me dizzy"
+    }
+  ]
+}
