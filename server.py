@@ -5,6 +5,7 @@ from dataclasses import asdict
 from typing import Any, List, Tuple, Union
 import sqlite3
 from datetime import datetime
+import json
 
 # Import the existing parser
 from records import read_records, LapRecord, FinishRecord
@@ -207,15 +208,135 @@ def upload():
     for file in files:
         if not file or file.filename == '':
             continue
-        tmp = tempfile.NamedTemporaryFile(delete=False, suffix='.cfg')
+        tmp = tempfile.NamedTemporaryFile(delete=False, suffix=os.path.splitext(file.filename)[1] or '.cfg')
         try:
             file.save(tmp.name)
             tmp.close()
-            lap_records, finish_records = read_records(tmp.name)
-            upload_id, laps_inserted, finishes_inserted = save_records(DB_FILENAME, file.filename, lap_records, finish_records)
-            total_laps += laps_inserted
-            total_finishes += finishes_inserted
-            summary_rows.append((file.filename, laps_inserted, finishes_inserted, upload_id))
+
+            # Detect JSON uploads by filename extension or content type
+            is_json_file = False
+            try:
+                fname_lower = (file.filename or '').lower()
+                if fname_lower.endswith('.json') or (hasattr(file, 'mimetype') and getattr(file, 'mimetype') and 'json' in getattr(file, 'mimetype')):
+                    is_json_file = True
+            except Exception:
+                is_json_file = False
+
+            if is_json_file:
+                # parse JSON payload from uploaded file and normalize into lists
+                try:
+                    with open(tmp.name, 'r', encoding='utf-8') as jf:
+                        payload = json.load(jf)
+                except Exception as e:
+                    # skip invalid JSON files
+                    summary_rows.append((file.filename, 0, 0, None, f'invalid JSON: {e}'))
+                    continue
+
+                # Normalize payload into lists of lap and finish record dicts
+                lap_json_list = []
+                finish_json_list = []
+
+                def _consume_item(it):
+                    if not isinstance(it, dict):
+                        return
+                    if 'lap_records' in it or 'finish_records' in it:
+                        lap_json_list.extend(it.get('lap_records') or [])
+                        finish_json_list.extend(it.get('finish_records') or [])
+                        return
+                    # Heuristics: objects with time/driver_name/car are lap records
+                    if any(k in it for k in ('time', 'driver_name', 'driver', 'car_name', 'car_type', 'track_name', 'track_idx')):
+                        lap_json_list.append(it)
+                        return
+                    # Objects with races/difficulty/name are finish records
+                    if any(k in it for k in ('races', 'difficulty', 'difficulty_idx', 'name')):
+                        finish_json_list.append(it)
+                        return
+                    # Fallback to lap
+                    lap_json_list.append(it)
+
+                if isinstance(payload, list):
+                    for element in payload:
+                        _consume_item(element)
+                elif isinstance(payload, dict):
+                    _consume_item(payload)
+                else:
+                    # unexpected root type
+                    summary_rows.append((file.filename, 0, 0, None, 'unsupported JSON root'))
+                    continue
+
+                # Convert JSON dicts to dataclasses
+                lap_records = []
+                finish_records = []
+
+                for item in lap_json_list:
+                    # resolve car_type
+                    car_type = None
+                    if isinstance(item.get('car_type'), (int, float)):
+                        car_type = int(item.get('car_type'))
+                    else:
+                        for key in ('car_name', 'car', 'vehicle'):
+                            if item.get(key):
+                                car_type = car_index_from_name(item.get(key))
+                                break
+                    # resolve track_idx
+                    track_idx = None
+                    if isinstance(item.get('track_idx'), (int, float)):
+                        track_idx = int(item.get('track_idx'))
+                    else:
+                        for key in ('track_name', 'track'):
+                            if item.get(key):
+                                track_idx = track_index_from_name(item.get(key))
+                                break
+                    # time and driver_name
+                    time_val = None
+                    if 'time' in item and item.get('time') is not None:
+                        try:
+                            time_val = float(item.get('time'))
+                        except Exception:
+                            time_val = None
+                    driver = item.get('driver_name') or item.get('driver') or item.get('name') or ''
+                    lap_records.append(LapRecord(car_type, track_idx, time_val, driver))
+
+                for item in finish_json_list:
+                    name = item.get('name') or item.get('driver_name') or item.get('driver') or ''
+                    races = None
+                    if 'races' in item and item.get('races') is not None:
+                        try:
+                            races = int(item.get('races'))
+                        except Exception:
+                            races = None
+                    # difficulty may be numeric index or textual name
+                    diff_idx = None
+                    if isinstance(item.get('difficulty_idx'), (int, float)):
+                        diff_idx = int(item.get('difficulty_idx'))
+                    elif item.get('difficulty') is not None:
+                        # string name -> index
+                        diff_idx = difficulty_index_from_name(str(item.get('difficulty')))
+                    elif item.get('level') is not None:
+                        diff_idx = difficulty_index_from_name(str(item.get('level')))
+
+                    finish_records.append(FinishRecord(name, races, diff_idx))
+
+                # If both lists empty, skip
+                if not lap_records and not finish_records:
+                    summary_rows.append((file.filename, 0, 0, None, 'no records found in JSON'))
+                    continue
+
+                upload_id, laps_inserted, finishes_inserted = save_records(DB_FILENAME, file.filename, lap_records, finish_records)
+                total_laps += laps_inserted
+                total_finishes += finishes_inserted
+                summary_rows.append((file.filename, laps_inserted, finishes_inserted, upload_id, None))
+
+            else:
+                # treat as a binary dr.cfg file and parse using existing parser
+                try:
+                    lap_records, finish_records = read_records(tmp.name)
+                    upload_id, laps_inserted, finishes_inserted = save_records(DB_FILENAME, file.filename, lap_records, finish_records)
+                    total_laps += laps_inserted
+                    total_finishes += finishes_inserted
+                    summary_rows.append((file.filename, laps_inserted, finishes_inserted, upload_id, None))
+                except Exception as e:
+                    summary_rows.append((file.filename, 0, 0, None, f'parse error: {e}'))
         finally:
             try:
                 os.unlink(tmp.name)
@@ -229,8 +350,9 @@ def upload():
     parts = []
     parts.append(f"<p>Processed {len(summary_rows)} file(s). Inserted <strong>{total_laps}</strong> new lap record(s) and <strong>{total_finishes}</strong> new finish record(s).</p>")
     parts.append('<ul>')
-    for fn, lins, fins, uid in summary_rows:
-        parts.append(f"<li>{fn}: {lins} lap(s), {fins} finish(es) (upload id {uid})</li>")
+    for fn, lins, fins, uid, *rest in summary_rows:
+        note = (rest[0] if rest and rest[0] else '')
+        parts.append(f"<li>{fn}: {lins} lap(s), {fins} finish(es)" + (f" (upload id {uid})" if uid else '') + (f" - {note}" if note else '') + '</li>')
     parts.append('</ul>')
     parts.append('<p><a href="/">Back to upload form</a></p>')
     message_html = '\n'.join(parts)

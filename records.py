@@ -3,7 +3,8 @@ from pathlib import Path
 import struct
 import os
 from dataclasses import dataclass
-from typing import List, Optional, Tuple
+from typing import List, Optional, Tuple, Callable
+import json
 
 
 @dataclass
@@ -96,6 +97,131 @@ def read_records(file_path, lap_start=0x56, races_start=0xA76) -> Tuple[List[Lap
         print(f'Permission denied: {file_path}', file=sys.stderr)
 
     return lap_records, finish_records
+
+
+def read_records_from_json(json_input, car_index_fn: Optional[Callable[[str], Optional[int]]] = None, track_index_fn: Optional[Callable[[str], Optional[int]]] = None, difficulty_index_fn: Optional[Callable[[str], Optional[int]]] = None) -> Tuple[List[LapRecord], List[FinishRecord]]:
+    """Parse a JSON payload (string or already-parsed object) and return (lap_records, finish_records).
+
+    The function applies heuristics similar to the server-side logic: it accepts either a dict with
+    keys "lap_records"/"finish_records", a list of record-like objects, or individual objects.
+    Optional mapping functions can be provided to convert human-readable car/track/difficulty names
+    into numeric indexes required by the dataclasses.
+    """
+    # Accept either a JSON string or already parsed object
+    if isinstance(json_input, str):
+        try:
+            payload = json.loads(json_input)
+        except Exception:
+            return ([], [])
+    else:
+        payload = json_input
+
+    lap_json_list = []
+    finish_json_list = []
+
+    def _consume_item(it):
+        if not isinstance(it, dict):
+            return
+        # explicit containers
+        if 'lap_records' in it or 'finish_records' in it:
+            lap_json_list.extend(it.get('lap_records') or [])
+            finish_json_list.extend(it.get('finish_records') or [])
+            return
+        # Heuristics: objects with time/driver_name/car are lap records
+        if any(k in it for k in ('time', 'driver_name', 'driver', 'car_name', 'car_type', 'track_name', 'track_idx')):
+            lap_json_list.append(it)
+            return
+        # Objects with races/difficulty/name are finish records
+        if any(k in it for k in ('races', 'difficulty', 'difficulty_idx', 'name')):
+            finish_json_list.append(it)
+            return
+        # Fallback to lap
+        lap_json_list.append(it)
+
+    if isinstance(payload, list):
+        for element in payload:
+            _consume_item(element)
+    elif isinstance(payload, dict):
+        _consume_item(payload)
+    else:
+        return ([], [])
+
+    lap_records: List[LapRecord] = []
+    finish_records: List[FinishRecord] = []
+
+    for item in lap_json_list:
+        car_type = None
+        if isinstance(item.get('car_type'), (int, float)):
+            car_type = int(item.get('car_type'))
+        else:
+            for key in ('car_name', 'car', 'vehicle'):
+                if item.get(key):
+                    if callable(car_index_fn):
+                        car_type = car_index_fn(item.get(key))
+                    else:
+                        try:
+                            car_type = int(item.get(key))
+                        except Exception:
+                            car_type = None
+                    break
+
+        track_idx = None
+        if isinstance(item.get('track_idx'), (int, float)):
+            track_idx = int(item.get('track_idx'))
+        else:
+            for key in ('track_name', 'track'):
+                if item.get(key):
+                    if callable(track_index_fn):
+                        track_idx = track_index_fn(item.get(key))
+                    else:
+                        try:
+                            track_idx = int(item.get(key))
+                        except Exception:
+                            track_idx = None
+                    break
+
+        time_val = None
+        if 'time' in item and item.get('time') is not None:
+            try:
+                time_val = float(item.get('time'))
+            except Exception:
+                time_val = None
+
+        driver = item.get('driver_name') or item.get('driver') or item.get('name') or ''
+        lap_records.append(LapRecord(car_type, track_idx, time_val, driver))
+
+    for item in finish_json_list:
+        name = item.get('name') or item.get('driver_name') or item.get('driver') or ''
+        races = None
+        if 'races' in item and item.get('races') is not None:
+            try:
+                races = int(item.get('races'))
+            except Exception:
+                races = None
+
+        diff_idx = None
+        if isinstance(item.get('difficulty_idx'), (int, float)):
+            diff_idx = int(item.get('difficulty_idx'))
+        elif item.get('difficulty') is not None:
+            if callable(difficulty_index_fn):
+                diff_idx = difficulty_index_fn(str(item.get('difficulty')))
+            else:
+                try:
+                    diff_idx = int(item.get('difficulty'))
+                except Exception:
+                    diff_idx = None
+        elif item.get('level') is not None:
+            if callable(difficulty_index_fn):
+                diff_idx = difficulty_index_fn(str(item.get('level')))
+            else:
+                try:
+                    diff_idx = int(item.get('level'))
+                except Exception:
+                    diff_idx = None
+
+        finish_records.append(FinishRecord(name, races, diff_idx))
+
+    return (lap_records, finish_records)
 
 
 def print_records(lap_records: List[LapRecord], finish_records: List[FinishRecord]) -> None:
