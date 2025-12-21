@@ -533,7 +533,7 @@ def browse_view():
       <p><a href="/">Home</a></p>
       <div>
         <label>Records per Car/Track: <input id="limit" type="number" min="1" value="1" style="width:60px"></label>
-        <label style="margin-left:12px"><input id="allow_dups" type="checkbox" checked> Allow multiple times per driver</label>
+        <label style="margin-left:12px"><input id="allow_dups" type="checkbox"> Allow multiple times per driver</label>
       </div>
       <div style="display:flex;gap:12px;align-items:flex-start;margin-top:8px;">
         <!-- Compact multi-select dropdown for Car -->

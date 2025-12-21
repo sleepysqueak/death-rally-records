@@ -223,6 +223,32 @@ def register_routes(app, db_filename: str,
             else:
                 rows = []
 
+        # At this point `rows` may contain more than `limit` per (car_type, track_idx)
+        # (e.g. due to joins or driver filtering). Enforce the per-car/track limit here
+        # while preserving the global `rank` value computed by the SQL.
+        if limit is not None:
+            try:
+                def _row_sort_key(r):
+                    car_idx = r.get('car_type') if r.get('car_type') is not None else 9999
+                    track_idx = r.get('track_idx') if r.get('track_idx') is not None else 9999
+                    # prefer explicit rank if available, otherwise fall back to time
+                    rankv = r.get('rank') if r.get('rank') is not None else (r.get('time') if r.get('time') is not None else 99999999)
+                    return (car_idx, track_idx, rankv)
+                rows.sort(key=_row_sort_key)
+
+                trimmed = []
+                counts = {}
+                for r in rows:
+                    key = (r.get('car_type'), r.get('track_idx'))
+                    cnt = counts.get(key, 0)
+                    if cnt < limit:
+                        trimmed.append(r)
+                        counts[key] = cnt + 1
+                rows = trimmed
+            except Exception:
+                # if anything goes wrong, fall back to original rows
+                pass
+
         # map numeric columns back to names for API output
         mapped = []
         for r in rows:
