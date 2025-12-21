@@ -91,32 +91,37 @@ def register_routes(app, db_filename: str,
                 cur.execute(sql, exec_params)
                 rows = [dict(r) for r in cur.fetchall()]
             else:
-                # driver_best + ranked computed globally
+                # Compute global ranks for all records, then select each driver's best record and use the global rank
                 sql = f"""
-                WITH driver_best AS (
+                WITH all_ranks AS (
+                  SELECT car_type, track_idx, driver_name, time, upload_id,
+                         ROW_NUMBER() OVER (PARTITION BY car_type, track_idx ORDER BY time ASC) AS rank_global
+                  FROM lap_records
+                  WHERE time IS NOT NULL
+                ), driver_best AS (
                   SELECT car_type, track_idx, driver_name, MIN(time) AS best_time
                   FROM lap_records
                   WHERE time IS NOT NULL
                   GROUP BY car_type, track_idx, driver_name
-                ), ranked AS (
-                  SELECT car_type, track_idx, driver_name, best_time,
-                         ROW_NUMBER() OVER (PARTITION BY car_type, track_idx ORDER BY best_time ASC) AS rn
-                  FROM driver_best
+                ), best_with_rank AS (
+                  SELECT db.car_type, db.track_idx, db.driver_name, db.best_time AS time, ar.rank_global AS rank, ar.upload_id
+                  FROM driver_best db
+                  JOIN all_ranks ar ON ar.car_type = db.car_type AND ar.track_idx = db.track_idx AND ar.driver_name = db.driver_name AND ar.time = db.best_time
                 )
-                SELECT r.car_type, r.track_idx, r.driver_name, r.best_time AS time, r.rn AS rank, u.uploaded_at
-                FROM ranked r
-                JOIN lap_records l ON l.car_type = r.car_type AND l.track_idx = r.track_idx AND l.driver_name = r.driver_name AND l.time = r.best_time
-                JOIN uploads u ON l.upload_id = u.id
+                SELECT b.car_type, b.track_idx, b.driver_name, b.time, b.rank, u.uploaded_at
+                FROM best_with_rank b
+                JOIN uploads u ON b.upload_id = u.id
                 """
                 exec_params = []
+                # If no driver filters, restrict to top-N records per car/track using the global rank
                 if not drv_clause:
-                    sql += 'WHERE r.rn <= ?'
+                    sql += 'WHERE b.rank <= ?'
                     exec_params = [limit]
                 else:
-                    outer_drv = drv_clause.replace('driver_name', 'r.driver_name')
+                    outer_drv = drv_clause.replace('driver_name', 'b.driver_name')
                     sql += outer_drv
                     exec_params = list(drv_params)
-                sql += ' ORDER BY r.car_type, r.track_idx, r.best_time ASC'
+                sql += ' ORDER BY b.car_type, b.track_idx, b.rank ASC'
                 cur.execute(sql, exec_params)
                 rows = [dict(r) for r in cur.fetchall()]
         else:
@@ -152,34 +157,37 @@ def register_routes(app, db_filename: str,
                     cur.execute(sql, params)
                     return [dict(r) for r in cur.fetchall()]
                 else:
-                    # driver_best computed for the car/track without driver filter so ranks represent global ordering of drivers
-                    inner_where_clause = 'WHERE time IS NOT NULL AND car_type = ? AND track_idx = ?'
-                    sql = f"""
-                    WITH driver_best AS (
+                    # compute global ranks for this car/track, then pick each driver's best record and report its global rank
+                    sql = ("""
+                    WITH all_ranks AS (
+                      SELECT car_type, track_idx, driver_name, time, upload_id,
+                             ROW_NUMBER() OVER (PARTITION BY car_type, track_idx ORDER BY time ASC) AS rank_global
+                      FROM lap_records
+                      WHERE time IS NOT NULL AND car_type = ? AND track_idx = ?
+                    ), driver_best AS (
                       SELECT car_type, track_idx, driver_name, MIN(time) AS best_time
                       FROM lap_records
-                      {inner_where_clause}
+                      WHERE time IS NOT NULL AND car_type = ? AND track_idx = ?
                       GROUP BY car_type, track_idx, driver_name
-                    ), ranked AS (
-                      SELECT car_type, track_idx, driver_name, best_time,
-                             ROW_NUMBER() OVER (PARTITION BY car_type, track_idx ORDER BY best_time ASC) AS rn
-                      FROM driver_best
+                    ), best_with_rank AS (
+                      SELECT db.car_type, db.track_idx, db.driver_name, db.best_time AS time, ar.rank_global AS rank, ar.upload_id
+                      FROM driver_best db
+                      JOIN all_ranks ar ON ar.car_type = db.car_type AND ar.track_idx = db.track_idx AND ar.driver_name = db.driver_name AND ar.time = db.best_time
                     )
-                    SELECT r.car_type, r.track_idx, r.driver_name, r.best_time AS time, r.rn AS rank, u.uploaded_at
-                    FROM ranked r
-                    JOIN lap_records l ON l.car_type = r.car_type AND l.track_idx = r.track_idx AND l.driver_name = r.driver_name AND l.time = r.best_time
-                    JOIN uploads u ON l.upload_id = u.id
-                    """
-                    params = [car_val, track_val]
-                    # If no driver filter then restrict to top-N using rn
+                    SELECT b.car_type, b.track_idx, b.driver_name, b.time, b.rank, u.uploaded_at
+                    FROM best_with_rank b
+                    JOIN uploads u ON b.upload_id = u.id
+                    """)
+                    params = [car_val, track_val, car_val, track_val]
+                    # If no driver filter then restrict to top-N by global rank
                     if not drv_clause_common:
-                        sql += 'WHERE r.rn <= ?'
+                        sql += ' WHERE b.rank <= ?'
                         params.append(limit_val)
                     else:
-                        outer_drv = drv_clause_common.replace('l.driver_name', 'r.driver_name')
-                        sql += outer_drv
+                        outer_drv = drv_clause_common.replace('l.driver_name', 'b.driver_name')
+                        sql += ' ' + outer_drv
                         params.extend(drv_params_common)
-                    sql += ' ORDER BY r.car_type, r.track_idx, r.best_time ASC'
+                    sql += ' ORDER BY b.rank ASC'
                     cur.execute(sql, params)
                     return [dict(r) for r in cur.fetchall()]
 
