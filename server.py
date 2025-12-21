@@ -537,20 +537,29 @@ def api_top_times():
         inner_where = 'WHERE time IS NOT NULL'
         drv_clause, drv_params = _driver_clause('driver_name')
         inner_where += drv_clause
-        params.extend(drv_params)
 
-        # subquery: best time per car_type and track_idx
-        subq = f"SELECT car_type, track_idx, MIN(time) as min_time FROM lap_records {inner_where} GROUP BY car_type, track_idx"
+        # Use a window function to return the top-N times per car_type/track_idx.
+        # Ensure driver filter is applied inside the windowed subquery.
+        if limit is None:
+            limit = 1
+
+        # build the WHERE clause for the inner subquery
+        inner_where_clause = 'WHERE time IS NOT NULL' + drv_clause
 
         sql = f"""
         SELECT l.car_type, l.track_idx, l.driver_name, l.time, u.uploaded_at
-        FROM lap_records l
+        FROM (
+            SELECT car_type, track_idx, driver_name, time, upload_id,
+                   ROW_NUMBER() OVER (PARTITION BY car_type, track_idx ORDER BY time ASC) as rn
+            FROM lap_records
+            {inner_where_clause}
+        ) l
         JOIN uploads u ON l.upload_id = u.id
-        JOIN ({subq}) m ON l.car_type = m.car_type AND l.track_idx = m.track_idx AND l.time = m.min_time
-        ORDER BY l.car_type, l.track_idx
+        WHERE l.rn <= ?
+        ORDER BY l.car_type, l.track_idx, l.time ASC
         """
-
-        cur.execute(sql, params)
+        exec_params = list(drv_params) + [limit]
+        cur.execute(sql, exec_params)
         rows = [dict(r) for r in cur.fetchall()]
     else:
         # When filters are present, return top-N per requested combination(s)
