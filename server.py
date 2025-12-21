@@ -737,17 +737,20 @@ def browse_view():
     function renderResults(rows){
       const container = document.getElementById('results');
       if(!rows || rows.length === 0){ container.innerHTML = '<p>No results</p>'; return; }
-      let html = '<table><tr><th>Car</th><th>Track</th><th>Driver</th><th>Time (s)</th><th>Uploaded</th></tr>';
+      // include a left-most Rank column that displays the per-car/track rank returned by the API
+      let html = '<table><tr><th>#</th><th>Car</th><th>Track</th><th>Driver</th><th>Time (s)</th><th>Uploaded</th></tr>';
       rows.forEach((r) => {
+        const rank = (r.rank !== undefined && r.rank !== null) ? r.rank : '';
         const time = r.time !== null ? r.time.toFixed(2) : '';
         let uploaded_td = '<td></td>';
         if(r.uploaded_at){
+          // show date-only value with full ISO on hover (keep previous behavior)
           const iso = new Date(r.uploaded_at).toISOString();
           const hover = iso.replace('T',' ').replace(/Z$/,'');
           const display = iso.split('T')[0];
           uploaded_td = `<td title="${hover}">${display}</td>`;
         }
-        html += `<tr><td>${r.car_name}</td><td>${r.track_name}</td><td>${r.driver_name}</td><td>${time}</td>${uploaded_td}</tr>`;
+        html += `<tr><td>${rank}</td><td>${r.car_name}</td><td>${r.track_name}</td><td>${r.driver_name}</td><td>${time}</td>${uploaded_td}</tr>`;
       });
       html += '</table>';
       container.innerHTML = html;
