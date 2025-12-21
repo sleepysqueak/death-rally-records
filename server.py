@@ -565,6 +565,9 @@ def browse_view():
       </div>
       <div style="margin-top:8px;">
         <button id="filter">Filter</button>
+        <button id="export_csv" style="margin-left:8px">Export CSV</button>
+        <button id="export_tsv" style="margin-left:6px">Export TSV</button>
+        <button id="export_json" style="margin-left:6px">Export JSON</button>
       </div>
       <div id="results"></div>
 
@@ -717,44 +720,119 @@ def browse_view():
       return el.getSelectedValues();
     }
 
+    // last fetched results cached on the client for exporting
+    window._lastTopTimes = [];
+
     async function doFilter(){
-      const carVals = _getSelectedValuesFromMulti('car_multisel');
-      const trackVals = _getSelectedValuesFromMulti('track_multisel');
-      const driverVals = _getSelectedValuesFromMulti('driver_multisel');
-      const limit = document.getElementById('limit').value || 1;
-      const allowDups = document.getElementById('allow_dups') ? document.getElementById('allow_dups').checked : true;
-      const params = new URLSearchParams();
-      carVals.forEach(v => params.append('car', v));
-      trackVals.forEach(v => params.append('track', v));
-      driverVals.forEach(v => params.append('driver', v));
-      if(limit) params.append('limit', limit);
-      params.append('allow_dups', allowDups ? '1' : '0');
-      const res = await fetch('/api/top_times?' + params.toString());
-      const data = await res.json();
-      renderResults(data.results);
+      try{
+        const carVals = _getSelectedValuesFromMulti('car_multisel');
+        const trackVals = _getSelectedValuesFromMulti('track_multisel');
+        const driverVals = _getSelectedValuesFromMulti('driver_multisel');
+        const limit = document.getElementById('limit').value || 1;
+        const allowDups = document.getElementById('allow_dups') ? document.getElementById('allow_dups').checked : true;
+        const params = new URLSearchParams();
+        carVals.forEach(v => params.append('car', v));
+        trackVals.forEach(v => params.append('track', v));
+        driverVals.forEach(v => params.append('driver', v));
+        if(limit) params.append('limit', limit);
+        params.append('allow_dups', allowDups ? '1' : '0');
+        const res = await fetch('/api/top_times?' + params.toString());
+        const data = await res.json();
+        const rows = (data && data.results) ? data.results : [];
+        // cache results locally for client-side export
+        window._lastTopTimes = rows.slice();
+        renderResults(rows);
+      }catch(e){
+        console && console.error && console.error('doFilter error', e);
+        const container = document.getElementById('results');
+        if(container) container.innerHTML = '<p style="color:red">Error fetching results. See console for details.</p>';
+      }
     }
 
     function renderResults(rows){
       const container = document.getElementById('results');
-      if(!rows || rows.length === 0){ container.innerHTML = '<p>No results</p>'; return; }
-      // include a left-most Rank column that displays the per-car/track rank returned by the API
-      let html = '<table><tr><th>#</th><th>Car</th><th>Track</th><th>Driver</th><th>Time (s)</th><th>Uploaded</th></tr>';
-      rows.forEach((r) => {
-        const rank = (r.rank !== undefined && r.rank !== null) ? r.rank : '';
-        const time = r.time !== null ? r.time.toFixed(2) : '';
-        let uploaded_td = '<td></td>';
-        if(r.uploaded_at){
-          // show date-only value with full ISO on hover (keep previous behavior)
-          const iso = new Date(r.uploaded_at).toISOString();
-          const hover = iso.replace('T',' ').replace(/Z$/,'');
-          const display = iso.split('T')[0];
-          uploaded_td = `<td title="${hover}">${display}</td>`;
-        }
-        html += `<tr><td>${rank}</td><td>${r.car_name}</td><td>${r.track_name}</td><td>${r.driver_name}</td><td>${time}</td>${uploaded_td}</tr>`;
-      });
-      html += '</table>';
-      container.innerHTML = html;
+      if(!container){ return; }
+      try{
+        if(!rows || rows.length === 0){ container.innerHTML = '<p>No results</p>'; return; }
+        let html = '<table><tr><th>#</th><th>Car</th><th>Track</th><th>Driver</th><th>Time (s)</th><th>Uploaded</th></tr>';
+        rows.forEach((r) => {
+          const rank = (r.rank !== undefined && r.rank !== null) ? r.rank : '';
+          const time = (r.time !== null && r.time !== undefined && !isNaN(Number(r.time))) ? Number(r.time).toFixed(2) : '';
+          let uploaded_td = '<td></td>';
+          if(r.uploaded_at){
+            try{
+              const iso = new Date(r.uploaded_at).toISOString();
+              const hover = iso.replace('T',' ').replace(/Z$/,'');
+              const display = iso.split('T')[0];
+              uploaded_td = `<td title="${hover}">${display}</td>`;
+            }catch(e){ uploaded_td = `<td>${r.uploaded_at}</td>`; }
+          }
+          const car = r.car_name || '';
+          const track = r.track_name || '';
+          const driver = r.driver_name || '';
+          html += `<tr><td>${rank}</td><td>${car}</td><td>${track}</td><td>${driver}</td><td>${time}</td>${uploaded_td}</tr>`;
+        });
+        html += '</table>';
+        container.innerHTML = html;
+      }catch(err){ console && console.error && console.error('renderResults error', err); container.innerHTML = '<p style="color:red">Error rendering results</p>'; }
     }
+
+    // Client-side export helpers (use cached last results; no server call)
+    function _escapeCsv(val){
+      const s = val === null || val === undefined ? '' : String(val);
+      return '"' + s.replace(/"/g, '""') + '"';
+    }
+    // Avoid regex literal parsing issues by using split/join to replace control characters
+    function _cleanTsv(val){
+      if(val === null || val === undefined) return '';
+      let s = String(val);
+      s = s.split('\\t').join(' ');
+      s = s.split('\\n').join(' ');
+      s = s.split('\\r').join(' ');
+      return s;
+    }
+
+    function exportClient(format){
+      try{
+        const rows = (window._lastTopTimes && Array.isArray(window._lastTopTimes)) ? window._lastTopTimes : [];
+        if(!rows || rows.length === 0){ alert('No results to export. Run Filter first.'); return; }
+        const now = new Date().toISOString().replace(/[:\-]/g,'').split('.')[0];
+        const filenameBase = 'top_times_' + now;
+        if(format === 'json'){
+          const out = JSON.stringify(rows, null, 2);
+          const blob = new Blob([out], {type:'application/json;charset=utf-8'});
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a'); a.href = url; a.download = filenameBase + '.json'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url); return;
+        }
+        const delim = format === 'tsv' ? '\t' : ',';
+        const headers = ['Rank','Car','Track','Driver','Time','Uploaded'];
+        const lines = [headers.join(delim)];
+        rows.forEach(r=>{
+          const rank = r.rank !== undefined && r.rank !== null ? String(r.rank) : '';
+          const car = r.car_name || '';
+          const track = r.track_name || '';
+          const driver = r.driver_name || '';
+          const time = (r.time !== null && r.time !== undefined && !isNaN(Number(r.time))) ? Number(r.time).toFixed(2) : '';
+          const uploaded = r.uploaded_at || '';
+          if(format === 'csv'){
+            lines.push([_escapeCsv(rank), _escapeCsv(car), _escapeCsv(track), _escapeCsv(driver), _escapeCsv(time), _escapeCsv(uploaded)].join(delim));
+          }else{
+            lines.push([_cleanTsv(rank), _cleanTsv(car), _cleanTsv(track), _cleanTsv(driver), _cleanTsv(time), _cleanTsv(uploaded)].join(delim));
+          }
+        });
+        const outText = lines.join('\\n');
+        const blob = new Blob([outText], {type:'text/plain;charset=utf-8'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a'); a.href = url; a.download = filenameBase + (format === 'tsv' ? '.tsv' : '.csv'); document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+      }catch(e){ console && console.error && console.error('export error', e); alert('Export failed - see console'); }
+    }
+
+    // Wire client export buttons (guard element presence)
+    try{
+      const bCsv = document.getElementById('export_csv'); if(bCsv) bCsv.addEventListener('click', ()=> exportClient('csv'));
+      const bTsv = document.getElementById('export_tsv'); if(bTsv) bTsv.addEventListener('click', ()=> exportClient('tsv'));
+      const bJson = document.getElementById('export_json'); if(bJson) bJson.addEventListener('click', ()=> exportClient('json'));
+    }catch(e){ console && console.error && console.error('export wiring error', e); }
 
     document.getElementById('filter').addEventListener('click', doFilter);
     window.addEventListener('load', async () => { await loadMeta(); await doFilter(); });
