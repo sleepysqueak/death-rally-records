@@ -358,12 +358,12 @@
       "name": "AL82"
     },
     {
-      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 1:51:17 by AL82 Retrogaming Longplays (4 lap records!)", 
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 1:51:22:17 by AL82 Retrogaming Longplays (4 lap records!)", 
       "car": "Shrieker",
       "track": "Snake Alley",
       "time": 21.61,
       "name": "AL82"
-    },
+    },  
     {
       "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 1:53:00 by AL82 Retrogaming Longplays", 
       "car": "Shrieker",
@@ -538,6 +538,433 @@
       "track": "Bogota",
       "time": 14.09,
       "name": "AL82"
+    },
+    { 
+      "__comment" : "https://www.youtube.com/watch?v=Sn7VAlNZOu0 @ 2:10 by Pixelmusement", 
+      "car": "Vagabond",
+      "track": "Rock Zone",
+      "time": 15.45,
+      "name": "GEMINI"
+    },
+    { 
+      "__comment" : "https://www.youtube.com/watch?v=Sn7VAlNZOu0 @ 4:39 by Pixelmusement", 
+      "car": "Deliverator",
+      "track": "Utopia",
+      "time": 18.76,
+      "name": "GEMINI"
+    },
+    { 
+      "__comment" : "https://www.youtube.com/watch?v=Sn7VAlNZOu0 @ 8:40 by Pixelmusement", 
+      "car": "Sentinel",
+      "track": "Bogota",
+      "time": 17.75,
+      "name": "GEMINI"
+    },
+    { 
+      "__comment" : "https://www.youtube.com/watch?v=Sn7VAlNZOu0 @ 11:47 by Pixelmusement", 
+      "car": "Vagabond",
+      "track": "Holocaust",
+      "time": 27.95,
+      "name": "GEMINI"
+    },
+    { 
+      "__comment" : "https://www.youtube.com/watch?v=Sn7VAlNZOu0 @ 14:29 by Pixelmusement", 
+      "car": "Sentinel",
+      "track": "Toxic Dump",
+      "time": 28.14,
+      "name": "GEMINI"
+    },
+    { 
+      "__comment" : "https://www.youtube.com/watch?v=mM9N4TkinTU @ 5:02 by ando diao", 
+      "car": "Shrieker",
+      "track": "Complex",
+      "time": 78.44,
+      "name": "A"
+    },
+    { 
+      "__comment" : "https://www.youtube.com/watch?v=mM9N4TkinTU @ 5:02 by ando diao", 
+      "car": "Shrieker",
+      "track": "Complex",
+      "time": 23.05,
+      "name": "A"
+    },
+    { 
+      "__comment" : "https://www.youtube.com/watch?v=mM9N4TkinTU @ 7:41 by ando diao", 
+      "car": "Shrieker",
+      "track": "Downtown",
+      "time": 16.58,
+      "name": "A"
+    },
+    { 
+      "__comment" : "https://www.youtube.com/watch?v=mM9N4TkinTU @ 7:41 by ando diao", 
+      "car": "Shrieker",
+      "track": "Downtown",
+      "time": 15.04,
+      "name": "A"
+    },
+    { 
+      "__comment" : "https://www.youtube.com/watch?v=mM9N4TkinTU @ 9:27 by ando diao", 
+      "car": "Shrieker",
+      "track": "Complex",
+      "time": 71.38,
+      "name": "A"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=mM9N4TkinTU @ 10:30 by ando diao", 
+      "car": "Deliverator",
+      "track": "Newark",
+      "time": 14.15,
+      "name": "A"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=mM9N4TkinTU @ 10:30 by ando diao", 
+      "car": "Deliverator",
+      "track": "Newark",
+      "time": 8.88,
+      "name": "A"
+    },
+     {
+      "__comment" : "https://www.youtube.com/watch?v=mM9N4TkinTU @ 12:17 by ando diao", 
+      "car": "Deliverator",
+      "track": "Bogota",
+      "time": 11.86,
+      "name": "A"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=mM9N4TkinTU @ 12:17 by ando diao", 
+      "car": "Deliverator",
+      "track": "Bogota",
+      "time": 8.76,
+      "name": "A"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=mM9N4TkinTU @ 13:54 by ando diao", 
+      "car": "Deliverator",
+      "track": "Velodrome",
+      "time": 11.14,
+      "name": "A"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=mM9N4TkinTU @ 13:54 by ando diao", 
+      "car": "Deliverator",
+      "track": "Velodrome",
+      "time": 8.28,
+      "name": "A"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=mM9N4TkinTU @ 15:59 by ando diao", 
+      "car": "Deliverator",
+      "track": "Complex",
+      "time": 21.79,
+      "name": "A"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=mM9N4TkinTU @ 15:59 by ando diao", 
+      "car": "Deliverator",
+      "track": "Complex",
+      "time": 15.00,
+      "name": "A"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=mM9N4TkinTU @ 17:50 by ando diao", 
+      "car": "Deliverator",
+      "track": "Newark",
+      "time": 15.71,
+      "name": "A"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=mM9N4TkinTU @ 19:03 by ando diao", 
+      "car": "Deliverator",
+      "track": "Utopia",
+      "time": 47.68,
+      "name": "A"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=mM9N4TkinTU @ 19:03 by ando diao", 
+      "car": "Deliverator",
+      "track": "Utopia",
+      "time": 15.39,
+      "name": "A"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=UORSPe1TkXk @ 4:54 by Dosgamert", 
+      "car": "Vagabond",
+      "track": "Palm Side",
+      "time": 14.93,
+      "name": "BARTJAAH"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=UORSPe1TkXk @ 9:08 by Dosgamert", 
+      "car": "Vagabond",
+      "track": "Holocaust",
+      "time": 31.19,
+      "name": "BARTJAAH"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=UORSPe1TkXk @ 11:49 by Dosgamert", 
+      "car": "Vagabond",
+      "track": "West End",
+      "time": 18.61,
+      "name": "BARTJAAH"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=UORSPe1TkXk @ 15:32 by Dosgamert", 
+      "car": "Vagabond",
+      "track": "Desert Run",
+      "time": 28.93,
+      "name": "BARTJAAH"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=UORSPe1TkXk @ 17:55 by Dosgamert", 
+      "car": "Vagabond",
+      "track": "Oasis",
+      "time": 16.18,
+      "name": "BARTJAAH"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=UORSPe1TkXk @ 19:59 by Dosgamert", 
+      "car": "Vagabond",
+      "track": "Palm Side",
+      "time": 15.93,
+      "name": "BARTJAAH"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=UORSPe1TkXk @ 23:54 by Dosgamert", 
+      "car": "Sentinel",
+      "track": "Utopia",
+      "time": 28.31,
+      "name": "BARTJAAH"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=UORSPe1TkXk @ 28:10 by Dosgamert", 
+      "car": "Sentinel",
+      "track": "Complex",
+      "time": 25.80,
+      "name": "BARTJAAH"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=UORSPe1TkXk @ 30:36 by Dosgamert", 
+      "car": "Sentinel",
+      "track": "Palm Side",
+      "time": 13.68,
+      "name": "BARTJAAH"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=UORSPe1TkXk @ 33:40 by Dosgamert", 
+      "car": "Shrieker",
+      "track": "Rock Zone",
+      "time": 11.25,
+      "name": "BARTJAAH"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=UORSPe1TkXk @ 36:20 by Dosgamert", 
+      "car": "Shrieker",
+      "track": "Snake Alley",
+      "time": 23.63,
+      "name": "BARTJAAH"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=UORSPe1TkXk @ 39:51:22 by Dosgamert", 
+      "car": "Shrieker",
+      "track": "Desert Run",
+      "time": 23.59,
+      "name": "BARTJAAH"
+    },
+    { 
+      "__comment" : "https://www.youtube.com/watch?v=UORSPe1TkXk @ 39:51:22 by Dosgamert", 
+      "car": "Shrieker",
+      "track": "Desert Run",
+      "time": 23.59,
+      "name": "BARTJAAH"
+    },
+    { 
+      "__comment" : "https://www.youtube.com/watch?v=UORSPe1TkXk @ 42:13 by Dosgamert", 
+      "car": "Shrieker",
+      "track": "Bogota",
+      "time": 15.49,
+      "name": "BARTJAAH"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=UORSPe1TkXk @ 45:08 by Dosgamert", 
+      "car": "Shrieker",
+      "track": "Desert Run",
+      "time": 24.68,
+      "name": "BARTJAAH"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=UORSPe1TkXk @ 47:39 by Dosgamert", 
+      "car": "Shrieker",
+      "track": "Newark",
+      "time": 16.38,
+      "name": "BARTJAAH"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=UORSPe1TkXk @ 51:22 by Dosgamert", 
+      "car": "Wraith",
+      "track": "Snake Alley",
+      "time": 22.82,
+      "name": "BARTJAAH"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=UORSPe1TkXk @ 54:33 by Dosgamert", 
+      "car": "Wraith",
+      "track": "Complex",
+      "time": 23.39,
+      "name": "BARTJAAH"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=UORSPe1TkXk @ 56:36 by Dosgamert", 
+      "car": "Wraith",
+      "track": "Bogota",
+      "time": 13.25,
+      "name": "BARTJAAH"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=UORSPe1TkXk @ 59:47 by Dosgamert", 
+      "car": "Wraith",
+      "track": "Utopia",
+      "time": 22.96,
+      "name": "BARTJAAH"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=UORSPe1TkXk @ 1:01:59 by Dosgamert", 
+      "car": "Wraith",
+      "track": "Palm Side",
+      "time": 10.85,
+      "name": "BARTJAAH"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=UORSPe1TkXk @ 1:03:58 by Dosgamert", 
+      "car": "Wraith",
+      "track": "Oasis",
+      "time": 10.76,
+      "name": "BARTJAAH"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=UORSPe1TkXk @ 1:06:16 by Dosgamert", 
+      "car": "Wraith",
+      "track": "Borneo",
+      "time": 13.52,
+      "name": "BARTJAAH"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=UORSPe1TkXk @ 1:09:04 by Dosgamert", 
+      "car": "Wraith",
+      "track": "Complex",
+      "time": 20.25,
+      "name": "BARTJAAH"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=UORSPe1TkXk @ 1:10:59 by Dosgamert", 
+      "car": "Wraith",
+      "track": "Borneo",
+      "time": 13.19,
+      "name": "BARTJAAH"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=UORSPe1TkXk @ 1:14:13 by Dosgamert", 
+      "car": "Wraith",
+      "track": "Utopia",
+      "time": 20.09,
+      "name": "BARTJAAH"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=UORSPe1TkXk @ 1:16:06 by Dosgamert", 
+      "car": "Wraith",
+      "track": "Oasis",
+      "time": 10.61,
+      "name": "BARTJAAH"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=UORSPe1TkXk @ 1:18:14 by Dosgamert", 
+      "car": "Wraith",
+      "track": "Downtown",
+      "time": 14.02,
+      "name": "BARTJAAH"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=UORSPe1TkXk @ 1:20:24 by Dosgamert", 
+      "car": "Wraith",
+      "track": "Velodrome",
+      "time": 12.19,
+      "name": "BARTJAAH"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=UORSPe1TkXk @ 1:22:42 by Dosgamert", 
+      "car": "Wraith",
+      "track": "Downtown",
+      "time": 13.65,
+      "name": "BARTJAAH"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=UORSPe1TkXk @ 1:25:42 by Dosgamert", 
+      "car": "Wraith",
+      "track": "Utopia",
+      "time": 20.05,
+      "name": "BARTJAAH"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=UORSPe1TkXk @ 1:28:04 by Dosgamert", 
+      "car": "Wraith",
+      "track": "Newark",
+      "time": 13.93,
+      "name": "BARTJAAH"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=UORSPe1TkXk @ 1:30:34 by Dosgamert", 
+      "car": "Deliverator",
+      "track": "Velodrome",
+      "time": 11.71,
+      "name": "BARTJAAH"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=UORSPe1TkXk @ 1:33:16 by Dosgamert", 
+      "car": "Deliverator",
+      "track": "Borneo",
+      "time": 13.79,
+      "name": "BARTJAAH"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=UORSPe1TkXk @ 1:35:45 by Dosgamert", 
+      "car": "Deliverator",
+      "track": "Downtown",
+      "time": 13.71,
+      "name": "BARTJAAH"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=UORSPe1TkXk @ 1:37:47 by Dosgamert", 
+      "car": "Deliverator",
+      "track": "Velodrome",
+      "time": 10.38,
+      "name": "BARTJAAH"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=UORSPe1TkXk @ 1:39:44 by Dosgamert", 
+      "car": "Deliverator",
+      "track": "Eidolon",
+      "time": 10.63,
+      "name": "BARTJAAH"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=UORSPe1TkXk @ 1:42:30 by Dosgamert", 
+      "car": "Deliverator",
+      "track": "Complex",
+      "time": 17.92,
+      "name": "BARTJAAH"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=UORSPe1TkXk @ 1:45:25 by Dosgamert", 
+      "car": "Deliverator",
+      "track": "Utopia",
+      "time": 19.25,
+      "name": "BARTJAAH"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=UORSPe1TkXk @ 1:47:28 by Dosgamert", 
+      "car": "Deliverator",
+      "track": "Borneo",
+      "time": 11.39,
+      "name": "BARTJAAH"
     }
   ],
   "finish_records": [
@@ -545,6 +972,12 @@
       "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY by AL82 Retrogaming Longplays",
       "name": "AL82",
       "races": 78,
+      "difficulty_idx": 1
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=UORSPe1TkXk @ 1:54:30 by Dosgamert",
+      "name": "BARTJAAH",
+      "races": 40,
       "difficulty_idx": 1
     }
   ]
