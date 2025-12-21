@@ -500,6 +500,13 @@ def api_top_times():
     track_vals = request.args.getlist('track')  # list of track names
     driver_vals = request.args.getlist('driver')  # list of driver names (exact match)
 
+    # allow multiple times per driver flag (1/0)
+    allow_dups_raw = request.args.get('allow_dups')
+    allow_dups = True
+    if allow_dups_raw is not None:
+        if str(allow_dups_raw) in ('0', 'false', 'False'):
+            allow_dups = False
+
     # convert car/track names to numeric indexes if provided
     car_idx_vals = [car_index_from_name(c) for c in car_vals if c]
     # filter out None conversions
@@ -537,30 +544,55 @@ def api_top_times():
         inner_where = 'WHERE time IS NOT NULL'
         drv_clause, drv_params = _driver_clause('driver_name')
         inner_where += drv_clause
+        params.extend(drv_params)
 
-        # Use a window function to return the top-N times per car_type/track_idx.
-        # Ensure driver filter is applied inside the windowed subquery.
-        if limit is None:
-            limit = 1
-
-        # build the WHERE clause for the inner subquery
-        inner_where_clause = 'WHERE time IS NOT NULL' + drv_clause
-
-        sql = f"""
-        SELECT l.car_type, l.track_idx, l.driver_name, l.time, u.uploaded_at
-        FROM (
-            SELECT car_type, track_idx, driver_name, time, upload_id,
-                   ROW_NUMBER() OVER (PARTITION BY car_type, track_idx ORDER BY time ASC) as rn
-            FROM lap_records
-            {inner_where_clause}
-        ) l
-        JOIN uploads u ON l.upload_id = u.id
-        WHERE l.rn <= ?
-        ORDER BY l.car_type, l.track_idx, l.time ASC
-        """
-        exec_params = list(drv_params) + [limit]
-        cur.execute(sql, exec_params)
-        rows = [dict(r) for r in cur.fetchall()]
+        # If duplicates by driver are allowed, use ROW_NUMBER over car/track to pick top-N times per car/track.
+        if allow_dups:
+            if limit is None:
+                limit = 1
+            inner_where_clause = 'WHERE time IS NOT NULL' + drv_clause
+            sql = f"""
+            SELECT l.car_type, l.track_idx, l.driver_name, l.time, u.uploaded_at
+            FROM (
+                SELECT car_type, track_idx, driver_name, time, upload_id,
+                       ROW_NUMBER() OVER (PARTITION BY car_type, track_idx ORDER BY time ASC) as rn
+                FROM lap_records
+                {inner_where_clause}
+            ) l
+            JOIN uploads u ON l.upload_id = u.id
+            WHERE l.rn <= ?
+            ORDER BY l.car_type, l.track_idx, l.time ASC
+            """
+            exec_params = list(drv_params) + [limit]
+            cur.execute(sql, exec_params)
+            rows = [dict(r) for r in cur.fetchall()]
+        else:
+            # When duplicates by driver are NOT allowed, compute each driver's best time per car/track,
+            # rank drivers by that best time, and return top-N drivers per car/track.
+            if limit is None:
+                limit = 1
+            inner_driver_where = 'WHERE time IS NOT NULL' + drv_clause
+            sql = f"""
+            WITH driver_best AS (
+              SELECT car_type, track_idx, driver_name, MIN(time) AS best_time
+              FROM lap_records
+              {inner_driver_where}
+              GROUP BY car_type, track_idx, driver_name
+            ), ranked AS (
+              SELECT car_type, track_idx, driver_name, best_time,
+                     ROW_NUMBER() OVER (PARTITION BY car_type, track_idx ORDER BY best_time ASC) AS rn
+              FROM driver_best
+            )
+            SELECT r.car_type, r.track_idx, r.driver_name, r.best_time AS time, u.uploaded_at
+            FROM ranked r
+            JOIN lap_records l ON l.car_type = r.car_type AND l.track_idx = r.track_idx AND l.driver_name = r.driver_name AND l.time = r.best_time
+            JOIN uploads u ON l.upload_id = u.id
+            WHERE r.rn <= ?
+            ORDER BY r.car_type, r.track_idx, r.best_time ASC
+            """
+            exec_params = list(drv_params) + [limit]
+            cur.execute(sql, exec_params)
+            rows = [dict(r) for r in cur.fetchall()]
     else:
         # When filters are present, return top-N per requested combination(s)
         if limit is None:
@@ -572,15 +604,45 @@ def api_top_times():
         if car_idx_vals and track_idx_vals:
             for c in car_idx_vals:
                 for t in track_idx_vals:
-                    sql = 'SELECT l.car_type, l.track_idx, l.driver_name, l.time, u.uploaded_at FROM lap_records l JOIN uploads u ON l.upload_id = u.id WHERE l.time IS NOT NULL AND l.car_type = ? AND l.track_idx = ?'
-                    params = [c, t]
-                    if drv_clause_common:
-                        sql += drv_clause_common
-                        params.extend(drv_params_common)
-                    sql += ' ORDER BY l.time ASC LIMIT ?'
-                    params.append(limit)
-                    cur.execute(sql, params)
-                    rows.extend([dict(r) for r in cur.fetchall()])
+                    if allow_dups:
+                        sql = 'SELECT l.car_type, l.track_idx, l.driver_name, l.time, u.uploaded_at FROM lap_records l JOIN uploads u ON l.upload_id = u.id WHERE l.time IS NOT NULL AND l.car_type = ? AND l.track_idx = ?'
+                        params = [c, t]
+                        if drv_clause_common:
+                            sql += drv_clause_common
+                            params.extend(drv_params_common)
+                        sql += ' ORDER BY l.time ASC LIMIT ?'
+                        params.append(limit)
+                        cur.execute(sql, params)
+                        rows.extend([dict(r) for r in cur.fetchall()])
+                    else:
+                        # top-N distinct drivers by their best time for this car/track
+                        inner_driver_where = 'WHERE time IS NOT NULL AND car_type = ? AND track_idx = ?'
+                        params = [c, t]
+                        # apply driver filters if present
+                        if drv_clause_common:
+                            inner_driver_where += drv_clause_common.replace('l.driver_name', 'driver_name')
+                            params.extend(drv_params_common)
+                        sql = f"""
+                        WITH driver_best AS (
+                          SELECT car_type, track_idx, driver_name, MIN(time) AS best_time
+                          FROM lap_records
+                          {inner_driver_where}
+                          GROUP BY car_type, track_idx, driver_name
+                        ), ranked AS (
+                          SELECT car_type, track_idx, driver_name, best_time,
+                                 ROW_NUMBER() OVER (PARTITION BY car_type, track_idx ORDER BY best_time ASC) AS rn
+                          FROM driver_best
+                        )
+                        SELECT r.car_type, r.track_idx, r.driver_name, r.best_time AS time, u.uploaded_at
+                        FROM ranked r
+                        JOIN lap_records l ON l.car_type = r.car_type AND l.track_idx = r.track_idx AND l.driver_name = r.driver_name AND l.time = r.best_time
+                        JOIN uploads u ON l.upload_id = u.id
+                        WHERE r.rn <= ?
+                        ORDER BY r.car_type, r.track_idx, r.best_time ASC
+                        """
+                        exec_params = params + [limit]
+                        cur.execute(sql, exec_params)
+                        rows.extend([dict(r) for r in cur.fetchall()])
         elif car_idx_vals and not track_idx_vals:
             # for each specified car, return top-N per track
             for c in car_idx_vals:
@@ -592,15 +654,45 @@ def api_top_times():
                 cur.execute(q, qparams)
                 tracks = [r[0] for r in cur.fetchall()]
                 for t in tracks:
-                    sql = 'SELECT l.car_type, l.track_idx, l.driver_name, l.time, u.uploaded_at FROM lap_records l JOIN uploads u ON l.upload_id = u.id WHERE l.time IS NOT NULL AND l.car_type = ? AND l.track_idx = ?'
-                    params = [c, t]
-                    if drv_clause_common:
-                        sql += drv_clause_common
-                        params.extend(drv_params_common)
-                    sql += ' ORDER BY l.time ASC LIMIT ?'
-                    params.append(limit)
-                    cur.execute(sql, params)
-                    rows.extend([dict(r) for r in cur.fetchall()])
+                    if allow_dups:
+                        sql = 'SELECT l.car_type, l.track_idx, l.driver_name, l.time, u.uploaded_at FROM lap_records l JOIN uploads u ON l.upload_id = u.id WHERE l.time IS NOT NULL AND l.car_type = ? AND l.track_idx = ?'
+                        params = [c, t]
+                        if drv_clause_common:
+                            sql += drv_clause_common
+                            params.extend(drv_params_common)
+                        sql += ' ORDER BY l.time ASC LIMIT ?'
+                        params.append(limit)
+                        cur.execute(sql, params)
+                        rows.extend([dict(r) for r in cur.fetchall()])
+                    else:
+                        # top-N distinct drivers by their best time for this car/track
+                        inner_driver_where = 'WHERE time IS NOT NULL AND car_type = ? AND track_idx = ?'
+                        params = [c, t]
+                        # apply driver filters if present
+                        if drv_clause_common:
+                            inner_driver_where += drv_clause_common.replace('l.driver_name', 'driver_name')
+                            params.extend(drv_params_common)
+                        sql = f"""
+                        WITH driver_best AS (
+                          SELECT car_type, track_idx, driver_name, MIN(time) AS best_time
+                          FROM lap_records
+                          {inner_driver_where}
+                          GROUP BY car_type, track_idx, driver_name
+                        ), ranked AS (
+                          SELECT car_type, track_idx, driver_name, best_time,
+                                 ROW_NUMBER() OVER (PARTITION BY car_type, track_idx ORDER BY best_time ASC) AS rn
+                          FROM driver_best
+                        )
+                        SELECT r.car_type, r.track_idx, r.driver_name, r.best_time AS time, u.uploaded_at
+                        FROM ranked r
+                        JOIN lap_records l ON l.car_type = r.car_type AND l.track_idx = r.track_idx AND l.driver_name = r.driver_name AND l.time = r.best_time
+                        JOIN uploads u ON l.upload_id = u.id
+                        WHERE r.rn <= ?
+                        ORDER BY r.car_type, r.track_idx, r.best_time ASC
+                        """
+                        exec_params = params + [limit]
+                        cur.execute(sql, exec_params)
+                        rows.extend([dict(r) for r in cur.fetchall()])
         elif track_idx_vals and not car_idx_vals:
             # for each specified track, return top-N per car
             for t in track_idx_vals:
@@ -612,15 +704,45 @@ def api_top_times():
                 cur.execute(q, qparams)
                 cars = [r[0] for r in cur.fetchall()]
                 for c in cars:
-                    sql = 'SELECT l.car_type, l.track_idx, l.driver_name, l.time, u.uploaded_at FROM lap_records l JOIN uploads u ON l.upload_id = u.id WHERE l.time IS NOT NULL AND l.car_type = ? AND l.track_idx = ?'
-                    params = [c, t]
-                    if drv_clause_common:
-                        sql += drv_clause_common
-                        params.extend(drv_params_common)
-                    sql += ' ORDER BY l.time ASC LIMIT ?'
-                    params.append(limit)
-                    cur.execute(sql, params)
-                    rows.extend([dict(r) for r in cur.fetchall()])
+                    if allow_dups:
+                        sql = 'SELECT l.car_type, l.track_idx, l.driver_name, l.time, u.uploaded_at FROM lap_records l JOIN uploads u ON l.upload_id = u.id WHERE l.time IS NOT NULL AND l.car_type = ? AND l.track_idx = ?'
+                        params = [c, t]
+                        if drv_clause_common:
+                            sql += drv_clause_common
+                            params.extend(drv_params_common)
+                        sql += ' ORDER BY l.time ASC LIMIT ?'
+                        params.append(limit)
+                        cur.execute(sql, params)
+                        rows.extend([dict(r) for r in cur.fetchall()])
+                    else:
+                        # top-N distinct drivers by their best time for this car/track
+                        inner_driver_where = 'WHERE time IS NOT NULL AND car_type = ? AND track_idx = ?'
+                        params = [c, t]
+                        # apply driver filters if present
+                        if drv_clause_common:
+                            inner_driver_where += drv_clause_common.replace('l.driver_name', 'driver_name')
+                            params.extend(drv_params_common)
+                        sql = f"""
+                        WITH driver_best AS (
+                          SELECT car_type, track_idx, driver_name, MIN(time) AS best_time
+                          FROM lap_records
+                          {inner_driver_where}
+                          GROUP BY car_type, track_idx, driver_name
+                        ), ranked AS (
+                          SELECT car_type, track_idx, driver_name, best_time,
+                                 ROW_NUMBER() OVER (PARTITION BY car_type, track_idx ORDER BY best_time ASC) AS rn
+                          FROM driver_best
+                        )
+                        SELECT r.car_type, r.track_idx, r.driver_name, r.best_time AS time, u.uploaded_at
+                        FROM ranked r
+                        JOIN lap_records l ON l.car_type = r.car_type AND l.track_idx = r.track_idx AND l.driver_name = r.driver_name AND l.time = r.best_time
+                        JOIN uploads u ON l.upload_id = u.id
+                        WHERE r.rn <= ?
+                        ORDER BY r.car_type, r.track_idx, r.best_time ASC
+                        """
+                        exec_params = params + [limit]
+                        cur.execute(sql, exec_params)
+                        rows.extend([dict(r) for r in cur.fetchall()])
         else:
             rows = []
 
@@ -692,6 +814,7 @@ def browse_view():
       <p><a href="/">Home</a></p>
       <div>
         <label>Racers per Car/Track: <input id="limit" type="number" min="1" value="1" style="width:60px"></label>
+        <label style="margin-left:12px"><input id="allow_dups" type="checkbox" checked> Allow multiple times per driver</label>
       </div>
       <div style="display:flex;gap:12px;align-items:flex-start;margin-top:8px;">
         <!-- Compact multi-select dropdown for Car -->
@@ -880,11 +1003,13 @@ def browse_view():
       const trackVals = _getSelectedValuesFromMulti('track_multisel');
       const driverVals = _getSelectedValuesFromMulti('driver_multisel');
       const limit = document.getElementById('limit').value || 1;
+      const allowDups = document.getElementById('allow_dups') ? document.getElementById('allow_dups').checked : true;
       const params = new URLSearchParams();
       carVals.forEach(v => params.append('car', v));
       trackVals.forEach(v => params.append('track', v));
       driverVals.forEach(v => params.append('driver', v));
       if(limit) params.append('limit', limit);
+      params.append('allow_dups', allowDups ? '1' : '0');
       const res = await fetch('/api/top_times?' + params.toString());
       const data = await res.json();
       renderResults(data.results);
