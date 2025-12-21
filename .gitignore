@@ -21,6 +21,9 @@ Thumbs.db
 .vscode/
 .idea/
 
+# Database
+*.db
+
 # Temporary uploads
 *.tmp
 
