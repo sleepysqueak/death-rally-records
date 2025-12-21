@@ -322,6 +322,17 @@ def upload():
                     summary_rows.append((file.filename, 0, 0, None, 'no records found in JSON'))
                     continue
 
+                # Filter out records with empty driver/name (do not import empty-name records)
+                lap_before = len(lap_records)
+                fin_before = len(finish_records)
+                lap_records = [r for r in lap_records if (r.driver_name is not None and str(r.driver_name).strip() != '')]
+                finish_records = [fr for fr in finish_records if (fr.name is not None and str(fr.name).strip() != '')]
+
+                # If filtering removed all records, skip
+                if not lap_records and not finish_records:
+                    summary_rows.append((file.filename, 0, 0, None, 'all records had empty names, skipped'))
+                    continue
+
                 upload_id, laps_inserted, finishes_inserted = save_records(DB_FILENAME, file.filename, lap_records, finish_records)
                 total_laps += laps_inserted
                 total_finishes += finishes_inserted
@@ -331,6 +342,9 @@ def upload():
                 # treat as a binary dr.cfg file and parse using existing parser
                 try:
                     lap_records, finish_records = read_records(tmp.name)
+                    # Filter out empty driver/name records from parsed cfg
+                    lap_records = [r for r in lap_records if (r.driver_name is not None and str(r.driver_name).strip() != '')]
+                    finish_records = [fr for fr in finish_records if (fr.name is not None and str(fr.name).strip() != '')]
                     upload_id, laps_inserted, finishes_inserted = save_records(DB_FILENAME, file.filename, lap_records, finish_records)
                     total_laps += laps_inserted
                     total_finishes += finishes_inserted
