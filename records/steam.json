@@ -1,0 +1,121 @@
+{
+  "lap_records": [
+    {
+      "car": "Wraith",
+      "track": "",
+      "time": 0.0,
+      "name": ""
+    }
+  ],
+
+  "finish_records": [
+    {
+      "__comment" : "Screenshot from Tioem at Jul 3, 2016 @ 12:12 PM",
+      "name": "TIOEM",
+      "races": 49,
+      "difficulty_idx": 1
+    },
+    {
+      "__comment" : "Screenshot from Zana at Aug 10, 2025 @ 11:16 PM. No cheats, no save/load",
+      "name": "ZANA",
+      "races": 44,
+      "difficulty_idx": 1
+    },
+    {
+      "__comment" : "Screenshot from Zana at Aug 10, 2025 @ 11:16 PM. No cheats, no save/load",
+      "name": "ZANA",
+      "races": 67,
+      "difficulty_idx": 1
+    },
+    {
+      "__comment" : "Screenshot from Zana at Aug 10, 2025 @ 11:16 PM. No cheats, no save/load",
+      "name": "ZANA",
+      "races": 68,
+      "difficulty_idx": 1
+    },
+    {
+      "__comment" : "Screenshot from Zana at Aug 10, 2025 @ 11:16 PM. No cheats, no save/load",
+      "name": "ZANA",
+      "races": 91,
+      "difficulty_idx": 1
+    },
+    {
+      "__comment" : "Screenshot from Zana at Aug 10, 2025 @ 11:16 PM. No cheats, no save/load",
+      "name": "ZANA",
+      "races": 108,
+      "difficulty_idx": 1
+    },
+    {
+      "__comment" : "Screenshot from AschmidtOhren at Jul 9, 2020 @ 9:54 PM. No cheats, no save/load",
+      "name": "MOONY",
+      "races": 124,
+      "difficulty_idx": 0
+    },
+    {
+      "__comment" : "Screenshot from Impaled Northern Moonforest FTW at May 12, 2025 @ 8:29 AM",
+      "name": "FARMERTED",
+      "races": 40,
+      "difficulty_idx": 1
+    },
+    {
+      "__comment" : "Screenshot from Mr_Cheffo at Oct 20, 2025 @ 1:15 AM",
+      "name": "MRCHEFFO",
+      "races": 20,
+      "difficulty_idx": 0
+    },
+    {
+      "__comment" : "Screenshot from Mr_Cheffo at Oct 20, 2025 @ 11:51 PM",
+      "name": "MRCHEFFO",
+      "races": 20,
+      "difficulty_idx": 1
+    },
+    {
+      "__comment" : "Screenshot from Mr_Cheffo at Oct 20, 2025 @ 1:15 AM",
+      "name": "MRCHEFFO",
+      "races": 28,
+      "difficulty_idx": 1
+    },
+    {
+      "__comment" : "Screenshot from Traqie at Oct 12, 2025 @ 7:35 PM",
+      "name": "ALEKSANDER",
+      "races": 28,
+      "difficulty_idx": 1
+    },
+    {
+      "__comment" : "Screenshot from Henrizombie at Aug 31, 2025 @ 8:06 PM",
+      "name": "HENRI",
+      "races": 52,
+      "difficulty_idx": 1
+    },
+    {
+      "__comment" : "Screenshot from The_Shadows at Oct 20, 2020 @ 6:21 PM",
+      "name": "AS",
+      "races": 12,
+      "difficulty_idx": 2
+    },
+    {
+      "__comment" : "Screenshot from The_Shadows at Oct 20, 2020 @ 6:21 PM",
+      "name": "DUKE NUKEM",
+      "races": 30,
+      "difficulty_idx": 1
+    },
+    {
+      "__comment" : "Screenshot from The_Shadows at Oct 20, 2020 @ 6:21 PM",
+      "name": "DUKE NUKEM",
+      "races": 102,
+      "difficulty_idx": 2
+    },
+    {
+      "__comment" : "Screenshot from The_Shadows at Jul 2, 2020 @ 1:39 PM",
+      "name": "MATIZENIX",
+      "races": 103,
+      "difficulty_idx": 1
+    },
+    {
+      "__comment" : "Screenshot from Liguś at Jul 27, 2018 @ 5:28 PM",
+      "name": "LIGUS",
+      "races": 37,
+      "difficulty_idx": 0
+    },
+  ]
+}
