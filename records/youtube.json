@@ -1,0 +1,551 @@
+{
+  "lap_records": [
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 3:33 by AL82 Retrogaming Longplays",
+      "car": "Vagabond",
+      "track": "Suburbia",
+      "time": 18.80,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 5:14 by AL82 Retrogaming Longplays",
+      "car": "Vagabond",
+      "track": "Palm Side",
+      "time": 15.36,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 7:42 by AL82 Retrogaming Longplays",
+      "car": "Vagabond",
+      "track": "Holocaust",
+      "time": 29.21,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 10:14 by AL82 Retrogaming Longplays",
+      "car": "Vagabond",
+      "track": "Toxic Dump",
+      "time": 28.62,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 11:52 by AL82 Retrogaming Longplays",
+      "car": "Vagabond",
+      "track": "Palm Side",
+      "time": 15.88,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 14:23 by AL82 Retrogaming Longplays",
+      "car": "Vagabond",
+      "track": "Holocaust",
+      "time": 29.76,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 16:24 by AL82 Retrogaming Longplays",
+      "car": "Dervish",
+      "track": "Suburbia",
+      "time": 17.96,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 18:12 by AL82 Retrogaming Longplays",
+      "car": "Dervish",
+      "track": "West End",
+      "time": 17.62,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 20:47 by AL82 Retrogaming Longplays",
+      "car": "Dervish",
+      "track": "Holocaust",
+      "time": 27.73,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 23:06 by AL82 Retrogaming Longplays",
+      "car": "Dervish",
+      "track": "Desert Run",
+      "time": 26.62,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 25:33 by AL82 Retrogaming Longplays",
+      "car": "Dervish",
+      "track": "Snake Alley",
+      "time": 27.29,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 28:08 by AL82 Retrogaming Longplays",
+      "car": "Dervish",
+      "track": "Desert Run",
+      "time": 26.65,
+      "name": "AL82" 
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 29:55 by AL82 Retrogaming Longplays",
+      "car": "Dervish",
+      "track": "Hell Mountain",
+      "time": 14.55,
+      "name": "AL82" 
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 32:37 by AL82 Retrogaming Longplays",
+      "car": "Sentinel",
+      "track": "Holocaust",
+      "time": 28.59,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 34:31 by AL82 Retrogaming Longplays",
+      "car": "Sentinel",
+      "track": "Suburbia",
+      "time": 17.01,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 36:04 by AL82 Retrogaming Longplays",
+      "car": "Sentinel",
+      "track": "Rock Zone",
+      "time": 14.34,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 38:21 by AL82 Retrogaming Longplays",
+      "car": "Sentinel",
+      "track": "Bogota",
+      "time": 18.89,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 40:04 by AL82 Retrogaming Longplays",
+      "car": "Sentinel",
+      "track": "Rock Zone",
+      "time": 13.61, 
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 41:47 by AL82 Retrogaming Longplays",
+      "car": "Sentinel",
+      "track": "Palm Side",
+      "time": 13.14, 
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 43:47 by AL82 Retrogaming Longplays",
+      "car": "Sentinel",
+      "track": "Newark",
+      "time": 18.62, 
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 45:55 by AL82 Retrogaming Longplays",
+      "car": "Sentinel",
+      "track": "Downtown",
+      "time": 17.96, 
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 48:41 by AL82 Retrogaming Longplays", 
+      "car": "Sentinel",
+      "track": "Desert Run",
+      "time": 25.83, 
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 50:42 by AL82 Retrogaming Longplays", 
+      "car": "Sentinel",
+      "track": "Newark",
+      "time": 18.31,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 52:57 by AL82 Retrogaming Longplays", 
+      "car": "Sentinel",
+      "track": "Downtown",
+      "time": 18.04,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 54:56 by AL82 Retrogaming Longplays", 
+      "car": "Sentinel",
+      "track": "Bogota",
+      "time": 16.55,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 57:02 by AL82 Retrogaming Longplays", 
+      "car": "Sentinel",
+      "track": "Borneo",
+      "time": 16.42,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 59:55 by AL82 Retrogaming Longplays", 
+      "car": "Sentinel",
+      "track": "Snake Alley",
+      "time": 25.52,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 1:01:41 by AL82 Retrogaming Longplays", 
+      "car": "Sentinel",
+      "track": "Oasis",
+      "time": 13.58,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 1:04:26 by AL82 Retrogaming Longplays", 
+      "car": "Sentinel",
+      "track": "Complex",
+      "time": 24.28,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 1:06:25 by AL82 Retrogaming Longplays", 
+      "car": "Sentinel",
+      "track": "Hell Mountain",
+      "time": 12.38,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 1:09:15 by AL82 Retrogaming Longplays", 
+      "car": "Shrieker",
+      "track": "Holocaust",
+      "time": 25.49,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 1:12:00 by AL82 Retrogaming Longplays", 
+      "car": "Shrieker",
+      "track": "Complex",
+      "time": 24.24,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 1:14:43 by AL82 Retrogaming Longplays", 
+      "car": "Shrieker",
+      "track": "Utopia",
+      "time": 26.17,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 1:16:52 by AL82 Retrogaming Longplays", 
+      "car": "Shrieker",
+      "track": "Newark",
+      "time": 16.26,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 1:16:52 by AL82 Retrogaming Longplays", 
+      "car": "Shrieker",
+      "track": "Newark",
+      "time": 16.26,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 1:19:37 by AL82 Retrogaming Longplays", 
+      "car": "Shrieker",
+      "track": "Complex",
+      "time": 23.56,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 1:21:42 by AL82 Retrogaming Longplays", 
+      "car": "Shrieker",
+      "track": "Newark",
+      "time": 17.05,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 1: by AL82 Retrogaming Longplays", 
+      "car": "Shrieker",
+      "track": "Palm Side",
+      "time": 12.14,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 1:25:17 by AL82 Retrogaming Longplays", 
+      "car": "Shrieker",
+      "track": "Oasis",
+      "time": 12.68,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 1:27:08 by AL82 Retrogaming Longplays", 
+      "car": "Shrieker",
+      "track": "Newark",
+      "time": 14.21,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 1:29:35 by AL82 Retrogaming Longplays", 
+      "car": "Shrieker",
+      "track": "Complex",
+      "time": 23.42,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 1:31:36 by AL82 Retrogaming Longplays", 
+      "car": "Shrieker",
+      "track": "Downtown",
+      "time": 16.36,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 1:33:35 by AL82 Retrogaming Longplays", 
+      "car": "Shrieker",
+      "track": "Bogota",
+      "time": 13.90,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 1:36:04 by AL82 Retrogaming Longplays", 
+      "car": "Shrieker",
+      "track": "Complex",
+      "time": 22.07,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 1:38:15 by AL82 Retrogaming Longplays", 
+      "car": "Shrieker",
+      "track": "Downtown",
+      "time": 15.07,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 1:40:45 by AL82 Retrogaming Longplays", 
+      "car": "Shrieker",
+      "track": "Complex",
+      "time": 22.46,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 1:43:15 by AL82 Retrogaming Longplays", 
+      "car": "Shrieker",
+      "track": "Desert Run",
+      "time": 20.89,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 1:45:10 by AL82 Retrogaming Longplays", 
+      "car": "Shrieker",
+      "track": "Bogota",
+      "time": 15.09,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 1:46:39 by AL82 Retrogaming Longplays", 
+      "car": "Shrieker",
+      "track": "Borneo",
+      "time": 19.95,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 1:46:39 by AL82 Retrogaming Longplays", 
+      "car": "Shrieker",
+      "track": "Borneo",
+      "time": 19.95,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 1:48:49 by AL82 Retrogaming Longplays", 
+      "car": "Shrieker",
+      "track": "Downtown",
+      "time": 15.18,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 1:51:17 by AL82 Retrogaming Longplays (4 lap records!)", 
+      "car": "Shrieker",
+      "track": "Snake Alley",
+      "time": 21.61,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 1:53:00 by AL82 Retrogaming Longplays", 
+      "car": "Shrieker",
+      "track": "Rock Zone",
+      "time": 11.75,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 1:56:05 by AL82 Retrogaming Longplays", 
+      "car": "Shrieker",
+      "track": "Snake Alley",
+      "time": 21.69,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 1:58:45 by AL82 Retrogaming Longplays", 
+      "car": "Deliverator",
+      "track": "Downtown",
+      "time": 14.88,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 2:00:54 by AL82 Retrogaming Longplays", 
+      "car": "Deliverator",
+      "track": "Velodrome",
+      "time": 12.41,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 2: by AL82 Retrogaming Longplays", 
+      "car": "Deliverator",
+      "track": "Complex",
+      "time": 21.19,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 2:06:19 by AL82 Retrogaming Longplays", 
+      "car": "Deliverator",
+      "track": "Bogota",
+      "time": 12.22,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 2:08:30 by AL82 Retrogaming Longplays", 
+      "car": "Deliverator",
+      "track": "Newark",
+      "time": 13.38,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 2:10:30 by AL82 Retrogaming Longplays", 
+      "car": "Deliverator",
+      "track": "Bogota",
+      "time": 12.88,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 2:13:28 by AL82 Retrogaming Longplays", 
+      "car": "Deliverator",
+      "track": "Utopia",
+      "time": 21.24,
+      "name": "AL82"
+    },
+      {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 2:16:16 by AL82 Retrogaming Longplays", 
+      "car": "Deliverator",
+      "track": "Complex",
+      "time": 18.83,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 2:18:11 by AL82 Retrogaming Longplays", 
+      "car": "Deliverator",
+      "track": "Velodrome",
+      "time": 11.29,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 2:20:09 by AL82 Retrogaming Longplays", 
+      "car": "Deliverator",
+      "track": "Bogota",
+      "time": 12.42,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 2:22:04 by AL82 Retrogaming Longplays", 
+      "car": "Deliverator",
+      "track": "Borneo",
+      "time": 13.14,
+      "name": "AL82"
+    },
+   {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 2:23:50 by AL82 Retrogaming Longplays", 
+      "car": "Deliverator",
+      "track": "Bogota",
+      "time": 11.62,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 2:26:38 by AL82 Retrogaming Longplays", 
+      "car": "Deliverator",
+      "track": "Complex",
+      "time": 18.89,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 2:28:43 by AL82 Retrogaming Longplays", 
+      "car": "Deliverator",
+      "track": "Downtown",
+      "time": 12.85,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 2:30:39 by AL82 Retrogaming Longplays", 
+      "car": "Deliverator",
+      "track": "Bogota",
+      "time": 12.45,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 2:33:10 by AL82 Retrogaming Longplays", 
+      "car": "Deliverator",
+      "track": "Complex",
+      "time": 18.61,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 2:35:03 by AL82 Retrogaming Longplays", 
+      "car": "Deliverator",
+      "track": "Downtown",
+      "time": 12.58,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 2:37:02 by AL82 Retrogaming Longplays", 
+      "car": "Deliverator",
+      "track": "Newark",
+      "time": 13.14,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 2:38:52 by AL82 Retrogaming Longplays", 
+      "car": "Deliverator",
+      "track": "Bogota",
+      "time": 12.01,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 2:40:52 by AL82 Retrogaming Longplays", 
+      "car": "Deliverator",
+      "track": "Downtown",
+      "time": 12.56,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 2:43:20 by AL82 Retrogaming Longplays", 
+      "car": "Deliverator",
+      "track": "Complex",
+      "time": 18.26,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 2:45:20 by AL82 Retrogaming Longplays", 
+      "car": "Deliverator",
+      "track": "Downtown",
+      "time": 11.97,
+      "name": "AL82"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY @ 2:47:27 by AL82 Retrogaming Longplays", 
+      "car": "Deliverator",
+      "track": "Bogota",
+      "time": 14.09,
+      "name": "AL82"
+    }
+  ],
+  "finish_records": [
+    {
+      "__comment" : "https://www.youtube.com/watch?v=YTRI71PmgDY by AL82 Retrogaming Longplays",
+      "name": "AL82",
+      "races": 78,
+      "difficulty_idx": 1
+    }
+  ]
+}
