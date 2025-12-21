@@ -965,7 +965,337 @@
       "track": "Borneo",
       "time": 11.39,
       "name": "BARTJAAH"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=FFCr2ufvw3M @ 7:39 by Major Thriftwood", 
+      "car": "Vagabond",
+      "track": "Suburbia",
+      "time": 19.76,
+      "name": "ROK"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=FFCr2ufvw3M @ 11:18 by Major Thriftwood", 
+      "car": "Vagabond",
+      "track": "Hell Mountain",
+      "time": 16.71,
+      "name": "ROK"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=FFCr2ufvw3M @ 14:23 by Major Thriftwood", 
+      "car": "Vagabond",
+      "track": "Snake Alley",
+      "time": 31.63,
+      "name": "ROK"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=FFCr2ufvw3M @ 18:40 by Major Thriftwood", 
+      "car": "Vagabond",
+      "track": "Complex",
+      "time": 31.08,
+      "name": "ROK"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=FFCr2ufvw3M @ 22:44 by Major Thriftwood", 
+      "car": "Vagabond",
+      "track": "Snake Alley",
+      "time": 30.12,
+      "name": "ROK"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 4:41 by Yannick Emery", 
+      "car": "Vagabond",
+      "track": "Holocaust",
+      "time": 29.07,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 6:47 by Yannick Emery", 
+      "car": "Vagabond",
+      "track": "Suburbia",
+      "time": 16.63,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 9:12 by Yannick Emery", 
+      "car": "Vagabond",
+      "track": "Desert Run",
+      "time": 27.35,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 11:29 by Yannick Emery", 
+      "car": "Vagabond",
+      "track": "Desert Run",
+      "time": 28.83,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 13:17 by Yannick Emery", 
+      "car": "Vagabond",
+      "track": "West End",
+      "time": 16.72,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 15:40 by Yannick Emery", 
+      "car": "Vagabond",
+      "track": "Snake Alley",
+      "time": 26.44,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 17:33 by Yannick Emery", 
+      "car": "Vagabond",
+      "track": "Oasis",
+      "time": 15.01,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 19:49 by Yannick Emery", 
+      "car": "Vagabond",
+      "track": "Borneo",
+      "time": 17.62,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 22:11 by Yannick Emery", 
+      "car": "Vagabond",
+      "track": "Desert Run",
+      "time": 28.36,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 24:03 by Yannick Emery", 
+      "car": "Vagabond",
+      "track": "Oasis",
+      "time": 15.31,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 26:13 by Yannick Emery", 
+      "car": "Vagabond",
+      "track": "Borneo",
+      "time": 18.00,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 28:03 by Yannick Emery", 
+      "car": "Vagabond",
+      "track": "Hell Mountain",
+      "time": 14.18,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 29:48 by Yannick Emery", 
+      "car": "Vagabond",
+      "track": "Rock Zone",
+      "time": 14.05,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 29:48 by Yannick Emery", 
+      "car": "Vagabond",
+      "track": "Rock Zone",
+      "time": 14.05,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 32:36 by Yannick Emery", 
+      "car": "Vagabond",
+      "track": "Complex",
+      "time": 25.85,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 35:29 by Yannick Emery", 
+      "car": "Vagabond",
+      "track": "Desert Run",
+      "time": 27.38,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 37:21 by Yannick Emery", 
+      "car": "Vagabond",
+      "track": "Palm Side",
+      "time": 15.15,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 38:46 by Yannick Emery", 
+      "car": "Vagabond",
+      "track": "Rock Zone",
+      "time": 15.95,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 41:01 by Yannick Emery", 
+      "car": "Vagabond",
+      "track": "Borneo",
+      "time": 18.80,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 43:46 by Yannick Emery", 
+      "car": "Vagabond",
+      "track": "Snake Alley",
+      "time": 27.55,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 46:32 by Yannick Emery", 
+      "car": "Vagabond",
+      "track": "Utopia",
+      "time": 26.49,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 49:06 by Yannick Emery", 
+      "car": "Vagabond",
+      "track": "Toxic Dump",
+      "time": 27.39,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 51:53 by Yannick Emery", 
+      "car": "Vagabond",
+      "track": "Desert Run",
+      "time": 26.80,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 54:07 by Yannick Emery", 
+      "car": "Dervish",
+      "track": "Downtown",
+      "time": 17.97,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 55:18 by Yannick Emery", 
+      "car": "Dervish",
+      "track": "Hell Mountain",
+      "time": 14.61,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 55:18 by Yannick Emery", 
+      "car": "Dervish",
+      "track": "Hell Mountain",
+      "time": 14.61,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 57:00 by Yannick Emery", 
+      "car": "Dervish",
+      "track": "Rock Zone",
+      "time": 13.38,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 58:42 by Yannick Emery", 
+      "car": "Dervish",
+      "track": "Hell Mountain",
+      "time": 16.49,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 1:01:14 by Yannick Emery", 
+      "car": "Dervish",
+      "track": "Complex",
+      "time": 23.46,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 1:02:52 by Yannick Emery", 
+      "car": "Dervish",
+      "track": "Oasis",
+      "time": 14.39,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 1:05:22 by Yannick Emery", 
+      "car": "Dervish",
+      "track": "Utopia",
+      "time": 23.56,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 1:07:15 by Yannick Emery", 
+      "car": "Dervish",
+      "track": "Newark",
+      "time": 19.07,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 1:07:15 by Yannick Emery", 
+      "car": "Dervish",
+      "track": "Newark",
+      "time": 19.07,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 1:08:51 by Yannick Emery", 
+      "car": "Dervish",
+      "track": "Oasis",
+      "time": 12.35,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 1:10:42 by Yannick Emery", 
+      "car": "Dervish",
+      "track": "Bogota",
+      "time": 16.29,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 1:12:22 by Yannick Emery", 
+      "car": "Dervish",
+      "track": "Hell Mountain",
+      "time": 12.92,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 1:14:26 by Yannick Emery", 
+      "car": "Dervish",
+      "track": "Bogota",
+      "time": 18.11,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 1:16:39 by Yannick Emery", 
+      "car": "Dervish",
+      "track": "Newark",
+      "time": 17.59,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 1:18:39 by Yannick Emery", 
+      "car": "Dervish",
+      "track": "Bogota",
+      "time": 16.66,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 1:21:21 by Yannick Emery", 
+      "car": "Dervish",
+      "track": "Complex",
+      "time": 26.29,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 1:22:58 by Yannick Emery", 
+      "car": "Dervish",
+      "track": "Rock Zone",
+      "time": 12.11,
+      "name": "YUPE"
     }
+
+
+
+
+
+
+
+    
   ],
   "finish_records": [
     {
@@ -979,6 +1309,12 @@
       "name": "BARTJAAH",
       "races": 40,
       "difficulty_idx": 1
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 by Yannick Emery",
+      "name": "YUPE",
+      "races": 91,
+      "difficulty_idx": 2
     }
   ]
 }
