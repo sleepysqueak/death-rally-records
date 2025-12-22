@@ -796,7 +796,7 @@ def browse_view():
       try{
         const rows = (window._lastTopTimes && Array.isArray(window._lastTopTimes)) ? window._lastTopTimes : [];
         if(!rows || rows.length === 0){ alert('No results to export. Run Filter first.'); return; }
-        const now = new Date().toISOString().replace(/[:\-]/g,'').split('.')[0];
+        const now = new Date().toISOString().replace(/[:\\-]/g,'').split('.')[0];
         const filenameBase = 'top_times_' + now;
         if(format === 'json'){
           const out = JSON.stringify(rows, null, 2);
