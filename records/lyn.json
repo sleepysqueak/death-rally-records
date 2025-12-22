@@ -1,0 +1,272 @@
+{
+  "lap_records": [
+    {
+      "__comment": "From spreadsheet https://docs.google.com/spreadsheets/d/1Ocn19oubUWgtNnAVQTpknIrQm1XqEYjc7ReJ8GDfTYA/edit?gid=0#gid=0",
+      "car": "Deliverator",
+      "track": "Suburbia",
+      "time": 8.11,
+      "name": "LYN"
+    },
+    {
+      "car": "Deliverator",
+      "track": "Holocaust",
+      "time": 16.28,
+      "name": "LYN"
+    },
+    {
+      "car": "Deliverator",
+      "track": "Holocaust",
+      "time": 15.44,
+      "name": "LYN"
+    },
+    {
+      "car": "Deliverator",
+      "track": "Holocaust",
+      "time": 15.17,
+      "name": "LYN"
+    },
+    {
+      "car": "Deliverator",
+      "track": "Oasis",
+      "time": 7.32,
+      "name": "LYN"
+    },
+    {
+      "car": "Deliverator",
+      "track": "Oasis",
+      "time": 7.04,
+      "name": "LYN"
+    },
+    {
+      "car": "Deliverator",
+      "track": "Rock Zone",
+      "time": 7.63,
+      "name": "LYN"
+    },
+    {
+      "car": "Deliverator",
+      "track": "Rock Zone",
+      "time": 7.22,
+      "name": "LYN"
+    },
+    {
+      "car": "Deliverator",
+      "track": "Rock Zone",
+      "time": 7.11,
+      "name": "LYN"
+    },
+    {
+      "car": "Deliverator",
+      "track": "Snake Alley",
+      "time": 15.52,
+      "name": "LYN"
+    },
+    {
+      "car": "Deliverator",
+      "track": "Snake Alley",
+      "time": 15.08,
+      "name": "LYN"
+    },
+    {
+      "car": "Deliverator",
+      "track": "Snake Alley",
+      "time": 14.38,
+      "name": "LYN"
+    },
+    {
+      "car": "Deliverator",
+      "track": "Utopia",
+      "time": 15.80,
+      "name": "LYN"
+    },
+    {
+      "car": "Deliverator",
+      "track": "Utopia",
+      "time": 15.28,
+      "name": "LYN"
+    },
+    {
+      "car": "Deliverator",
+      "track": "Bogota",
+      "time": 8.42,
+      "name": "LYN"
+    },
+    {
+      "car": "Deliverator",
+      "track": "Downtown",
+      "time": 9.55,
+      "name": "LYN"
+    },
+    {
+      "car": "Deliverator",
+      "track": "Downtown",
+      "time": 9.52,
+      "name": "LYN"
+    },
+    {
+      "car": "Deliverator",
+      "track": "Downtown",
+      "time": 9.24,
+      "name": "LYN"
+    },
+    {
+      "car": "Deliverator",
+      "track": "Velodrome",
+      "time": 7.59,
+      "name": "LYN"
+    },
+    {
+      "car": "Deliverator",
+      "track": "West End",
+      "time": 8.92,
+      "name": "LYN"
+    },
+    {
+      "car": "Deliverator",
+      "track": "West End",
+      "time": 8.48,
+      "name": "LYN"
+    },
+    {
+      "car": "Deliverator",
+      "track": "West End",
+      "time": 8.41,
+      "name": "LYN"
+    },
+    {
+      "car": "Deliverator",
+      "track": "Toxic Dump",
+      "time": 15.93,
+      "name": "LYN"
+    },
+    {
+      "car": "Deliverator",
+      "track": "Toxic Dump",
+      "time": 15.65,
+      "name": "LYN"
+    },
+    {
+      "car": "Deliverator",
+      "track": "Toxic Dump",
+      "time": 15.04,
+      "name": "LYN"
+    },
+    {
+      "car": "Deliverator",
+      "track": "Palm Side",
+      "time": 7.52,
+      "name": "LYN"
+    },
+    {
+      "car": "Deliverator",
+      "track": "Palm Side",
+      "time": 7.14,
+      "name": "LYN"
+    },
+    {
+      "car": "Deliverator",
+      "track": "Hell Mountain",
+      "time": 6.97,
+      "name": "LYN"
+    },
+    {
+      "car": "Deliverator",
+      "track": "Hell Mountain",
+      "time": 6.93,
+      "name": "LYN"
+    },
+    {
+      "car": "Deliverator",
+      "track": "Hell Mountain",
+      "time": 6.80,
+      "name": "LYN"
+    },
+    {
+      "car": "Deliverator",
+      "track": "Desert Run",
+      "time": 15.28,
+      "name": "LYN"
+    },
+    {
+      "car": "Deliverator",
+      "track": "Desert Run",
+      "time": 14.42,
+      "name": "LYN"
+    },
+    {
+      "car": "Deliverator",
+      "track": "Complex",
+      "time": 15.25,
+      "name": "LYN"
+    },
+    {
+      "car": "Deliverator",
+      "track": "Complex",
+      "time": 15.17,
+      "name": "LYN"
+    },
+    {
+      "car": "Deliverator",
+      "track": "Borneo",
+      "time": 9.24,
+      "name": "LYN"
+    },
+    {
+      "car": "Deliverator",
+      "track": "Borneo",
+      "time": 8.71,
+      "name": "LYN"
+    },
+    {
+      "car": "Deliverator",
+      "track": "Borneo",
+      "time": 8.26,
+      "name": "LYN"
+    },
+    {
+      "car": "Deliverator",
+      "track": "Newark",
+      "time": 9.85,
+      "name": "LYN"
+    },
+    {
+      "car": "Deliverator",
+      "track": "Newark",
+      "time": 9.55,
+      "name": "LYN"
+    },
+    {
+      "car": "Deliverator",
+      "track": "Newark",
+      "time": 9.19,
+      "name": "LYN"
+    },
+    {
+      "car": "Deliverator",
+      "track": "Newark",
+      "time": 8.82,
+      "name": "LYN"
+    },
+    {
+      "car": "Deliverator",
+      "track": "Eidolon",
+      "time": 8.01,
+      "name": "LYN"
+    },
+    {
+      "car": "Deliverator",
+      "track": "Eidolon",
+      "time": 7.86,
+      "name": "LYN"
+    },
+    {
+      "car": "Deliverator",
+      "track": "Eidolon",
+      "time": 7.78,
+      "name": "LYN"
+    }
+  ],
+
+  "finish_records": [
+  ]
+}
