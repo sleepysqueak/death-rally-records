@@ -804,7 +804,7 @@ def browse_view():
           const url = URL.createObjectURL(blob);
           const a = document.createElement('a'); a.href = url; a.download = filenameBase + '.json'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url); return;
         }
-        const delim = format === 'tsv' ? '\t' : ',';
+        const delim = format === 'tsv' ? '\\t' : ',';
         const headers = ['Rank','Car','Track','Driver','Time','Uploaded'];
         const lines = [headers.join(delim)];
         rows.forEach(r=>{
