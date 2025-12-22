@@ -1287,15 +1287,385 @@
       "track": "Rock Zone",
       "time": 12.11,
       "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 1:24:38 by Yannick Emery", 
+      "car": "Dervish",
+      "track": "Oasis",
+      "time": 14.62,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 1:27:11 by Yannick Emery", 
+      "car": "Dervish",
+      "track": "Snake Alley",
+      "time": 26.59,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 1:29:10 by Yannick Emery", 
+      "car": "Dervish",
+      "track": "Downtown",
+      "time": 16.90,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 1:31:03 by Yannick Emery", 
+      "car": "Dervish",
+      "track": "Bogota",
+      "time": 15.85,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 1:33:32 by Yannick Emery", 
+      "car": "Dervish",
+      "track": "Desert Run",
+      "time": 26.24,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 1:35:19 by Yannick Emery", 
+      "car": "Dervish",
+      "track": "Oasis",
+      "time": 14.14,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 1:37:10 by Yannick Emery", 
+      "car": "Dervish",
+      "track": "Borneo",
+      "time": 16.45,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 1:39:06 by Yannick Emery", 
+      "car": "Dervish",
+      "track": "Bogota",
+      "time": 18.38,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 1:40:48 by Yannick Emery", 
+      "car": "Dervish",
+      "track": "Rock Zone",
+      "time": 14.63,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 1:42:49 by Yannick Emery", 
+      "car": "Dervish",
+      "track": "Newark",
+      "time": 16.24,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 1:42:49 by Yannick Emery", 
+      "car": "Dervish",
+      "track": "Newark",
+      "time": 16.24,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 1:44:31 by Yannick Emery", 
+      "car": "Dervish",
+      "track": "Palm Side",
+      "time": 13.41,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 1:46:08 by Yannick Emery", 
+      "car": "Dervish",
+      "track": "Rock Zone",
+      "time": 12.55,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 1:47:56 by Yannick Emery", 
+      "car": "Dervish",
+      "track": "Downtown",
+      "time": 17.90,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 1:49:54 by Yannick Emery", 
+      "car": "Dervish",
+      "track": "Bogota",
+      "time": 18.19,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 1:51:48 by Yannick Emery", 
+      "car": "Dervish",
+      "track": "Borneo",
+      "time": 16.69,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 1:53:26 by Yannick Emery", 
+      "car": "Dervish",
+      "track": "Oasis",
+      "time": 12.83,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 1:55:00 by Yannick Emery", 
+      "car": "Dervish",
+      "track": "Palm Side",
+      "time": 14.01,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 1:56:54 by Yannick Emery", 
+      "car": "Dervish",
+      "track": "Bogota",
+      "time": 18.17,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 1:59:16 by Yannick Emery", 
+      "car": "Dervish",
+      "track": "Newark",
+      "time": 17.69,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 2:01:02 by Yannick Emery", 
+      "car": "Dervish",
+      "track": "Bogota",
+      "time": 17.19,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 2:03:13 by Yannick Emery", 
+      "car": "Dervish",
+      "track": "Desert Run",
+      "time": 26.01,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 2:05:51 by Yannick Emery", 
+      "car": "Dervish",
+      "track": "Utopia",
+      "time": 25.07,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 2:07:32 by Yannick Emery", 
+      "car": "Dervish",
+      "track": "Rock Zone",
+      "time": 15.44,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 2:09:28 by Yannick Emery", 
+      "car": "Dervish",
+      "track": "Newark",
+      "time": 18.25,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 2:13:25 by Yannick Emery (no survivors!)", 
+      "car": "Dervish",
+      "track": "Complex",
+      "time": 26.01,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 2:15:00 by Yannick Emery",
+      "car": "Dervish",
+      "track": "Rock Zone",
+      "time": 11.73,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 2:17:05 by Yannick Emery",
+      "car": "Dervish",
+      "track": "Newark",
+      "time": 19.32,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 2:19:11 by Yannick Emery",
+      "car": "Dervish",
+      "track": "Snake Alley",
+      "time": 24.55,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 2:21:44 by Yannick Emery",
+      "car": "Dervish",
+      "track": "Complex",
+      "time": 25.66,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 2:24:03 by Yannick Emery",
+      "car": "Deliverator",
+      "track": "Velodrome",
+      "time": 10.83,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 2:26:04 by Yannick Emery",
+      "car": "Deliverator",
+      "track": "Downtown",
+      "time": 12.00,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 2:28:28 by Yannick Emery",
+      "car": "Deliverator",
+      "track": "Utopia",
+      "time": 17.55,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 2:30:22 by Yannick Emery",
+      "car": "Deliverator",
+      "track": "Newark",
+      "time": 12.63,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 2:33:00 by Yannick Emery",
+      "car": "Deliverator",
+      "track": "Complex",
+      "time": 17.35,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 2:34:56 by Yannick Emery",
+      "car": "Deliverator",
+      "track": "Bogota",
+      "time": 12.58,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 2:37:27 by Yannick Emery",
+      "car": "Deliverator",
+      "track": "Complex",
+      "time": 17.59,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 2:39:09 by Yannick Emery",
+      "car": "Deliverator",
+      "track": "Bogota",
+      "time": 14.12,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 2:40:53 by Yannick Emery",
+      "car": "Deliverator",
+      "track": "Eidolon",
+      "time": 9.17,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 2:42:45 by Yannick Emery",
+      "car": "Deliverator",
+      "track": "Borneo",
+      "time": 12.52,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 2:44:32 by Yannick Emery",
+      "car": "Deliverator",
+      "track": "Bogota",
+      "time": 10.45,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 2:46:55 by Yannick Emery",
+      "car": "Deliverator",
+      "track": "Complex",
+      "time": 16.95,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 2:49:15 by Yannick Emery",
+      "car": "Deliverator",
+      "track": "Utopia",
+      "time": 16.05,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 2:51:30 by Yannick Emery",
+      "car": "Deliverator",
+      "track": "Complex",
+      "time": 18.38,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 2:53:22 by Yannick Emery",
+      "car": "Deliverator",
+      "track": "Bogota",
+      "time": 9.61,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 2:54:58 by Yannick Emery",
+      "car": "Deliverator",
+      "track": "Eidolon",
+      "time": 9.52,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 2:56:46 by Yannick Emery",
+      "car": "Deliverator",
+      "track": "Velodrome",
+      "time": 11.41,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 2:58:29 by Yannick Emery",
+      "car": "Deliverator",
+      "track": "Eidolon",
+      "time": 11.88,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 3:00:20 by Yannick Emery",
+      "car": "Deliverator",
+      "track": "Borneo",
+      "time": 10.19,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 3:02:16 by Yannick Emery",
+      "car": "Deliverator",
+      "track": "Bogota",
+      "time": 11.71,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 3:04:05 by Yannick Emery",
+      "car": "Deliverator",
+      "track": "Eidolon",
+      "time": 8.68,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 3:05:47 by Yannick Emery",
+      "car": "Deliverator",
+      "track": "Complex",
+      "time": 20.49,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 3:07:24 by Yannick Emery",
+      "car": "Deliverator",
+      "track": "Eidolon",
+      "time": 8.09,
+      "name": "YUPE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=XyTjzjCvbf0 @ 3:07:24 by Yannick Emery",
+      "car": "Deliverator",
+      "track": "Eidolon",
+      "time": 8.09,
+      "name": "YUPE"
     }
-
-
-
-
-
-
-
-    
   ],
   "finish_records": [
     {
