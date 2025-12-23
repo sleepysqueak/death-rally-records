@@ -57,6 +57,12 @@
     },
     {
       "car": "Deliverator",
+      "track": "Rock Zone",
+      "time": 6.93,
+      "name": "LYN"
+    },
+    {
+      "car": "Deliverator",
       "track": "Snake Alley",
       "time": 15.52,
       "name": "LYN"
@@ -65,6 +71,12 @@
       "car": "Deliverator",
       "track": "Snake Alley",
       "time": 15.08,
+      "name": "LYN"
+    },
+    {
+      "car": "Deliverator",
+      "track": "Snake Alley",
+      "time": 14.78,
       "name": "LYN"
     },
     {
@@ -154,6 +166,12 @@
     {
       "car": "Deliverator",
       "track": "Palm Side",
+      "time": 7.62,
+      "name": "LYN"
+    },
+    {
+      "car": "Deliverator",
+      "track": "Palm Side",
       "time": 7.52,
       "name": "LYN"
     },
@@ -161,6 +179,12 @@
       "car": "Deliverator",
       "track": "Palm Side",
       "time": 7.14,
+      "name": "LYN"
+    },
+    {
+      "car": "Deliverator",
+      "track": "Hell Mountain",
+      "time": 7.04,
       "name": "LYN"
     },
     {
@@ -203,6 +227,18 @@
       "car": "Deliverator",
       "track": "Complex",
       "time": 15.17,
+      "name": "LYN"
+    },
+    {
+      "car": "Deliverator",
+      "track": "Complex",
+      "time": 15.09,
+      "name": "LYN"
+    },
+    {
+      "car": "Deliverator",
+      "track": "Complex",
+      "time": 15.05,
       "name": "LYN"
     },
     {
