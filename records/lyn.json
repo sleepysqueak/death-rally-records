@@ -8,6 +8,48 @@
       "name": "LYN"
     },
     {
+      "car": "Wraith",
+      "track": "Suburbia",
+      "time": 13.11,
+      "name": "LYN"
+    },
+    {
+      "car": "Shrieker",
+      "track": "Suburbia",
+      "time": 10.82,
+      "name": "LYN"
+    },
+    {
+      "car": "Sentinel",
+      "track": "Suburbia",
+      "time": 12.35,
+      "name": "LYN"
+    },
+    {
+      "car": "Sentinel",
+      "track": "Suburbia",
+      "time": 12.28,
+      "name": "LYN"
+    },
+    {
+      "car": "Dervish",
+      "track": "Suburbia",
+      "time": 12.71,
+      "name": "LYN"
+    },
+    {
+      "car": "Vagabond",
+      "track": "Suburbia",
+      "time": 14.73,
+      "name": "LYN"
+    },
+    {
+      "car": "Vagabond",
+      "track": "Suburbia",
+      "time": 14.24,
+      "name": "LYN"
+    },
+    {
       "car": "Deliverator",
       "track": "Holocaust",
       "time": 16.28,
@@ -26,6 +68,36 @@
       "name": "LYN"
     },
     {
+      "car": "Wraith",
+      "track": "Holocaust",
+      "time": 17.11,
+      "name": "LYN"
+    },
+    {
+      "car": "Shrieker",
+      "track": "Holocaust",
+      "time": 18.34,
+      "name": "LYN"
+    },
+    {
+      "car": "Sentinel",
+      "track": "Holocaust",
+      "time": 21.71,
+      "name": "LYN"
+    },
+    {
+      "car": "Dervish",
+      "track": "Holocaust",
+      "time": 24.82,
+      "name": "LYN"
+    },
+    {
+      "car": "Vagabond",
+      "track": "Holocaust",
+      "time": 25.48,
+      "name": "LYN"
+    },
+    {
       "car": "Deliverator",
       "track": "Oasis",
       "time": 7.32,
@@ -35,6 +107,36 @@
       "car": "Deliverator",
       "track": "Oasis",
       "time": 7.04,
+      "name": "LYN"
+    },
+    {
+      "car": "Wraith",
+      "track": "Oasis",
+      "time": 7.89,
+      "name": "LYN"
+    },
+    {
+      "car": "Shrieker",
+      "track": "Oasis",
+      "time": 9.05,
+      "name": "LYN"
+    },
+    {
+      "car": "Sentinel",
+      "track": "Oasis",
+      "time": 9.72,
+      "name": "LYN"
+    },
+    {
+      "car": "Dervish",
+      "track": "Oasis",
+      "time": 10.28,
+      "name": "LYN"
+    },
+    {
+      "car": "Vagabond",
+      "track": "Oasis",
+      "time": 13.01,
       "name": "LYN"
     },
     {
@@ -62,6 +164,72 @@
       "name": "LYN"
     },
     {
+      "car": "Wraith",
+      "track": "Rock Zone",
+      "time": 9.69,
+      "name": "LYN"
+    },
+    {
+      "car": "Wraith",
+      "track": "Rock Zone",
+      "time": 7.88,
+      "name": "LYN"
+    },
+    {
+      "car": "Shrieker",
+      "track": "Rock Zone",
+      "time": 10.55,
+      "name": "LYN"
+    },
+    {
+      "car": "Shrieker",
+      "track": "Rock Zone",
+      "time": 8.38,
+      "name": "LYN"
+    },
+    {
+      "car": "Sentinel",
+      "track": "Rock Zone",
+      "time": 11.17,
+      "name": "LYN"
+    },
+    {
+      "car": "Sentinel",
+      "track": "Rock Zone",
+      "time": 9.75,
+      "name": "LYN"
+    },
+    {
+      "car": "Dervish",
+      "track": "Rock Zone",
+      "time": 11.55,
+      "name": "LYN"
+    },
+    {
+      "car": "Dervish",
+      "track": "Rock Zone",
+      "time": 11.18,
+      "name": "LYN"
+    },
+    {
+      "car": "Vagabond",
+      "track": "Rock Zone",
+      "time": 12.76,
+      "name": "LYN"
+    },
+    {
+      "car": "Vagabond",
+      "track": "Rock Zone",
+      "time": 11.88,
+      "name": "LYN"
+    },
+    {
+      "car": "Vagabond",
+      "track": "Rock Zone",
+      "time": 11.85,
+      "name": "LYN"
+    },
+    {
       "car": "Deliverator",
       "track": "Snake Alley",
       "time": 15.52,
@@ -86,6 +254,48 @@
       "name": "LYN"
     },
     {
+      "car": "Wraith",
+      "track": "Snake Alley",
+      "time": 17.93,
+      "name": "LYN"
+    },
+    {
+      "car": "Wraith",
+      "track": "Snake Alley",
+      "time": 16.41,
+      "name": "LYN"
+    },
+    {
+      "car": "Shrieker",
+      "track": "Snake Alley",
+      "time": 21.00,
+      "name": "LYN"
+    },
+    {
+      "car": "Shrieker",
+      "track": "Snake Alley",
+      "time": 18.11,
+      "name": "LYN"
+    },
+    {
+      "car": "Sentinel",
+      "track": "Snake Alley",
+      "time": 21.39,
+      "name": "LYN"
+    },
+    {
+      "car": "Dervish",
+      "track": "Snake Alley",
+      "time": 21.31,
+      "name": "LYN"
+    },
+    {
+      "car": "Vagabond",
+      "track": "Snake Alley",
+      "time": 25.32,
+      "name": "LYN"
+    },
+    {
       "car": "Deliverator",
       "track": "Utopia",
       "time": 15.80,
@@ -98,9 +308,87 @@
       "name": "LYN"
     },
     {
+      "car": "Wraith",
+      "track": "Utopia",
+      "time": 21.86,
+      "name": "LYN"
+    },
+    {
+      "car": "Wraith",
+      "track": "Utopia",
+      "time": 16.80,
+      "name": "LYN"
+    },
+    {
+      "car": "Shrieker",
+      "track": "Utopia",
+      "time": 21.83,
+      "name": "LYN"
+    },
+    {
+      "car": "Sentinel",
+      "track": "Utopia",
+      "time": 21.72,
+      "name": "LYN"
+    },
+    {
+      "car": "Sentinel",
+      "track": "Utopia",
+      "time": 21.61,
+      "name": "LYN"
+    },
+    {
+      "car": "Dervish",
+      "track": "Utopia",
+      "time": 22.32,
+      "name": "LYN"
+    },
+    {
+      "car": "Vagabond",
+      "track": "Utopia",
+      "time": 26.41,
+      "name": "LYN"
+    },
+    {
       "car": "Deliverator",
       "track": "Bogota",
       "time": 8.42,
+      "name": "LYN"
+    },
+    {
+      "car": "Wraith",
+      "track": "Bogota",
+      "time": 12.45,
+      "name": "LYN"
+    },
+    {
+      "car": "Wraith",
+      "track": "Bogota",
+      "time": 10.21,
+      "name": "LYN"
+    },
+    {
+      "car": "Shrieker",
+      "track": "Bogota",
+      "time": 11.34,
+      "name": "LYN"
+    },
+    {
+      "car": "Sentinel",
+      "track": "Bogota",
+      "time": 14.36,
+      "name": "LYN"
+    },
+    {
+      "car": "Dervish",
+      "track": "Bogota",
+      "time": 14.69,
+      "name": "LYN"
+    },
+    {
+      "car": "Vagabond",
+      "track": "Bogota",
+      "time": 16.66,
       "name": "LYN"
     },
     {
@@ -122,9 +410,87 @@
       "name": "LYN"
     },
     {
+      "car": "Wraith",
+      "track": "Downtown",
+      "time": 10.21,
+      "name": "LYN"
+    },
+    {
+      "car": "Shrieker",
+      "track": "Downtown",
+      "time": 12.68,
+      "name": "LYN"
+    },
+    {
+      "car": "Sentinel",
+      "track": "Downtown",
+      "time": 15.34,
+      "name": "LYN"
+    },
+    {
+      "car": "Dervish",
+      "track": "Downtown",
+      "time": 18.80,
+      "name": "LYN"
+    },
+    {
+      "car": "Vagabond",
+      "track": "Downtown",
+      "time": 16.65,
+      "name": "LYN"
+    },
+    {
       "car": "Deliverator",
       "track": "Velodrome",
       "time": 7.59,
+      "name": "LYN"
+    },
+    {
+      "car": "Wraith",
+      "track": "Velodrome",
+      "time": 11.72,
+      "name": "LYN"
+    },
+    {
+      "car": "Wraith",
+      "track": "Velodrome",
+      "time": 11.15,
+      "name": "LYN"
+    },
+    {
+      "car": "Wraith",
+      "track": "Velodrome",
+      "time": 9.26,
+      "name": "LYN"
+    },
+    {
+      "car": "Shrieker",
+      "track": "Velodrome",
+      "time": 12.51,
+      "name": "LYN"
+    },
+    {
+      "car": "Shrieker",
+      "track": "Velodrome",
+      "time": 10.25,
+      "name": "LYN"
+    },
+    {
+      "car": "Sentinel",
+      "track": "Velodrome",
+      "time": 12.24,
+      "name": "LYN"
+    },
+    {
+      "car": "Dervish",
+      "track": "Velodrome",
+      "time": 13.41,
+      "name": "LYN"
+    },
+    {
+      "car": "Vagabond",
+      "track": "Velodrome",
+      "time": 14.76,
       "name": "LYN"
     },
     {
@@ -146,6 +512,48 @@
       "name": "LYN"
     },
     {
+      "car": "Wraith",
+      "track": "West End",
+      "time": 10.09,
+      "name": "LYN"
+    },
+    {
+      "car": "Shrieker",
+      "track": "West End",
+      "time": 12.93,
+      "name": "LYN"
+    },
+    {
+      "car": "Shrieker",
+      "track": "West End",
+      "time": 10.79,
+      "name": "LYN"
+    },
+    {
+      "car": "Sentinel",
+      "track": "West End",
+      "time": 13.52,
+      "name": "LYN"
+    },
+    {
+      "car": "Dervish",
+      "track": "West End",
+      "time": 13.58,
+      "name": "LYN"
+    },
+    {
+      "car": "Vagabond",
+      "track": "West End",
+      "time": 16.25,
+      "name": "LYN"
+    },
+    {
+      "car": "Vagabond",
+      "track": "West End",
+      "time": 14.28,
+      "name": "LYN"
+    },
+    {
       "car": "Deliverator",
       "track": "Toxic Dump",
       "time": 15.93,
@@ -164,6 +572,42 @@
       "name": "LYN"
     },
     {
+      "car": "Wraith",
+      "track": "Toxic Dump",
+      "time": 17.39,
+      "name": "LYN"
+    },
+    {
+      "car": "Shrieker",
+      "track": "Toxic Dump",
+      "time": 18.17,
+      "name": "LYN"
+    },
+    {
+      "car": "Sentinel",
+      "track": "Toxic Dump",
+      "time": 22.59,
+      "name": "LYN"
+    },
+    {
+      "car": "Dervish",
+      "track": "Toxic Dump",
+      "time": 23.24,
+      "name": "LYN"
+    },
+    {
+      "car": "Vagabond",
+      "track": "Toxic Dump",
+      "time": 24.97,
+      "name": "LYN"
+    },
+    {
+      "car": "Vagabond",
+      "track": "Toxic Dump",
+      "time": 24.78,
+      "name": "LYN"
+    },
+    {
       "car": "Deliverator",
       "track": "Palm Side",
       "time": 7.62,
@@ -179,6 +623,36 @@
       "car": "Deliverator",
       "track": "Palm Side",
       "time": 7.14,
+      "name": "LYN"
+    },
+    {
+      "car": "Wraith",
+      "track": "Palm Side",
+      "time": 8.44,
+      "name": "LYN"
+    },
+    {
+      "car": "Shrieker",
+      "track": "Palm Side",
+      "time": 8.72,
+      "name": "LYN"
+    },
+    {
+      "car": "Sentinel",
+      "track": "Palm Side",
+      "time": 10.41,
+      "name": "LYN"
+    },
+    {
+      "car": "Dervish",
+      "track": "Palm Side",
+      "time": 11.63,
+      "name": "LYN"
+    },
+    {
+      "car": "Vagabond",
+      "track": "Palm Side",
+      "time": 12.55,
       "name": "LYN"
     },
     {
@@ -206,6 +680,36 @@
       "name": "LYN"
     },
     {
+      "car": "Wraith",
+      "track": "Hell Mountain",
+      "time": 10.26,
+      "name": "LYN"
+    },
+    {
+      "car": "Shrieker",
+      "track": "Hell Mountain",
+      "time": 8.52,
+      "name": "LYN"
+    },
+    {
+      "car": "Sentinel",
+      "track": "Hell Mountain",
+      "time": 10.41,
+      "name": "LYN"
+    },
+    {
+      "car": "Dervish",
+      "track": "Hell Mountain",
+      "time": 10.55,
+      "name": "LYN"
+    },
+    {
+      "car": "Vagabond",
+      "track": "Hell Mountain",
+      "time": 11.96,
+      "name": "LYN"
+    },
+    {
       "car": "Deliverator",
       "track": "Desert Run",
       "time": 15.28,
@@ -215,6 +719,54 @@
       "car": "Deliverator",
       "track": "Desert Run",
       "time": 14.42,
+      "name": "LYN"
+    },
+    {
+      "car": "Wraith",
+      "track": "Desert Run",
+      "time": 18.35,
+      "name": "LYN"
+    },
+    {
+      "car": "Wraith",
+      "track": "Desert Run",
+      "time": 16.49,
+      "name": "LYN"
+    },
+    {
+      "car": "Shrieker",
+      "track": "Desert Run",
+      "time": 19.34,
+      "name": "LYN"
+    },
+    {
+      "car": "Shrieker",
+      "track": "Desert Run",
+      "time": 18.86,
+      "name": "LYN"
+    },
+    {
+      "car": "Sentinel",
+      "track": "Desert Run",
+      "time": 20.44,
+      "name": "LYN"
+    },
+    {
+      "car": "Dervish",
+      "track": "Desert Run",
+      "time": 23.46,
+      "name": "LYN"
+    },
+    {
+      "car": "Vagabond",
+      "track": "Desert Run",
+      "time": 24.66,
+      "name": "LYN"
+    },
+    {
+      "car": "Vagabond",
+      "track": "Desert Run",
+      "time": 24.26,
       "name": "LYN"
     },
     {
@@ -242,6 +794,48 @@
       "name": "LYN"
     },
     {
+      "car": "Wraith",
+      "track": "Complex",
+      "time": 16.75,
+      "name": "LYN"
+    },
+    {
+      "car": "Shrieker",
+      "track": "Complex",
+      "time": 21.48,
+      "name": "LYN"
+    },
+    {
+      "car": "Sentinel",
+      "track": "Complex",
+      "time": 20.96,
+      "name": "LYN"
+    },
+    {
+      "car": "Sentinel",
+      "track": "Complex",
+      "time": 20.79,
+      "name": "LYN"
+    },
+    {
+      "car": "Dervish",
+      "track": "Complex",
+      "time": 22.12,
+      "name": "LYN"
+    },
+    {
+      "car": "Vagabond",
+      "track": "Complex",
+      "time": 26.11,
+      "name": "LYN"
+    },
+    {
+      "car": "Vagabond",
+      "track": "Complex",
+      "time": 24.79,
+      "name": "LYN"
+    },
+    {
       "car": "Deliverator",
       "track": "Borneo",
       "time": 9.24,
@@ -257,6 +851,48 @@
       "car": "Deliverator",
       "track": "Borneo",
       "time": 8.26,
+      "name": "LYN"
+    },
+    {
+      "car": "Wraith",
+      "track": "Borneo",
+      "time": 12.48,
+      "name": "LYN"
+    },
+    {
+      "car": "Wraith",
+      "track": "Borneo",
+      "time": 10.59,
+      "name": "LYN"
+    },
+    {
+      "car": "Shrieker",
+      "track": "Borneo",
+      "time": 11.59,
+      "name": "LYN"
+    },
+    {
+      "car": "Sentinel",
+      "track": "Borneo",
+      "time": 14.49,
+      "name": "LYN"
+    },
+    {
+      "car": "Sentinel",
+      "track": "Borneo",
+      "time": 14.15,
+      "name": "LYN"
+    },
+    {
+      "car": "Dervish",
+      "track": "Borneo",
+      "time": 14.73,
+      "name": "LYN"
+    },
+    {
+      "car": "Vagabond",
+      "track": "Borneo",
+      "time": 14.97,
       "name": "LYN"
     },
     {
@@ -284,6 +920,48 @@
       "name": "LYN"
     },
     {
+      "car": "Wraith",
+      "track": "Newark",
+      "time": 13.05,
+      "name": "LYN"
+    },
+    {
+      "car": "Wraith",
+      "track": "Newark",
+      "time": 11.05,
+      "name": "LYN"
+    },
+    {
+      "car": "Shrieker",
+      "track": "Newark",
+      "time": 13.92,
+      "name": "LYN"
+    },
+    {
+      "car": "Shrieker",
+      "track": "Newark",
+      "time": 12.58,
+      "name": "LYN"
+    },
+    {
+      "car": "Sentinel",
+      "track": "Newark",
+      "time": 14.51,
+      "name": "LYN"
+    },
+    {
+      "car": "Dervish",
+      "track": "Newark",
+      "time": 14.66,
+      "name": "LYN"
+    },
+    {
+      "car": "Vagabond",
+      "track": "Newark",
+      "time": 16.83,
+      "name": "LYN"
+    },
+    {
       "car": "Deliverator",
       "track": "Eidolon",
       "time": 8.01,
@@ -299,6 +977,42 @@
       "car": "Deliverator",
       "track": "Eidolon",
       "time": 7.78,
+      "name": "LYN"
+    },
+    {
+      "car": "Wraith",
+      "track": "Eidolon",
+      "time": 10.14,
+      "name": "LYN"
+    },
+    {
+      "car": "Wraith",
+      "track": "Eidolon",
+      "time": 9.96,
+      "name": "LYN"
+    },
+    {
+      "car": "Shrieker",
+      "track": "Eidolon",
+      "time": 10.79,
+      "name": "LYN"
+    },
+    {
+      "car": "Sentinel",
+      "track": "Eidolon",
+      "time": 12.78,
+      "name": "LYN"
+    },
+    {
+      "car": "Dervish",
+      "track": "Eidolon",
+      "time": 13.71,
+      "name": "LYN"
+    },
+    {
+      "car": "Vagabond",
+      "track": "Eidolon",
+      "time": 14.61,
       "name": "LYN"
     }
   ],
