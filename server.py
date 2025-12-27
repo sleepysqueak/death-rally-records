@@ -754,8 +754,10 @@ def browse_view():
       if(!container){ return; }
       try{
         if(!rows || rows.length === 0){ container.innerHTML = '<p>No results</p>'; return; }
-        let html = '<table><tr><th>#</th><th>Car</th><th>Track</th><th>Driver</th><th>Time (s)</th><th>Uploaded</th></tr>';
+        // New left-most column shows racer_rank (position among drivers based on each driver's best time)
+        let html = '<table><tr><th>Racer Rank</th><th>#</th><th>Car</th><th>Track</th><th>Driver</th><th>Time (s)</th><th>Uploaded</th></tr>';
         rows.forEach((r) => {
+          const racerRank = (r.racer_rank !== undefined && r.racer_rank !== null) ? r.racer_rank : '';
           const rank = (r.rank !== undefined && r.rank !== null) ? r.rank : '';
           const time = (r.time !== null && r.time !== undefined && !isNaN(Number(r.time))) ? Number(r.time).toFixed(2) : '';
           let uploaded_td = '<td></td>';
@@ -770,7 +772,7 @@ def browse_view():
           const car = r.car_name || '';
           const track = r.track_name || '';
           const driver = r.driver_name || '';
-          html += `<tr><td>${rank}</td><td>${car}</td><td>${track}</td><td>${driver}</td><td>${time}</td>${uploaded_td}</tr>`;
+          html += `<tr><td>${racerRank}</td><td>${rank}</td><td>${car}</td><td>${track}</td><td>${driver}</td><td>${time}</td>${uploaded_td}</tr>`;
         });
         html += '</table>';
         container.innerHTML = html;
@@ -805,9 +807,11 @@ def browse_view():
           const a = document.createElement('a'); a.href = url; a.download = filenameBase + '.json'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url); return;
         }
         const delim = format === 'tsv' ? '\\t' : ',';
-        const headers = ['Rank','Car','Track','Driver','Time','Uploaded'];
+        // include Racer Rank as the first column in exports
+        const headers = ['Racer Rank','Rank','Car','Track','Driver','Time','Uploaded'];
         const lines = [headers.join(delim)];
         rows.forEach(r=>{
+          const racerRank = r.racer_rank !== undefined && r.racer_rank !== null ? String(r.racer_rank) : '';
           const rank = r.rank !== undefined && r.rank !== null ? String(r.rank) : '';
           const car = r.car_name || '';
           const track = r.track_name || '';
@@ -815,9 +819,9 @@ def browse_view():
           const time = (r.time !== null && r.time !== undefined && !isNaN(Number(r.time))) ? Number(r.time).toFixed(2) : '';
           const uploaded = r.uploaded_at || '';
           if(format === 'csv'){
-            lines.push([_escapeCsv(rank), _escapeCsv(car), _escapeCsv(track), _escapeCsv(driver), _escapeCsv(time), _escapeCsv(uploaded)].join(delim));
+            lines.push([_escapeCsv(racerRank), _escapeCsv(rank), _escapeCsv(car), _escapeCsv(track), _escapeCsv(driver), _escapeCsv(time), _escapeCsv(uploaded)].join(delim));
           }else{
-            lines.push([_cleanTsv(rank), _cleanTsv(car), _cleanTsv(track), _cleanTsv(driver), _cleanTsv(time), _cleanTsv(uploaded)].join(delim));
+            lines.push([_cleanTsv(racerRank), _cleanTsv(rank), _cleanTsv(car), _cleanTsv(track), _cleanTsv(driver), _cleanTsv(time), _cleanTsv(uploaded)].join(delim));
           }
         });
         const outText = lines.join('\\n');

@@ -66,15 +66,26 @@ def register_routes(app, db_filename: str,
                 limit = 1
             # compute ROW_NUMBER / driver_best without applying driver filters so rank is global
             if allow_dups:
-                # build base SQL that always computes global row_number
+                # build base SQL that always computes global row_number and per-driver best rank (racer_rank)
                 sql = f"""
-                SELECT l.car_type, l.track_idx, l.driver_name, l.time, l.rn AS rank, u.uploaded_at
-                FROM (
-                    SELECT car_type, track_idx, driver_name, time, upload_id,
-                           ROW_NUMBER() OVER (PARTITION BY car_type, track_idx ORDER BY time ASC) as rn
-                    FROM lap_records
-                    WHERE time IS NOT NULL
-                ) l
+                WITH driver_best AS (
+                  SELECT car_type, track_idx, driver_name, MIN(time) AS best_time
+                  FROM lap_records
+                  WHERE time IS NOT NULL
+                  GROUP BY car_type, track_idx, driver_name
+                ), driver_rank AS (
+                  SELECT car_type, track_idx, driver_name,
+                         ROW_NUMBER() OVER (PARTITION BY car_type, track_idx ORDER BY best_time ASC) AS racer_rank
+                  FROM driver_best
+                ), l AS (
+                  SELECT car_type, track_idx, driver_name, time, upload_id,
+                         ROW_NUMBER() OVER (PARTITION BY car_type, track_idx ORDER BY time ASC) as rn
+                  FROM lap_records
+                  WHERE time IS NOT NULL
+                )
+                SELECT l.car_type, l.track_idx, l.driver_name, l.time, l.rn AS rank, dr.racer_rank, u.uploaded_at
+                FROM l
+                LEFT JOIN driver_rank dr ON dr.car_type = l.car_type AND dr.track_idx = l.track_idx AND dr.driver_name = l.driver_name
                 JOIN uploads u ON l.upload_id = u.id
                 """
                 exec_params = []
@@ -103,12 +114,17 @@ def register_routes(app, db_filename: str,
                   FROM lap_records
                   WHERE time IS NOT NULL
                   GROUP BY car_type, track_idx, driver_name
+                ), driver_rank AS (
+                  SELECT car_type, track_idx, driver_name,
+                         ROW_NUMBER() OVER (PARTITION BY car_type, track_idx ORDER BY best_time ASC) AS racer_rank
+                  FROM driver_best
                 ), best_with_rank AS (
-                  SELECT db.car_type, db.track_idx, db.driver_name, db.best_time AS time, ar.rank_global AS rank, ar.upload_id
+                  SELECT db.car_type, db.track_idx, db.driver_name, db.best_time AS time, ar.rank_global AS rank, ar.upload_id, dr.racer_rank
                   FROM driver_best db
                   JOIN all_ranks ar ON ar.car_type = db.car_type AND ar.track_idx = db.track_idx AND ar.driver_name = db.driver_name AND ar.time = db.best_time
+                  LEFT JOIN driver_rank dr ON dr.car_type = db.car_type AND dr.track_idx = db.track_idx AND dr.driver_name = db.driver_name
                 )
-                SELECT b.car_type, b.track_idx, b.driver_name, b.time, b.rank, u.uploaded_at
+                SELECT b.car_type, b.track_idx, b.driver_name, b.time, b.rank, b.racer_rank, u.uploaded_at
                 FROM best_with_rank b
                 JOIN uploads u ON b.upload_id = u.id
                 """
@@ -135,15 +151,25 @@ def register_routes(app, db_filename: str,
             def _top_n_for_pair(car_val, track_val, allow_dups_flag, limit_val):
                 if allow_dups_flag:
                     # compute ROW_NUMBER() over the full set for this car/track (no driver filter) so rank is global
-                    sql = ('SELECT l.car_type, l.track_idx, l.driver_name, l.time, l.rn AS rank, u.uploaded_at '
-                           'FROM ( '
+                    sql = ('WITH driver_best AS ( '
+                           '  SELECT car_type, track_idx, driver_name, MIN(time) AS best_time '
+                           '  FROM lap_records '
+                           '  WHERE time IS NOT NULL AND car_type = ? AND track_idx = ? '
+                           '  GROUP BY car_type, track_idx, driver_name '
+                           '), driver_rank AS ( '
+                           '  SELECT car_type, track_idx, driver_name, ROW_NUMBER() OVER (PARTITION BY car_type, track_idx ORDER BY best_time ASC) AS racer_rank '
+                           '  FROM driver_best '
+                           '), l AS ( '
                            '  SELECT car_type, track_idx, driver_name, time, upload_id, '
                            '         ROW_NUMBER() OVER (PARTITION BY car_type, track_idx ORDER BY time ASC) AS rn '
                            '  FROM lap_records '
                            '  WHERE time IS NOT NULL AND car_type = ? AND track_idx = ? '
-                           ') l '
+                           ') '
+                           'SELECT l.car_type, l.track_idx, l.driver_name, l.time, l.rn AS rank, dr.racer_rank, u.uploaded_at '
+                           'FROM l '
+                           'LEFT JOIN driver_rank dr ON dr.car_type = l.car_type AND dr.track_idx = l.track_idx AND dr.driver_name = l.driver_name '
                            'JOIN uploads u ON l.upload_id = u.id ')
-                    params = [car_val, track_val]
+                    params = [car_val, track_val, car_val, track_val]
                     # If no driver filter then restrict to top-N using rn
                     if not drv_clause_common:
                         sql += 'WHERE l.rn <= ?'
@@ -169,12 +195,17 @@ def register_routes(app, db_filename: str,
                       FROM lap_records
                       WHERE time IS NOT NULL AND car_type = ? AND track_idx = ?
                       GROUP BY car_type, track_idx, driver_name
+                    ), driver_rank AS (
+                      SELECT car_type, track_idx, driver_name,
+                             ROW_NUMBER() OVER (PARTITION BY car_type, track_idx ORDER BY best_time ASC) AS racer_rank
+                      FROM driver_best
                     ), best_with_rank AS (
-                      SELECT db.car_type, db.track_idx, db.driver_name, db.best_time AS time, ar.rank_global AS rank, ar.upload_id
+                      SELECT db.car_type, db.track_idx, db.driver_name, db.best_time AS time, ar.rank_global AS rank, ar.upload_id, dr.racer_rank
                       FROM driver_best db
                       JOIN all_ranks ar ON ar.car_type = db.car_type AND ar.track_idx = db.track_idx AND ar.driver_name = db.driver_name AND ar.time = db.best_time
+                      LEFT JOIN driver_rank dr ON dr.car_type = db.car_type AND dr.track_idx = db.track_idx AND dr.driver_name = db.driver_name
                     )
-                    SELECT b.car_type, b.track_idx, b.driver_name, b.time, b.rank, u.uploaded_at
+                    SELECT b.car_type, b.track_idx, b.driver_name, b.time, b.rank, b.racer_rank, u.uploaded_at
                     FROM best_with_rank b
                     JOIN uploads u ON b.upload_id = u.id
                     """)
@@ -262,6 +293,12 @@ def register_routes(app, db_filename: str,
             if d.get('rank') is not None:
                 try:
                     d['rank'] = int(d.get('rank'))
+                except Exception:
+                    pass
+            # ensure racer_rank is an int when present
+            if d.get('racer_rank') is not None:
+                try:
+                    d['racer_rank'] = int(d.get('racer_rank'))
                 except Exception:
                     pass
             mapped.append(d)
