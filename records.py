@@ -10,7 +10,7 @@ import json
 @dataclass
 class LapRecord:
     car_type: int        # 0..5 index for car type
-    track_idx: int       # 1..18 index for track
+    track_idx: int       # 0..17 index for track
     time: Optional[float]
     driver_name: str
 
