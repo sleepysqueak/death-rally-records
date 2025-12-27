@@ -151,24 +151,27 @@ def register_routes(app, db_filename: str,
             def _top_n_for_pair(car_val, track_val, allow_dups_flag, limit_val):
                 if allow_dups_flag:
                     # compute ROW_NUMBER() over the full set for this car/track (no driver filter) so rank is global
-                    sql = ('WITH driver_best AS ( '
-                           '  SELECT car_type, track_idx, driver_name, MIN(time) AS best_time '
-                           '  FROM lap_records '
-                           '  WHERE time IS NOT NULL AND car_type = ? AND track_idx = ? '
-                           '  GROUP BY car_type, track_idx, driver_name '
-                           '), driver_rank AS ( '
-                           '  SELECT car_type, track_idx, driver_name, ROW_NUMBER() OVER (PARTITION BY car_type, track_idx ORDER BY best_time ASC) AS racer_rank '
-                           '  FROM driver_best '
-                           '), l AS ( '
-                           '  SELECT car_type, track_idx, driver_name, time, upload_id, '
-                           '         ROW_NUMBER() OVER (PARTITION BY car_type, track_idx ORDER BY time ASC) AS rn '
-                           '  FROM lap_records '
-                           '  WHERE time IS NOT NULL AND car_type = ? AND track_idx = ? '
-                           ') '
-                           'SELECT l.car_type, l.track_idx, l.driver_name, l.time, l.rn AS rank, dr.racer_rank, u.uploaded_at '
-                           'FROM l '
-                           'LEFT JOIN driver_rank dr ON dr.car_type = l.car_type AND dr.track_idx = l.track_idx AND dr.driver_name = l.driver_name '
-                           'JOIN uploads u ON l.upload_id = u.id ')
+                    sql = """
+                    WITH driver_best AS (
+                      SELECT car_type, track_idx, driver_name, MIN(time) AS best_time
+                      FROM lap_records
+                      WHERE time IS NOT NULL AND car_type = ? AND track_idx = ?
+                      GROUP BY car_type, track_idx, driver_name
+                    ), driver_rank AS (
+                      SELECT car_type, track_idx, driver_name,
+                             ROW_NUMBER() OVER (PARTITION BY car_type, track_idx ORDER BY best_time ASC) AS racer_rank
+                      FROM driver_best
+                    ), l AS (
+                      SELECT car_type, track_idx, driver_name, time, upload_id,
+                             ROW_NUMBER() OVER (PARTITION BY car_type, track_idx ORDER BY time ASC) AS rn
+                      FROM lap_records
+                      WHERE time IS NOT NULL AND car_type = ? AND track_idx = ?
+                    )
+                    SELECT l.car_type, l.track_idx, l.driver_name, l.time, l.rn AS rank, dr.racer_rank, u.uploaded_at
+                    FROM l
+                    LEFT JOIN driver_rank dr ON dr.car_type = l.car_type AND dr.track_idx = l.track_idx AND dr.driver_name = l.driver_name
+                    JOIN uploads u ON l.upload_id = u.id
+                    """
                     params = [car_val, track_val, car_val, track_val]
                     # If no driver filter then restrict to top-N using rn
                     if not drv_clause_common:
@@ -184,7 +187,7 @@ def register_routes(app, db_filename: str,
                     return [dict(r) for r in cur.fetchall()]
                 else:
                     # compute global ranks for this car/track, then pick each driver's best record and report its global rank
-                    sql = ("""
+                    sql = """
                     WITH all_ranks AS (
                       SELECT car_type, track_idx, driver_name, time, upload_id,
                              ROW_NUMBER() OVER (PARTITION BY car_type, track_idx ORDER BY time ASC) AS rank_global
@@ -208,7 +211,7 @@ def register_routes(app, db_filename: str,
                     SELECT b.car_type, b.track_idx, b.driver_name, b.time, b.rank, b.racer_rank, u.uploaded_at
                     FROM best_with_rank b
                     JOIN uploads u ON b.upload_id = u.id
-                    """)
+                    """
                     params = [car_val, track_val, car_val, track_val]
                     # If no driver filter then restrict to top-N by global rank
                     if not drv_clause_common:
