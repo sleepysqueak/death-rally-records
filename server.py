@@ -4,7 +4,7 @@ import os
 from dataclasses import asdict
 from typing import Any, List, Tuple, Union
 import sqlite3
-from datetime import datetime, timezone
+from datetime import datetime, UTC
 import json
 
 # Import the existing parser
@@ -139,7 +139,7 @@ def save_records(db_path: str, filename: str, lap_records: List[LapRecord], fini
     conn = sqlite3.connect(db_path)
     cur = conn.cursor()
 
-    uploaded_at = datetime.now(timezone.utc).isoformat() + 'Z'
+    uploaded_at = datetime.now(UTC).isoformat()
     cur.execute('INSERT INTO uploads (filename, uploaded_at) VALUES (?, ?)', (filename, uploaded_at))
     upload_id = cur.lastrowid
 
