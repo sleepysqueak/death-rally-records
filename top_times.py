@@ -92,16 +92,21 @@ def register_routes(app, db_filename: str,
                 JOIN uploads u ON l.upload_id = u.id
             """
             exec_params = list(params)
-            # Only apply an SQL-side limit when a concrete limit_val is provided
-            # (global queries pass a limit). For per-pair distinct-driver selection
-            # we will pass limit_val=None so the helper fetches a larger candidate set
-            # and let Python trimming enforce distinct-driver limits.
-            if limit_val is not None:
-                sql += 'WHERE l.rn <= ?'
-                exec_params.append(limit_val)
-            elif outer_drv_clause:
-                sql += outer_drv_clause
+            # Preserve original semantics: if an outer driver filter is present
+            # (we are filtering by driver) apply it and DO NOT apply the SQL-side
+            # top-N restriction so that global ranks remain meaningful. Only when
+            # no outer driver filter is given may we apply the SQL-side restriction
+            # to limit candidate rows.
+            if outer_drv_clause:
+                # outer_drv_clause is in the form ' AND <cond>'; convert to proper WHERE
+                where_part = outer_drv_clause.strip()
+                if where_part.upper().startswith('AND '):
+                    where_part = where_part[4:]
+                sql += ' WHERE ' + where_part
                 exec_params.extend(outer_drv_params)
+            elif limit_val is not None:
+                sql += ' WHERE l.rn <= ?'
+                exec_params.append(limit_val)
             sql += ' ORDER BY l.time ASC'
             cur.execute(sql, exec_params)
             return [dict(r) for r in cur.fetchall()]
@@ -138,13 +143,18 @@ def register_routes(app, db_filename: str,
                     JOIN uploads u ON b.upload_id = u.id
             """
             exec_params = list(params)
-            # Only apply SQL-side rank limit if a concrete limit is provided.
-            if limit_val is not None:
+            # Preserve original semantics: if an outer driver filter is present
+            # apply it and do not apply SQL-side top-N. Otherwise, if a concrete
+            # limit is provided, apply it in SQL.
+            if outer_drv_clause:
+                where_part = outer_drv_clause.strip()
+                if where_part.upper().startswith('AND '):
+                    where_part = where_part[4:]
+                sql += ' WHERE ' + where_part
+                exec_params.extend(outer_drv_params)
+            elif limit_val is not None:
                 sql += ' WHERE b.rank <= ?'
                 exec_params.append(limit_val)
-            elif outer_drv_clause:
-                sql += ' ' + outer_drv_clause
-                exec_params.extend(outer_drv_params)
             sql += ' ORDER BY b.rank ASC'
             cur.execute(sql, exec_params)
             return [dict(r) for r in cur.fetchall()]
