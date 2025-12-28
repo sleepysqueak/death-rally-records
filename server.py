@@ -772,7 +772,7 @@ def browse_view():
           const car = r.car_name || '';
           const track = r.track_name || '';
           const driver = r.driver_name || '';
-          html += `<tr><td>${racerRank}</td><td>${rank}</td><td>${car}</td><td>${track}</td><td>${driver}</td><td>${time}</td>${uploaded_td}</tr>`;
+          html += `<tr><td>${racerRank}</td><td>${rank}</td><td>${car}</td><td>${track}</td><td>${driver}</td><td>${time}</td>${uploaded_td}</td>`;
         });
         html += '</table>';
         container.innerHTML = html;
@@ -819,7 +819,14 @@ def browse_view():
           const time = (r.time !== null && r.time !== undefined && !isNaN(Number(r.time))) ? Number(r.time).toFixed(2) : '';
           const uploaded = r.uploaded_at || '';
           if(format === 'csv'){
-            lines.push([_escapeCsv(racerRank), _escapeCsv(rank), _escapeCsv(car), _escapeCsv(track), _escapeCsv(driver), _escapeCsv(time), _escapeCsv(uploaded)].join(delim));
+            // Emit numeric fields without quotes so spreadsheets import them as numbers
+            const rrField = (racerRank !== '' && !isNaN(Number(racerRank))) ? String(Number(racerRank)) : '';
+            const rankField = (rank !== '' && !isNaN(Number(rank))) ? String(Number(rank)) : '';
+            // sanitize: remove any stray double-quotes just in case
+            const sanitize = s => s.replace(/"/g, '');
+            const rrSan = sanitize(rrField);
+            const rankSan = sanitize(rankField);
+            lines.push([rrSan, rankSan, _escapeCsv(car), _escapeCsv(track), _escapeCsv(driver), _escapeCsv(time), _escapeCsv(uploaded)].join(delim));
           }else{
             lines.push([_cleanTsv(racerRank), _cleanTsv(rank), _cleanTsv(car), _cleanTsv(track), _cleanTsv(driver), _cleanTsv(time), _cleanTsv(uploaded)].join(delim));
           }
