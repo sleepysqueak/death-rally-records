@@ -756,7 +756,7 @@ def browse_view():
         if(!rows || rows.length === 0){ container.innerHTML = '<p>No results</p>'; return; }
         // Single '#' column: show overall rank and racer rank in parentheses
         // Add a hover/title on the '#' header to explain the combined value
-        let html = '<table><tr><th title="Overall rank = global position; Racer rank in parentheses = position among distinct drivers">#</th><th>Car</th><th>Track</th><th>Driver</th><th>Time (s)</th><th>Uploaded</th></tr>';
+        let html = '<table><tr><th title="Overall rank = global position; Racer rank in parentheses = position among best times of other drivers">#</th><th>Car</th><th>Track</th><th>Driver</th><th>Time (s)</th><th>Uploaded</th></tr>';
         rows.forEach((r) => {
           const racerRank = (r.racer_rank !== undefined && r.racer_rank !== null) ? r.racer_rank : '';
           const rank = (r.rank !== undefined && r.rank !== null) ? r.rank : '';
