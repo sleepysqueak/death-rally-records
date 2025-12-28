@@ -173,7 +173,8 @@ def register_routes(app, db_filename: str,
                 # outer driver clause should reference b.driver_name
                 outer_drv_clause = drv_clause.replace('driver_name', 'b.driver_name') if drv_clause else ''
                 outer_drv_params = list(drv_params)
-                rows = _fetch_no_dups_for(None, None, outer_drv_clause, outer_drv_params, limit)
+                # Do not apply SQL-side top-N here so we can pick next-best distinct drivers in Python trimming
+                rows = _fetch_no_dups_for(None, None, outer_drv_clause, outer_drv_params, None)
         else:
             # When filters are present, return top-N per requested combination(s)
             if limit is None:
