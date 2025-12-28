@@ -95,12 +95,14 @@ def register_routes(app, db_filename: str,
                 JOIN uploads u ON l.upload_id = u.id
             """
             exec_params = list(params)
-            if not outer_drv_clause:
-                # restrict to top-N using rn
+            # Only apply an SQL-side limit when a concrete limit_val is provided
+            # (global queries pass a limit). For per-pair distinct-driver selection
+            # we will pass limit_val=None so the helper fetches a larger candidate set
+            # and let Python trimming enforce distinct-driver limits.
+            if limit_val is not None:
                 sql += 'WHERE l.rn <= ?'
                 exec_params.append(limit_val)
-            else:
-                # apply outer driver filter but do not restrict by rn
+            elif outer_drv_clause:
                 sql += outer_drv_clause
                 exec_params.extend(outer_drv_params)
             sql += ' ORDER BY l.time ASC'
@@ -143,10 +145,11 @@ def register_routes(app, db_filename: str,
                     JOIN uploads u ON b.upload_id = u.id
             """
             exec_params = list(params)
-            if not outer_drv_clause:
+            # Only apply SQL-side rank limit if a concrete limit is provided.
+            if limit_val is not None:
                 sql += ' WHERE b.rank <= ?'
                 exec_params.append(limit_val)
-            else:
+            elif outer_drv_clause:
                 sql += ' ' + outer_drv_clause
                 exec_params.extend(outer_drv_params)
             sql += ' ORDER BY b.rank ASC'
@@ -185,7 +188,9 @@ def register_routes(app, db_filename: str,
                 else:
                     outer_drv_clause = drv_clause_common.replace('l.driver_name', 'b.driver_name') if drv_clause_common else ''
                     outer_drv_params = list(drv_params_common)
-                    return _fetch_no_dups_for(car_val, track_val, outer_drv_clause, outer_drv_params, limit_val)
+                    # For distinct-driver selection, avoid SQL-side top-N so we can
+                    # pick the next-best distinct drivers in Python trimming.
+                    return _fetch_no_dups_for(car_val, track_val, outer_drv_clause, outer_drv_params, None)
 
             # If both car and track lists specified: run queries for each pair
             if car_idx_vals and track_idx_vals:
@@ -234,12 +239,44 @@ def register_routes(app, db_filename: str,
 
                 trimmed = []
                 counts = {}
-                for r in rows:
-                    key = (r.get('car_type'), r.get('track_idx'))
-                    cnt = counts.get(key, 0)
-                    if cnt < limit:
-                        trimmed.append(r)
-                        counts[key] = cnt + 1
+                # Ensure up to `limit` results per (car,track). If allow_dups is True
+                # keep the first `limit` rows. If allow_dups is False, prefer up to
+                # `limit` distinct drivers per (car,track) by selecting the first
+                # seen row for each driver (rows are sorted by rank/time already).
+                if allow_dups:
+                    for r in rows:
+                        key = (r.get('car_type'), r.get('track_idx'))
+                        cnt = counts.get(key, 0)
+                        if cnt < limit:
+                            trimmed.append(r)
+                            counts[key] = cnt + 1
+                else:
+                    # build first-seen-per-driver mapping in order
+                    key_order = []
+                    first_seen_per_key = {}  # key -> { driver_name: row }
+                    for r in rows:
+                        key = (r.get('car_type'), r.get('track_idx'))
+                        if key not in first_seen_per_key:
+                            first_seen_per_key[key] = {}
+                            key_order.append(key)
+                        drv_raw = r.get('driver_name')
+                        # normalize empty/null driver names to empty string and lower-case/strip
+                        drv = ('' if drv_raw is None else str(drv_raw)).strip().lower()
+                        drivers_map = first_seen_per_key[key]
+                        if drv in drivers_map:
+                            # already have this driver's best row
+                            continue
+                        # record the first (best) row for this driver
+                        drivers_map[drv] = r
+                    # now, for each (car,track) in order, take up to `limit` distinct drivers
+                    for key in key_order:
+                        drivers_rows = list(first_seen_per_key[key].values())
+                        cnt = 0
+                        for rr in drivers_rows:
+                            if cnt >= limit:
+                                break
+                            trimmed.append(rr)
+                            cnt += 1
                 rows = trimmed
             except Exception:
                 # if anything goes wrong, fall back to original rows
