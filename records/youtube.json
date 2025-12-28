@@ -1658,7 +1658,73 @@
       "track": "Eidolon",
       "time": 8.09,
       "name": "YUPE"
-    }
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=gkiCGwkI0QA @ 1:57 by Paladino Br",
+      "car": "Vagabond",
+      "track": "Eidolon",
+      "time": 14.66,
+      "name": "TIAO"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=s6r8RqM8M8k @ 9:57 by Aeterna",
+      "car": "Shrieker",
+      "track": "Snake Alley",
+      "time": 24.17,
+      "name": "AETERNA"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=Eir7t4yOIGE @ 13:30 by ele",
+      "car": "Shrieker",
+      "track": "Snake Alley",
+      "time": 23.53,
+      "name": "ELE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=Eir7t4yOIGE @ 26:22 by ele",
+      "car": "Shrieker",
+      "track": "Complex",
+      "time": 22.68,
+      "name": "ELE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=Eir7t4yOIGE @ 28:52 by ele",
+      "car": "Shrieker",
+      "track": "Downtown",
+      "time": 15.44,
+      "name": "ELE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=Eir7t4yOIGE @ 28:52 by ele",
+      "car": "Shrieker",
+      "track": "Velodrome",
+      "time": 13.49,
+      "name": "ELE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=Eir7t4yOIGE @ 39:26 by ele",
+      "car": "Shrieker",
+      "track": "Desert Run",
+      "time": 23.45,
+      "name": "ELE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=Eir7t4yOIGE @ 50:04 by ele",
+      "car": "Shrieker",
+      "track": "Oasis",
+      "time": 11.93,
+      "name": "ELE"
+    },
+    {
+      "__comment" : "https://www.youtube.com/watch?v=Eir7t4yOIGE @ 52:25 by ele",
+      "car": "Shrieker",
+      "track": "Downtown",
+      "time": 14.56,
+      "name": "ELE"
+    },
+
+
+
   ],
   "finish_records": [
     {
