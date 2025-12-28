@@ -79,19 +79,16 @@ def register_routes(app, db_filename: str,
                   FROM lap_records
                   {driver_best_where}
                   GROUP BY car_type, track_idx, driver_name
-                ), driver_rank AS (
-                  SELECT car_type, track_idx, driver_name,
-                         ROW_NUMBER() OVER (PARTITION BY car_type, track_idx ORDER BY best_time ASC) AS racer_rank
-                  FROM driver_best
                 ), l AS (
                   SELECT car_type, track_idx, driver_name, time, upload_id,
                          ROW_NUMBER() OVER (PARTITION BY car_type, track_idx ORDER BY time ASC) AS rn
                   FROM lap_records
                   {l_where}
                 )
-                SELECT l.car_type, l.track_idx, l.driver_name, l.time, l.rn AS rank, dr.racer_rank, u.uploaded_at
+                SELECT l.car_type, l.track_idx, l.driver_name, l.time, l.rn AS rank,
+                       (SELECT COUNT(*) + 1 FROM driver_best db2 WHERE db2.car_type = l.car_type AND db2.track_idx = l.track_idx AND db2.best_time < l.time AND COALESCE(db2.driver_name,'') != COALESCE(l.driver_name,'')) AS racer_rank,
+                       u.uploaded_at
                 FROM l
-                LEFT JOIN driver_rank dr ON dr.car_type = l.car_type AND dr.track_idx = l.track_idx AND dr.driver_name = l.driver_name
                 JOIN uploads u ON l.upload_id = u.id
             """
             exec_params = list(params)
@@ -130,15 +127,11 @@ def register_routes(app, db_filename: str,
                       FROM lap_records
                       {driver_best_where}
                       GROUP BY car_type, track_idx, driver_name
-                    ), driver_rank AS (
-                      SELECT car_type, track_idx, driver_name,
-                             ROW_NUMBER() OVER (PARTITION BY car_type, track_idx ORDER BY best_time ASC) AS racer_rank
-                      FROM driver_best
                     ), best_with_rank AS (
-                      SELECT db.car_type, db.track_idx, db.driver_name, db.best_time AS time, ar.rank_global AS rank, ar.upload_id, dr.racer_rank
+                      SELECT db.car_type, db.track_idx, db.driver_name, db.best_time AS time, ar.rank_global AS rank, ar.upload_id,
+                             (SELECT COUNT(*) + 1 FROM driver_best db2 WHERE db2.car_type = db.car_type AND db2.track_idx = db.track_idx AND db2.best_time < db.best_time AND COALESCE(db2.driver_name,'') != COALESCE(db.driver_name,'')) AS racer_rank
                       FROM driver_best db
                       JOIN all_ranks ar ON ar.car_type = db.car_type AND ar.track_idx = db.track_idx AND ar.driver_name = db.driver_name AND ar.time = db.best_time
-                      LEFT JOIN driver_rank dr ON dr.car_type = db.car_type AND dr.track_idx = db.track_idx AND dr.driver_name = db.driver_name
                     )
                     SELECT b.car_type, b.track_idx, b.driver_name, b.time, b.rank, b.racer_rank, u.uploaded_at
                     FROM best_with_rank b
