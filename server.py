@@ -754,30 +754,40 @@ def browse_view():
       if(!container){ return; }
       try{
         if(!rows || rows.length === 0){ container.innerHTML = '<p>No results</p>'; return; }
-        // New left-most column shows racer_rank (position among drivers based on each driver's best time)
-        let html = '<table><tr><th>Racer Rank</th><th>#</th><th>Car</th><th>Track</th><th>Driver</th><th>Time (s)</th><th>Uploaded</th></tr>';
+        // Single '#' column: show overall rank and racer rank in parentheses
+        // Add a hover/title on the '#' header to explain the combined value
+        let html = '<table><tr><th title="Overall rank = global position; Racer rank in parentheses = position among distinct drivers">#</th><th>Car</th><th>Track</th><th>Driver</th><th>Time (s)</th><th>Uploaded</th></tr>';
         rows.forEach((r) => {
           const racerRank = (r.racer_rank !== undefined && r.racer_rank !== null) ? r.racer_rank : '';
           const rank = (r.rank !== undefined && r.rank !== null) ? r.rank : '';
-          const time = (r.time !== null && r.time !== undefined && !isNaN(Number(r.time))) ? Number(r.time).toFixed(2) : '';
-          let uploaded_td = '<td></td>';
-          if(r.uploaded_at){
-            try{
-              const iso = new Date(r.uploaded_at).toISOString();
-              const hover = iso.replace('T',' ').replace(/Z$/,'');
-              const display = iso.split('T')[0];
-              uploaded_td = `<td title="${hover}">${display}</td>`;
-            }catch(e){ uploaded_td = `<td>${r.uploaded_at}</td>`; }
+          // combine overall rank and racer rank into single display like "5 (2)"
+          let rankDisplay = '';
+          if(rank !== '' && racerRank !== ''){
+            rankDisplay = `${rank} (${racerRank})`;
+          } else if(rank !== ''){
+            rankDisplay = String(rank);
+          } else if(racerRank !== ''){
+            rankDisplay = `(${racerRank})`;
           }
-          const car = r.car_name || '';
-          const track = r.track_name || '';
-          const driver = r.driver_name || '';
-          html += `<tr><td>${racerRank}</td><td>${rank}</td><td>${car}</td><td>${track}</td><td>${driver}</td><td>${time}</td>${uploaded_td}</td>`;
-        });
-        html += '</table>';
-        container.innerHTML = html;
-      }catch(err){ console && console.error && console.error('renderResults error', err); container.innerHTML = '<p style="color:red">Error rendering results</p>'; }
-    }
+           const time = (r.time !== null && r.time !== undefined && !isNaN(Number(r.time))) ? Number(r.time).toFixed(2) : '';
+           let uploaded_td = '<td></td>';
+           if(r.uploaded_at){
+             try{
+               const iso = new Date(r.uploaded_at).toISOString();
+               const hover = iso.replace('T',' ').replace(/Z$/,'');
+               const display = iso.split('T')[0];
+               uploaded_td = `<td title="${hover}">${display}</td>`;
+             }catch(e){ uploaded_td = `<td>${r.uploaded_at}</td>`; }
+           }
+           const car = r.car_name || '';
+           const track = r.track_name || '';
+           const driver = r.driver_name || '';
+           html += `<tr><td>${rankDisplay}</td><td>${car}</td><td>${track}</td><td>${driver}</td><td>${time}</td>${uploaded_td}</tr>`;
+         });
+         html += '</table>';
+         container.innerHTML = html;
+       }catch(err){ console && console.error && console.error('renderResults error', err); container.innerHTML = '<p style="color:red">Error rendering results</p>'; }
+     }
 
     // Client-side export helpers (use cached last results; no server call)
     function _escapeCsv(val){
