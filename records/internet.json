@@ -612,8 +612,8 @@
       "track": "Suburbia",
       "time": 10.86,
       "name": "MAXWEL"
-    }
-    , {
+    },
+    {
       "car": "Deliverator",
       "track": "Toxic Dump",
       "time": 18.18,
@@ -636,6 +636,916 @@
       "track": "West End",
       "time": 0.00,
       "name": ""
+    },
+    {
+      "__comment": "https://www.facebook.com/TwinGalaxies/videos/pc-death-rally-classic-toxic-dump-fastest-lap-time-17490/1216572657168766/",
+      "car": "Deliverator",
+      "track": "Toxic Dump",
+      "time": 17.49,
+      "name": "TK2025"
+    },
+    {
+      "__comment": "https://www.twingalaxies.com/records/voting-performances/282482-pc-death-rally-classic-fastest-time-borneo-dervish-car-lap-time-1858",
+      "car": "Dervish",
+      "track": "Borneo",
+      "time": 18.58,
+      "name": "TK2025"
+    },
+    {
+      "__comment": "https://www.twingalaxies.com/records/voting-performances/227036-pc-death-rally-classic-fastest-time-borneo-dervish-car-lap-time-2071-andrew-mee",
+      "car": "Dervish",
+      "track": "Borneo",
+      "time": 20.71,
+      "name": "BARTHAX"
+    },
+    {
+      "__comment": "https://www.twingalaxies.com/records/voting-performances/282566-pc-death-rally-classic-fastest-time-complex-dervish-car-lap-time-2758",
+      "car": "Dervish",
+      "track": "Complex",
+      "time": 27.58,
+      "name": "TK2025"
+    },
+    {
+      "__comment": "https://www.twingalaxies.com/records/voting-performances/227364-pc-death-rally-classic-fastest-time-complex-dervish-car-lap-time-2825-andrew-mee",
+      "car": "Dervish",
+      "track": "Complex",
+      "time": 28.25,
+      "name": "BARTHAX"
+    },
+    {
+      "__comment": "https://www.twingalaxies.com/records/voting-performances/282247-pc-death-rally-classic-fastest-time-desert-run-vagabond-car-lap-time-2724",
+      "car": "Vagabond",
+      "track": "Desert Run",
+      "time": 27.24,
+      "name": "TK2025"
+    },
+    {
+      "__comment": "https://www.twingalaxies.com/records/voting-performances/223199-pc-death-rally-classic-fastest-time-desert-run-vagabond-car-lap-time-3005-andrew-mee",
+      "car": "Vagabond",
+      "track": "Desert Run",
+      "time": 30.05,
+      "name": "BARTHAX"
+    },
+    {
+      "__comment": "https://www.twingalaxies.com/records/voting-performances/282572-pc-death-rally-classic-fastest-time-hell-mountain-dervish-car-lap-time-1393",
+      "car": "Dervish",
+      "track": "Hell Mountain",
+      "time": 13.93,
+      "name": "TK2025"
+    },
+    {
+      "__comment": "https://www.twingalaxies.com/records/voting-performances/227820-pc-death-rally-classic-fastest-time-hell-mountain-dervish-car-lap-time-1407-andrew-mee",
+      "car": "Dervish",
+      "track": "Hell Mountain",
+      "time": 14.07,
+      "name": "BARTHAX"
+    },
+    {
+      "__comment": "https://www.twingalaxies.com/records/voting-performances/281930-pc-death-rally-classic-fastest-time-hell-mountain-vagabond-car-lap-time-1496",
+      "car": "Vagabond",
+      "track": "Hell Mountain",
+      "time": 14.96,
+      "name": "TK2025"
+    },
+    {
+      "__comment": "https://www.twingalaxies.com/records/voting-performances/226593-pc-death-rally-classic-fastest-time-hell-mountain-vagabond-car-lap-time-1518-andrew-mee",
+      "car": "Vagabond",
+      "track": "Hell Mountain",
+      "time": 15.18,
+      "name": "BARTHAX"
+    },
+    {
+      "__comment": "https://www.twingalaxies.com/records/voting-performances/282712-pc-death-rally-classic-fastest-time-holocaust-dervish-car-lap-time-2669",
+      "car": "Dervish",
+      "track": "Holocaust",
+      "time": 26.69,
+      "name": "TK2025"
+    },
+    {
+      "__comment": "https://www.twingalaxies.com/records/voting-performances/228453-pc-death-rally-classic-fastest-time-holocaust-dervish-car-lap-time-2676-andrew-mee",
+      "car": "Dervish",
+      "track": "Holocaust",
+      "time": 26.76,
+      "name": "BARTHAX"
+    },
+    {
+      "__comment": "https://www.twingalaxies.com/records/voting-performances/282129-pc-death-rally-classic-fastest-time-holocaust-vagabond-car-lap-time-2878",
+      "car": "Vagabond",
+      "track": "Holocaust",
+      "time": 28.78,
+      "name": "TK2025"
+    },
+    {
+      "__comment": "https://www.twingalaxies.com/records/voting-performances/225224-pc-death-rally-classic-fastest-time-holocaust-vagabond-car-lap-time-2911-andrew-mee",
+      "car": "Vagabond",
+      "track": "Holocaust",
+      "time": 29.11,
+      "name": "BARTHAX"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/282615-pc-death-rally-classic-fastest-time-new-ark-dervish-car-lap-time-1988",
+      "car": "Dervish",
+      "track": "Newark",
+      "time": 19.88,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/228549-pc-death-rally-classic-fastest-time-new-ark-dervish-car-lap-time-2009-andrew-mee",
+      "car": "Dervish",
+      "track": "Newark",
+      "time": 20.09,
+      "name": "BARTHAX"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/282512-pc-death-rally-classic-fastest-time-oasis-dervish-car-lap-time-1451",
+      "car": "Dervish",
+      "track": "Oasis",
+      "time": 14.51,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/230094-pc-death-rally-classic-fastest-time-oasis-dervish-car-lap-time-1515-andrew-mee",
+      "car": "Dervish",
+      "track": "Oasis",
+      "time": 15.15,
+      "name": "BARTHAX"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/282125-pc-death-rally-classic-fastest-time-oasis-vagabond-car-lap-time-1583",
+      "car": "Vagabond",
+      "track": "Oasis",
+      "time": 15.83,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/228725-pc-death-rally-classic-fastest-time-oasis-vagabond-car-lap-time-1678-andrew-mee",
+      "car": "Vagabond",
+      "track": "Oasis",
+      "time": 16.78,
+      "name": "BARTHAX"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/282452-pc-death-rally-classic-fastest-time-palm-side-dervish-car-lap-time-1407",
+      "car": "Dervish",
+      "track": "Palm Side",
+      "time": 14.07,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/226769-pc-death-rally-classic-fastest-time-palm-side-dervish-car-lap-time-1511-andrew-mee",
+      "car": "Dervish",
+      "track": "Palm Side",
+      "time": 15.11,
+      "name": "BARTHAX"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/282188-pc-death-rally-classic-fastest-time-palm-side-vagabond-car-lap-time-1561",
+      "car": "Vagabond",
+      "track": "Palm Side",
+      "time": 15.61,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/226575-pc-death-rally-classic-fastest-time-palm-side-vagabond-car-lap-time-1608-andrew-mee",
+      "car": "Vagabond",
+      "track": "Palm Side",
+      "time": 16.08,
+      "name": "BARTHAX"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/282515-pc-death-rally-classic-fastest-time-rock-zone-dervish-car-lap-time-1375",
+      "car": "Dervish",
+      "track": "Rock Zone",
+      "time": 13.75,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/228910-pc-death-rally-classic-fastest-time-rock-zone-dervish-car-lap-time-1435-andrew-mee",
+      "car": "Dervish",
+      "track": "Rock Zone",
+      "time": 14.35,
+      "name": "BARTHAX"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/282186-pc-death-rally-classic-fastest-time-rock-zone-vagabond-car-lap-time-1568",
+      "car": "Vagabond",
+      "track": "Rock Zone",
+      "time": 15.68,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/224625-pc-death-rally-classic-fastest-time-rock-zone-vagabond-car-lap-time-1582-andrew-mee",
+      "car": "Vagabond",
+      "track": "Rock Zone",
+      "time": 15.82,
+      "name": "BARTHAX"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/282451-pc-death-rally-classic-fastest-time-snake-alley-dervish-car-lap-time-2671",
+      "car": "Dervish",
+      "track": "Snake Alley",
+      "time": 26.71,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/229053-pc-death-rally-classic-fastest-time-snake-alley-dervish-car-lap-time-3009-andrew-mee",
+      "car": "Dervish",
+      "track": "Snake Alley",
+      "time": 30.09,
+      "name": "BARTHAX"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/282226-pc-death-rally-classic-fastest-time-snake-alley-vagabond-car-lap-time-2835",
+      "car": "Vagabond",
+      "track": "Snake Alley",
+      "time": 28.35,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/223183-pc-death-rally-classic-fastest-time-snake-alley-vagabond-car-lap-time-2942-andrew-mee",
+      "car": "Vagabond",
+      "track": "Snake Alley",
+      "time": 29.42,
+      "name": "BARTHAX"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/281919-pc-death-rally-classic-fastest-time-suburbia-vagabond-car-lap-time-1822",
+      "car": "Vagabond",
+      "track": "Suburbia",
+      "time": 18.22,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/223200-pc-death-rally-classic-fastest-time-suburbia-vagabond-car-lap-time-1831-andrew-mee",
+      "car": "Vagabond",
+      "track": "Suburbia",
+      "time": 18.31,
+      "name": "BARTHAX"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/282707-pc-death-rally-classic-fastest-time-utopia-dervish-car-lap-time-2634",
+      "car": "Dervish",
+      "track": "Utopia",
+      "time": 26.34,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/229278-pc-death-rally-classic-fastest-time-utopia-dervish-car-lap-time-2871-andrew-mee",
+      "car": "Dervish",
+      "track": "Utopia",
+      "time": 28.71,
+      "name": "BARTHAX"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/282233-pc-death-rally-classic-fastest-time-utopia-vagabond-car-lap-time-2917",
+      "car": "Vagabond",
+      "track": "Utopia",
+      "time": 29.17,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/225393-pc-death-rally-classic-fastest-time-utopia-vagabond-car-lap-time-3028-andrew-mee",
+      "car": "Vagabond",
+      "track": "Utopia",
+      "time": 30.28,
+      "name": "BARTHAX"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/282493-pc-death-rally-classic-fastest-time-west-end-dervish-car-lap-time-1641",
+      "car": "Dervish",
+      "track": "West End",
+      "time": 16.41,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/229403-pc-death-rally-classic-fastest-time-west-end-dervish-car-lap-time-1656-andrew-mee",
+      "car": "Dervish",
+      "track": "West End",
+      "time": 16.56,
+      "name": "BARTHAX"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/282256-pc-death-rally-classic-fastest-time-west-end-vagabond-car-lap-time-1744",
+      "car": "Vagabond",
+      "track": "West End",
+      "time": 17.44,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/227558-pc-death-rally-classic-fastest-time-west-end-vagabond-car-lap-time-1746-andrew-mee",
+      "car": "Vagabond",
+      "track": "West End",
+      "time": 17.46,
+      "name": "BARTHAX"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294205--pc-death-rally-classic-fastest-time-bogot-deliverator-car-lap-time-11290",
+      "car": "Deliverator",
+      "track": "Bogota",
+      "time": 11.29,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/293941--pc-death-rally-classic-fastest-time-bogot-dervish-car-lap-time-18070",
+      "car": "Dervish",
+      "track": "Bogota",
+      "time": 18.07,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/293977--pc-death-rally-classic-fastest-time-bogot-sentinel-car-lap-time-18140",
+      "car": "Sentinel",
+      "track": "Bogota",
+      "time": 18.14,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294073--pc-death-rally-classic-fastest-time-bogot-shrieker-car-lap-time-13970",
+      "car": "Shrieker",
+      "track": "Bogota",
+      "time": 13.97,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/293928--pc-death-rally-classic-fastest-time-bogot-vagabond-car-lap-time-18170",
+      "car": "Vagabond",
+      "track": "Bogota",
+      "time": 18.17,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294243--pc-death-rally-classic-fastest-time-bogot-wraith-car-lap-time-12880",
+      "car": "Wraith",
+      "track": "Bogota",
+      "time": 12.88,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294330--pc-death-rally-classic-fastest-time-borneo-deliverator-car-lap-time-11280",
+      "car": "Deliverator",
+      "track": "Borneo",
+      "time": 11.28,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/293999--pc-death-rally-classic-fastest-time-borneo-sentinel-car-lap-time-16890",
+      "car": "Sentinel",
+      "track": "Borneo",
+      "time": 16.89,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294089--pc-death-rally-classic-fastest-time-borneo-shrieker-car-lap-time-13140",
+      "car": "Shrieker",
+      "track": "Borneo",
+      "time": 13.14,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/293839--pc-death-rally-classic-fastest-time-borneo-vagabond-car-lap-time-17780",
+      "car": "Vagabond",
+      "track": "Borneo",
+      "time": 17.78,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294160--pc-death-rally-classic-fastest-time-borneo-wraith-car-lap-time-13580",
+      "car": "Wraith",
+      "track": "Borneo",
+      "time": 13.58,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294262--pc-death-rally-classic-fastest-time-complex-deliverator-car-lap-time-18390",
+      "car": "Deliverator",
+      "track": "Complex",
+      "time": 18.39,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/293985--pc-death-rally-classic-fastest-time-complex-sentinel-car-lap-time-26830",
+      "car": "Sentinel",
+      "track": "Complex",
+      "time": 26.83,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294070--pc-death-rally-classic-fastest-time-complex-shrieker-car-lap-time-21110",
+      "car": "Shrieker",
+      "track": "Complex",
+      "time": 21.11,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/293842--pc-death-rally-classic-fastest-time-complex-vagabond-car-lap-time-26800",
+      "car": "Vagabond",
+      "track": "Complex",
+      "time": 26.80,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294130--pc-death-rally-classic-fastest-time-complex-wraith-car-lap-time-21820",
+      "car": "Wraith",
+      "track": "Complex",
+      "time": 21.82,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294339--pc-death-rally-classic-fastest-time-desert-run-deliverator-car-lap-time-18440",
+      "car": "Deliverator",
+      "track": "Desert Run",
+      "time": 18.44,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/293944--pc-death-rally-classic-fastest-time-desert-run-dervish-car-lap-time-25020",
+      "car": "Dervish",
+      "track": "Desert Run",
+      "time": 25.02,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/293975--pc-death-rally-classic-fastest-time-desert-run-sentinel-car-lap-time-27140",
+      "car": "Sentinel",
+      "track": "Desert Run",
+      "time": 27.14,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294069--pc-death-rally-classic-fastest-time-desert-run-shrieker-car-lap-time-20140",
+      "car": "Shrieker",
+      "track": "Desert Run",
+      "time": 20.14,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294240--pc-death-rally-classic-fastest-time-desert-run-wraith-car-lap-time-19320",
+      "car": "Wraith",
+      "track": "Desert Run",
+      "time": 19.32,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294206--pc-death-rally-classic-fastest-time-down-town-deliverator-car-lap-time-12140",
+      "car": "Deliverator",
+      "track": "Downtown",
+      "time": 12.14,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/293933--pc-death-rally-classic-fastest-time-down-town-dervish-car-lap-time-18290",
+      "car": "Dervish",
+      "track": "Downtown",
+      "time": 18.29,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/293981--pc-death-rally-classic-fastest-time-down-town-sentinel-car-lap-time-18800",
+      "car": "Sentinel",
+      "track": "Downtown",
+      "time": 18.80,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294083--pc-death-rally-classic-fastest-time-down-town-shrieker-car-lap-time-14460",
+      "car": "Shrieker",
+      "track": "Downtown",
+      "time": 14.46,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/293929--pc-death-rally-classic-fastest-time-down-town-vagabond-car-lap-time-19250",
+      "car": "Vagabond",
+      "track": "Downtown",
+      "time": 19.25,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294244--pc-death-rally-classic-fastest-time-down-town-wraith-car-lap-time-13520",
+      "car": "Wraith",
+      "track": "Downtown",
+      "time": 13.52,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294546--pc-death-rally-classic-fastest-time-eidolon-deliverator-car-lap-time-09730",
+      "car": "Deliverator",
+      "track": "Eidolon",
+      "time": 9.73,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/293937--pc-death-rally-classic-fastest-time-eidolon-dervish-car-lap-time-16080",
+      "car": "Dervish",
+      "track": "Eidolon",
+      "time": 16.08,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294004--pc-death-rally-classic-fastest-time-eidolon-sentinel-car-lap-time-15680",
+      "car": "Sentinel",
+      "track": "Eidolon",
+      "time": 15.68,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294067--pc-death-rally-classic-fastest-time-eidolon-shrieker-car-lap-time-12970",
+      "car": "Shrieker",
+      "track": "Eidolon",
+      "time": 12.97,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/293840--pc-death-rally-classic-fastest-time-eidolon-vagabond-car-lap-time-17360",
+      "car": "Vagabond",
+      "track": "Eidolon",
+      "time": 17.36,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294252--pc-death-rally-classic-fastest-time-eidolon-wraith-car-lap-time-11580",
+      "car": "Wraith",
+      "track": "Eidolon",
+      "time": 11.58,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294316--pc-death-rally-classic-fastest-time-hell-mountain-deliverator-car-lap-time-08660",
+      "car": "Deliverator",
+      "track": "Hell Mountain",
+      "time": 8.66,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/293973--pc-death-rally-classic-fastest-time-hell-mountain-sentinel-car-lap-time-13090",
+      "car": "Sentinel",
+      "track": "Hell Mountain",
+      "time": 13.09,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294071--pc-death-rally-classic-fastest-time-hell-mountain-shrieker-car-lap-time-10620",
+      "car": "Shrieker",
+      "track": "Hell Mountain",
+      "time": 10.62,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294249--pc-death-rally-classic-fastest-time-hell-mountain-wraith-car-lap-time-08830",
+      "car": "Wraith",
+      "track": "Hell Mountain",
+      "time": 8.83,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294474--pc-death-rally-classic-fastest-time-holocaust-deliverator-car-lap-time-17530",
+      "car": "Deliverator",
+      "track": "Holocaust",
+      "time": 17.53,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/293984--pc-death-rally-classic-fastest-time-holocaust-sentinel-car-lap-time-26960",
+      "car": "Sentinel",
+      "track": "Holocaust",
+      "time": 26.96,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294081--pc-death-rally-classic-fastest-time-holocaust-shrieker-car-lap-time-21280",
+      "car": "Shrieker",
+      "track": "Holocaust",
+      "time": 21.28,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294260--pc-death-rally-classic-fastest-time-holocaust-wraith-car-lap-time-20580",
+      "car": "Wraith",
+      "track": "Holocaust",
+      "time": 20.58,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294212--pc-death-rally-classic-fastest-time-new-ark-deliverator-car-lap-time-11650",
+      "car": "Deliverator",
+      "track": "Newark",
+      "time": 11.65,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/293994--pc-death-rally-classic-fastest-time-new-ark-sentinel-car-lap-time-16890",
+      "car": "Sentinel",
+      "track": "Newark",
+      "time": 16.89,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294085--pc-death-rally-classic-fastest-time-new-ark-shrieker-car-lap-time-14220",
+      "car": "Shrieker",
+      "track": "Newark",
+      "time": 14.22,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/293828--pc-death-rally-classic-fastest-time-new-ark-vagabond-car-lap-time-19620",
+      "car": "Vagabond",
+      "track": "Newark",
+      "time": 19.62,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294133--pc-death-rally-classic-fastest-time-new-ark-wraith-car-lap-time-13690",
+      "car": "Wraith",
+      "track": "Newark",
+      "time": 13.69,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294421--pc-death-rally-classic-fastest-time-oasis-deliverator-car-lap-time-08970",
+      "car": "Deliverator",
+      "track": "Oasis",
+      "time": 8.97,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/293962--pc-death-rally-classic-fastest-time-oasis-sentinel-car-lap-time-15090",
+      "car": "Sentinel",
+      "track": "Oasis",
+      "time": 15.09,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294075--pc-death-rally-classic-fastest-time-oasis-shrieker-car-lap-time-11340",
+      "car": "Shrieker",
+      "track": "Oasis",
+      "time": 11.34,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294241--pc-death-rally-classic-fastest-time-oasis-wraith-car-lap-time-10070",
+      "car": "Wraith",
+      "track": "Oasis",
+      "time": 10.07,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294485--pc-death-rally-classic-fastest-time-palm-side-deliverator-car-lap-time-09090",
+      "car": "Deliverator",
+      "track": "Palm Side",
+      "time": 9.09,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/293976--pc-death-rally-classic-fastest-time-palm-side-sentinel-car-lap-time-14590",
+      "car": "Sentinel",
+      "track": "Palm Side",
+      "time": 14.59,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294066--pc-death-rally-classic-fastest-time-palm-side-shrieker-car-lap-time-10280",
+      "car": "Shrieker",
+      "track": "Palm Side",
+      "time": 10.28,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294168--pc-death-rally-classic-fastest-time-palm-side-wraith-car-lap-time-09790",
+      "car": "Wraith",
+      "track": "Palm Side",
+      "time": 9.79,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294321--pc-death-rally-classic-fastest-time-rock-zone-deliverator-car-lap-time-09710",
+      "car": "Deliverator",
+      "track": "Rock Zone",
+      "time": 9.71,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/293978--pc-death-rally-classic-fastest-time-rock-zone-sentinel-car-lap-time-13220",
+      "car": "Sentinel",
+      "track": "Rock Zone",
+      "time": 13.22,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294015--pc-death-rally-classic-fastest-time-rock-zone-shrieker-car-lap-time-10850",
+      "car": "Shrieker",
+      "track": "Rock Zone",
+      "time": 10.85,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294247--pc-death-rally-classic-fastest-time-rock-zone-wraith-car-lap-time-09720",
+      "car": "Wraith",
+      "track": "Rock Zone",
+      "time": 9.72,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294337--pc-death-rally-classic-fastest-time-snake-alley-deliverator-car-lap-time-18360",
+      "car": "Deliverator",
+      "track": "Snake Alley",
+      "time": 18.36,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/293972--pc-death-rally-classic-fastest-time-snake-alley-sentinel-car-lap-time-27380",
+      "car": "Sentinel",
+      "track": "Snake Alley",
+      "time": 27.38,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294016--pc-death-rally-classic-fastest-time-snake-alley-shrieker-car-lap-time-22560",
+      "car": "Shrieker",
+      "track": "Snake Alley",
+      "time": 22.56,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294250--pc-death-rally-classic-fastest-time-snake-alley-wraith-car-lap-time-17630",
+      "car": "Wraith",
+      "track": "Snake Alley",
+      "time": 17.63,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294486--pc-death-rally-classic-fastest-time-suburbia-deliverator-car-lap-time-10040",
+      "car": "Deliverator",
+      "track": "Suburbia",
+      "time": 10.04,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/293938--pc-death-rally-classic-fastest-time-suburbia-dervish-car-lap-time-17070",
+      "car": "Dervish",
+      "track": "Suburbia",
+      "time": 17.07,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/293982--pc-death-rally-classic-fastest-time-suburbia-sentinel-car-lap-time-16920",
+      "car": "Sentinel",
+      "track": "Suburbia",
+      "time": 16.92,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294074--pc-death-rally-classic-fastest-time-suburbia-shrieker-car-lap-time-12790",
+      "car": "Shrieker",
+      "track": "Suburbia",
+      "time": 12.79,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294129--pc-death-rally-classic-fastest-time-suburbia-wraith-car-lap-time-12260",
+      "car": "Wraith",
+      "track": "Suburbia",
+      "time": 12.26,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294475--pc-death-rally-classic-fastest-time-toxic-dump-deliverator-car-lap-time-17490",
+      "car": "Deliverator",
+      "track": "Toxic Dump",
+      "time": 17.49,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/293940--pc-death-rally-classic-fastest-time-toxic-dump-dervish-car-lap-time-27000",
+      "car": "Dervish",
+      "track": "Toxic Dump",
+      "time": 27.00,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/293961--pc-death-rally-classic-fastest-time-toxic-dump-sentinel-car-lap-time-30050",
+      "car": "Sentinel",
+      "track": "Toxic Dump",
+      "time": 30.05,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294088--pc-death-rally-classic-fastest-time-toxic-dump-shrieker-car-lap-time-22000",
+      "car": "Shrieker",
+      "track": "Toxic Dump",
+      "time": 22.00,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/293843--pc-death-rally-classic-fastest-time-toxic-dump-vagabond-car-lap-time-28290",
+      "car": "Vagabond",
+      "track": "Toxic Dump",
+      "time": 28.29,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294256--pc-death-rally-classic-fastest-time-toxic-dump-wraith-car-lap-time-20180",
+      "car": "Wraith",
+      "track": "Toxic Dump",
+      "time": 20.18,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294211--pc-death-rally-classic-fastest-time-utopia-deliverator-car-lap-time-17050",
+      "car": "Deliverator",
+      "track": "Utopia",
+      "time": 17.05,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/293995--pc-death-rally-classic-fastest-time-utopia-sentinel-car-lap-time-24720",
+      "car": "Sentinel",
+      "track": "Utopia",
+      "time": 24.72,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294086--pc-death-rally-classic-fastest-time-utopia-shrieker-car-lap-time-20890",
+      "car": "Shrieker",
+      "track": "Utopia",
+      "time": 20.89,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294246--pc-death-rally-classic-fastest-time-utopia-wraith-car-lap-time-19680",
+      "car": "Wraith",
+      "track": "Utopia",
+      "time": 19.68,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294210--pc-death-rally-classic-fastest-time-velodrome-deliverator-car-lap-time-10080",
+      "car": "Deliverator",
+      "track": "Velodrome",
+      "time": 10.08,
+      "name": "TK2025"
+    },
+        {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/293935--pc-death-rally-classic-fastest-time-velodrome-dervish-car-lap-time-16590",
+      "car": "Dervish",
+      "track": "Velodrome",
+      "time": 16.59,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294006--pc-death-rally-classic-fastest-time-velodrome-sentinel-car-lap-time-15140",
+      "car": "Sentinel",
+      "track": "Velodrome",
+      "time": 15.14,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294090--pc-death-rally-classic-fastest-time-velodrome-shrieker-car-lap-time-12860",
+      "car": "Shrieker",
+      "track": "Velodrome",
+      "time": 12.86,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/293817--pc-death-rally-classic-fastest-time-velodrome-vagabond-car-lap-time-19020",
+      "car": "Vagabond",
+      "track": "Velodrome",
+      "time": 19.02,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294255--pc-death-rally-classic-fastest-time-velodrome-wraith-car-lap-time-12380",
+      "car": "Wraith",
+      "track": "Velodrome",
+      "time": 12.38,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294408--pc-death-rally-classic-fastest-time-west-end-deliverator-car-lap-time-11390",
+      "car": "Deliverator",
+      "track": "West End",
+      "time": 11.39,
+      "name": "TK2025"
+    },
+        {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/293979--pc-death-rally-classic-fastest-time-west-end-sentinel-car-lap-time-16410",
+      "car": "Sentinel",
+      "track": "West End",
+      "time": 16.41,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294078--pc-death-rally-classic-fastest-time-west-end-shrieker-car-lap-time-13360",
+      "car": "Shrieker",
+      "track": "West End",
+      "time": 13.36,
+      "name": "TK2025"
+    },
+    {
+      "__comment":"https://www.twingalaxies.com/records/voting-performances/294128--pc-death-rally-classic-fastest-time-west-end-wraith-car-lap-time-12510",
+      "car": "Wraith",
+      "track": "West End",
+      "time": 12.51,
+      "name": "TK2025"
     }
   ],
   "finish_records": [
