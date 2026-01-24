@@ -350,6 +350,13 @@
       "name": "LYN"
     },
     {
+      "__comment": "2026-01-24 20:27 +1",
+      "car": "Vagabond",
+      "track": "Utopia",
+      "time": 25.45,
+      "name": "LYN"
+    },
+    {
       "car": "Deliverator",
       "track": "Bogota",
       "time": 8.42,
@@ -437,6 +444,13 @@
       "car": "Dervish",
       "track": "Downtown",
       "time": 15.79,
+      "name": "LYN"
+    },
+    {
+      "__comment": "2026-01-24 20:30 +1",
+      "car": "Vagabond",
+      "track": "Downtown",
+      "time": 16.72,
       "name": "LYN"
     },
     {
@@ -662,6 +676,13 @@
       "name": "LYN"
     },
     {
+      "__comment": "2026-01-24 20:32 +1",
+      "car": "Vagabond",
+      "track": "Palm Side",
+      "time": 12.09,
+      "name": "LYN"
+    },
+    {
       "car": "Deliverator",
       "track": "Hell Mountain",
       "time": 7.04,
@@ -713,6 +734,13 @@
       "car": "Vagabond",
       "track": "Hell Mountain",
       "time": 11.96,
+      "name": "LYN"
+    },
+    {
+      "__comment": "2026-01-24 20:19 +1"
+      "car": "Vagabond",
+      "track": "Hell Mountain",
+      "time": 11.58,
       "name": "LYN"
     },
     {
@@ -965,6 +993,13 @@
       "car": "Vagabond",
       "track": "Newark",
       "time": 16.83,
+      "name": "LYN"
+    },
+    {
+      "__comment": "2026-01-24 20:23 +1",
+      "car": "Vagabond",
+      "track": "Newark",
+      "time": 16.38,
       "name": "LYN"
     },
     {
